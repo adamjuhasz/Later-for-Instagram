@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import <InstagramKit/InstagramKit.h>
+#import "PostDBSingleton.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +19,28 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
+        //not called if user selects an action, will call 'handleActionWithIdentifier' with info
+        UILocalNotification *swipedNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+        self.notification = swipedNotification;
+        self.notificationAction = @"view";
+    }
     return YES;
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler
+{
+    NSLog(@"handleactionid: %@", identifier);
+    
+    self.notification = notification;
+    self.notificationAction = identifier;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationActedUpod" object:nil];
+    
+    if (completionHandler) {
+        completionHandler();
+    }
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -40,6 +63,16 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    BOOL loginSucess = [[InstagramEngine sharedEngine] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    
+    if (loginSucess) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"InstagramLoginSuccess" object:nil];
+    }
+    
+    return loginSucess;
 }
 
 @end

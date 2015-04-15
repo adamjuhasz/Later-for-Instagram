@@ -14,6 +14,18 @@
 		2E6E21121ADC53DB002E9372 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21111ADC53DB002E9372 /* Images.xcassets */; };
 		2E6E21151ADC53DB002E9372 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21131ADC53DB002E9372 /* LaunchScreen.xib */; };
 		2E6E21211ADC53DB002E9372 /* laterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21201ADC53DB002E9372 /* laterTests.m */; };
+		2E6E212B1ADC647B002E9372 /* InstagramKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E212A1ADC647B002E9372 /* InstagramKit.plist */; };
+		2E6E212E1ADC81C2002E9372 /* SchedulesPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E212D1ADC81C2002E9372 /* SchedulesPostsViewController.m */; };
+		2E6E21361ADCBB90002E9372 /* CommentEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21351ADCBB90002E9372 /* CommentEntryViewController.m */; };
+		2E6E21391ADCC5C4002E9372 /* HashtagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21381ADCC5C4002E9372 /* HashtagTableViewCell.m */; };
+		2E6E213B1ADCDD23002E9372 /* HashtagTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E213A1ADCDD23002E9372 /* HashtagTableViewCell.xib */; };
+		2E6E21421ADCFA82002E9372 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21411ADCFA82002E9372 /* logo.png */; };
+		2E6E21451ADCFB47002E9372 /* logo-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21431ADCFB47002E9372 /* logo-120.png */; };
+		2E6E21461ADCFB47002E9372 /* logo-180.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21441ADCFB47002E9372 /* logo-180.png */; };
+		2E6E214A1ADD85D5002E9372 /* PhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21491ADD85D5002E9372 /* PhotoTableViewCell.m */; };
+		2E6E214E1ADECAE4002E9372 /* scheduledPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E214D1ADECAE4002E9372 /* scheduledPostModel.m */; };
+		2E6E21511ADED280002E9372 /* PostDBSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21501ADED280002E9372 /* PostDBSingleton.m */; };
+		B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 280A2CEF160E5E026FC034DD /* libPods-later.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,7 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2E6E21011ADC53DB002E9372 /* later.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = later.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B97193DDF911A4B06A8DDE6 /* Pods-later.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-later.debug.xcconfig"; path = "Pods/Target Support Files/Pods-later/Pods-later.debug.xcconfig"; sourceTree = "<group>"; };
+		25742B44346AC6B5DC0C3481 /* Pods-later.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-later.release.xcconfig"; path = "Pods/Target Support Files/Pods-later/Pods-later.release.xcconfig"; sourceTree = "<group>"; };
+		280A2CEF160E5E026FC034DD /* libPods-later.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-later.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E6E21011ADC53DB002E9372 /* Later.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Later.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6E21051ADC53DB002E9372 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E6E21061ADC53DB002E9372 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E6E21081ADC53DB002E9372 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -37,9 +52,26 @@
 		2E6E210F1ADC53DB002E9372 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E6E21111ADC53DB002E9372 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2E6E21141ADC53DB002E9372 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		2E6E211A1ADC53DB002E9372 /* laterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = laterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E6E211A1ADC53DB002E9372 /* Later.temp_caseinsensitive_renameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Later.temp_caseinsensitive_renameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6E211F1ADC53DB002E9372 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E6E21201ADC53DB002E9372 /* laterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = laterTests.m; sourceTree = "<group>"; };
+		2E6E212A1ADC647B002E9372 /* InstagramKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InstagramKit.plist; sourceTree = "<group>"; };
+		2E6E212C1ADC81C2002E9372 /* SchedulesPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchedulesPostsViewController.h; sourceTree = "<group>"; };
+		2E6E212D1ADC81C2002E9372 /* SchedulesPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchedulesPostsViewController.m; sourceTree = "<group>"; };
+		2E6E21341ADCBB90002E9372 /* CommentEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentEntryViewController.h; sourceTree = "<group>"; };
+		2E6E21351ADCBB90002E9372 /* CommentEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentEntryViewController.m; sourceTree = "<group>"; };
+		2E6E21371ADCC5C3002E9372 /* HashtagTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashtagTableViewCell.h; sourceTree = "<group>"; };
+		2E6E21381ADCC5C4002E9372 /* HashtagTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashtagTableViewCell.m; sourceTree = "<group>"; };
+		2E6E213A1ADCDD23002E9372 /* HashtagTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HashtagTableViewCell.xib; sourceTree = "<group>"; };
+		2E6E21411ADCFA82002E9372 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = SOURCE_ROOT; };
+		2E6E21431ADCFB47002E9372 /* logo-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-120.png"; sourceTree = SOURCE_ROOT; };
+		2E6E21441ADCFB47002E9372 /* logo-180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-180.png"; sourceTree = SOURCE_ROOT; };
+		2E6E21481ADD85D5002E9372 /* PhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTableViewCell.h; sourceTree = "<group>"; };
+		2E6E21491ADD85D5002E9372 /* PhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTableViewCell.m; sourceTree = "<group>"; };
+		2E6E214C1ADECAE4002E9372 /* scheduledPostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scheduledPostModel.h; sourceTree = "<group>"; };
+		2E6E214D1ADECAE4002E9372 /* scheduledPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = scheduledPostModel.m; sourceTree = "<group>"; };
+		2E6E214F1ADED280002E9372 /* PostDBSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDBSingleton.h; sourceTree = "<group>"; };
+		2E6E21501ADED280002E9372 /* PostDBSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDBSingleton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,14 +99,16 @@
 				2E6E21031ADC53DB002E9372 /* later */,
 				2E6E211D1ADC53DB002E9372 /* laterTests */,
 				2E6E21021ADC53DB002E9372 /* Products */,
+				57C7FD77DC4984F0EAF87CB8 /* Pods */,
+				8886719E3A40C9812E5CACF6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		2E6E21021ADC53DB002E9372 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2E6E21011ADC53DB002E9372 /* later.app */,
-				2E6E211A1ADC53DB002E9372 /* laterTests.xctest */,
+				2E6E21011ADC53DB002E9372 /* Later.app */,
+				2E6E211A1ADC53DB002E9372 /* Later.temp_caseinsensitive_renameTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,14 +116,21 @@
 		2E6E21031ADC53DB002E9372 /* later */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E21041ADC53DB002E9372 /* Supporting Files */,
 				2E6E21081ADC53DB002E9372 /* AppDelegate.h */,
 				2E6E21091ADC53DB002E9372 /* AppDelegate.m */,
 				2E6E210B1ADC53DB002E9372 /* ViewController.h */,
 				2E6E210C1ADC53DB002E9372 /* ViewController.m */,
 				2E6E210E1ADC53DB002E9372 /* Main.storyboard */,
+				2E6E214C1ADECAE4002E9372 /* scheduledPostModel.h */,
+				2E6E214D1ADECAE4002E9372 /* scheduledPostModel.m */,
+				2E6E214F1ADED280002E9372 /* PostDBSingleton.h */,
+				2E6E21501ADED280002E9372 /* PostDBSingleton.m */,
+				2E6E214B1ADD9782002E9372 /* Image Display */,
+				2E6E21471ADD74DF002E9372 /* Caption Entry */,
 				2E6E21111ADC53DB002E9372 /* Images.xcassets */,
 				2E6E21131ADC53DB002E9372 /* LaunchScreen.xib */,
-				2E6E21041ADC53DB002E9372 /* Supporting Files */,
+				2E6E212A1ADC647B002E9372 /* InstagramKit.plist */,
 			);
 			path = later;
 			sourceTree = "<group>";
@@ -96,6 +138,9 @@
 		2E6E21041ADC53DB002E9372 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E21431ADCFB47002E9372 /* logo-120.png */,
+				2E6E21441ADCFB47002E9372 /* logo-180.png */,
+				2E6E21411ADCFA82002E9372 /* logo.png */,
 				2E6E21051ADC53DB002E9372 /* Info.plist */,
 				2E6E21061ADC53DB002E9372 /* main.m */,
 			);
@@ -119,6 +164,46 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		2E6E21471ADD74DF002E9372 /* Caption Entry */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E21341ADCBB90002E9372 /* CommentEntryViewController.h */,
+				2E6E21351ADCBB90002E9372 /* CommentEntryViewController.m */,
+				2E6E21371ADCC5C3002E9372 /* HashtagTableViewCell.h */,
+				2E6E21381ADCC5C4002E9372 /* HashtagTableViewCell.m */,
+				2E6E213A1ADCDD23002E9372 /* HashtagTableViewCell.xib */,
+			);
+			name = "Caption Entry";
+			sourceTree = "<group>";
+		};
+		2E6E214B1ADD9782002E9372 /* Image Display */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E212C1ADC81C2002E9372 /* SchedulesPostsViewController.h */,
+				2E6E212D1ADC81C2002E9372 /* SchedulesPostsViewController.m */,
+				2E6E21481ADD85D5002E9372 /* PhotoTableViewCell.h */,
+				2E6E21491ADD85D5002E9372 /* PhotoTableViewCell.m */,
+			);
+			name = "Image Display";
+			sourceTree = "<group>";
+		};
+		57C7FD77DC4984F0EAF87CB8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1B97193DDF911A4B06A8DDE6 /* Pods-later.debug.xcconfig */,
+				25742B44346AC6B5DC0C3481 /* Pods-later.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		8886719E3A40C9812E5CACF6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				280A2CEF160E5E026FC034DD /* libPods-later.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +211,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2E6E21241ADC53DB002E9372 /* Build configuration list for PBXNativeTarget "later" */;
 			buildPhases = (
+				3A235D69879DFCFD721BBC45 /* Check Pods Manifest.lock */,
 				2E6E20FD1ADC53DB002E9372 /* Sources */,
 				2E6E20FE1ADC53DB002E9372 /* Frameworks */,
 				2E6E20FF1ADC53DB002E9372 /* Resources */,
+				0958001018EC542A28C1F4D5 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -136,7 +223,7 @@
 			);
 			name = later;
 			productName = later;
-			productReference = 2E6E21011ADC53DB002E9372 /* later.app */;
+			productReference = 2E6E21011ADC53DB002E9372 /* Later.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2E6E21191ADC53DB002E9372 /* laterTests */ = {
@@ -154,7 +241,7 @@
 			);
 			name = laterTests;
 			productName = laterTests;
-			productReference = 2E6E211A1ADC53DB002E9372 /* laterTests.xctest */;
+			productReference = 2E6E211A1ADC53DB002E9372 /* Later.temp_caseinsensitive_renameTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -168,6 +255,7 @@
 				TargetAttributes = {
 					2E6E21001ADC53DB002E9372 = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = 2ZG8V3KUG2;
 					};
 					2E6E21191ADC53DB002E9372 = {
 						CreatedOnToolsVersion = 6.3;
@@ -199,8 +287,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E6E21451ADCFB47002E9372 /* logo-120.png in Resources */,
+				2E6E213B1ADCDD23002E9372 /* HashtagTableViewCell.xib in Resources */,
 				2E6E21101ADC53DB002E9372 /* Main.storyboard in Resources */,
 				2E6E21151ADC53DB002E9372 /* LaunchScreen.xib in Resources */,
+				2E6E212B1ADC647B002E9372 /* InstagramKit.plist in Resources */,
+				2E6E21421ADCFA82002E9372 /* logo.png in Resources */,
+				2E6E21461ADCFB47002E9372 /* logo-180.png in Resources */,
 				2E6E21121ADC53DB002E9372 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -214,14 +307,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0958001018EC542A28C1F4D5 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-later/Pods-later-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3A235D69879DFCFD721BBC45 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2E6E20FD1ADC53DB002E9372 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				2E6E210D1ADC53DB002E9372 /* ViewController.m in Sources */,
+				2E6E212E1ADC81C2002E9372 /* SchedulesPostsViewController.m in Sources */,
+				2E6E21511ADED280002E9372 /* PostDBSingleton.m in Sources */,
 				2E6E210A1ADC53DB002E9372 /* AppDelegate.m in Sources */,
+				2E6E214A1ADD85D5002E9372 /* PhotoTableViewCell.m in Sources */,
 				2E6E21071ADC53DB002E9372 /* main.m in Sources */,
+				2E6E21361ADCBB90002E9372 /* CommentEntryViewController.m in Sources */,
+				2E6E21391ADCC5C4002E9372 /* HashtagTableViewCell.m in Sources */,
+				2E6E214E1ADECAE4002E9372 /* scheduledPostModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,7 +431,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -336,7 +468,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -345,21 +477,31 @@
 		};
 		2E6E21251ADC53DB002E9372 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B97193DDF911A4B06A8DDE6 /* Pods-later.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = later/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Later;
+				PROVISIONING_PROFILE = "3680bf93-2588-43fb-8ddf-e4b3acf66621";
 			};
 			name = Debug;
 		};
 		2E6E21261ADC53DB002E9372 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25742B44346AC6B5DC0C3481 /* Pods-later.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = later/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Later;
+				PROVISIONING_PROFILE = "3680bf93-2588-43fb-8ddf-e4b3acf66621";
 			};
 			name = Release;
 		};
@@ -377,7 +519,7 @@
 				);
 				INFOPLIST_FILE = laterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Later.temp_caseinsensitive_renameTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/later.app/later";
 			};
 			name = Debug;
@@ -392,7 +534,7 @@
 				);
 				INFOPLIST_FILE = laterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Later.temp_caseinsensitive_renameTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/later.app/later";
 			};
 			name = Release;
@@ -416,6 +558,7 @@
 				2E6E21261ADC53DB002E9372 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2E6E21271ADC53DB002E9372 /* Build configuration list for PBXNativeTarget "laterTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +567,7 @@
 				2E6E21291ADC53DB002E9372 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
