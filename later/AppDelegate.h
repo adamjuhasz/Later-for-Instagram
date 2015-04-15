@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property UILocalNotification *notification;
+@property NSString *notificationAction;
 
 @end
 
