@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghg-uE-8sP">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghg-uE-8sP">
                                 <rect key="frame" x="74" y="522" width="228" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="k1l-0A-o3j"/>
@@ -51,7 +51,7 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <segue destination="koD-Pf-wLA" kind="presentation" identifier="segue.showScheduled" id="XPf-Kr-ANp"/>
+                        <segue destination="koD-Pf-wLA" kind="presentation" identifier="segue.showScheduled" modalTransitionStyle="crossDissolve" id="XPf-Kr-ANp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -72,6 +72,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hrq-hU-IM6">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <gestureRecognizers/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="n2M-t0-mNX">
                                     <size key="itemSize" width="124" height="124"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -119,6 +120,7 @@
                             </collectionView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" translatesAutoresizingMaskIntoConstraints="NO" id="ltV-Ss-H1x">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <gestureRecognizers/>
                                 <connections>
                                     <outlet property="delegate" destination="RgP-eD-urK" id="ccF-Vy-SMC"/>
                                 </connections>
@@ -492,6 +494,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="height" secondItem="xUp-2a-DXo" secondAttribute="height" id="2Ku-PT-rOR"/>
                             <constraint firstItem="Yex-gg-2w2" firstAttribute="width" secondItem="e2h-Fl-cME" secondAttribute="width" id="8AJ-bQ-bTU"/>
@@ -509,6 +512,9 @@
                             <constraint firstItem="A7w-XY-nWZ" firstAttribute="leading" secondItem="xUp-2a-DXo" secondAttribute="leading" constant="-10" id="yke-ZL-a43"/>
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="centerY" secondItem="xUp-2a-DXo" secondAttribute="centerY" id="ywY-iZ-4nV"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Mbe-g6-TqV" appends="YES" id="CTM-eP-CnG"/>
+                        </connections>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -528,6 +534,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jkX-DY-3yf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="Mbe-g6-TqV">
+                    <rectEdge key="edges" right="YES"/>
+                    <connections>
+                        <action selector="schedulePost" destination="Z6d-KB-Dgc" id="hB1-yz-9Yb"/>
+                    </connections>
+                </screenEdgePanGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1311.5" y="95.5"/>
         </scene>
