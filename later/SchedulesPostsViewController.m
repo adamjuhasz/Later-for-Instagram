@@ -13,6 +13,7 @@
 #import "PostDBSingleton.h"
 #import "scheduledPostModel.h"
 #import "AppDelegate.h"
+#import <CoreImage/CoreImage.h>
 
 @interface SchedulesPostsViewController ()
 {
@@ -40,13 +41,8 @@
     viewsInScrollView = [NSMutableArray array];
     scheduledPosts = [[PostDBSingleton singleton] allposts];
     
-    self.scheduledScroller.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    self.scheduledScroller.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     self.scheduledScroller.scrollIndicatorInsets = self.scheduledScroller.contentInset;
-    
-    addButton = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scheduledScroller.bounds.size.width, 44)];
-    addButton.backgroundColor = [UIColor darkGrayColor];
-    self.scheduledScroller.contentSize = CGSizeMake(self.scheduledScroller.bounds.size.width, addButton.frame.size.height);
-    [self.scheduledScroller addSubview:addButton];
     
     shroud = [[UIView alloc] initWithFrame:CGRectMake(0, addButton.frame.size.height, self.scheduledScroller.bounds.size.width, self.scheduledScroller.bounds.size.height)];
     shroud.backgroundColor = [UIColor blackColor];
@@ -63,6 +59,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostWasAdded) name:kPostDBUpatedNotification object:nil];
     
     captionController = [self.storyboard instantiateViewControllerWithIdentifier:@"captionViewController"];
+    
+    for (UIView *aView in self.scheduleMenuViews) {
+        aView.alpha = 1.0;
+    }
+    for (UIView *aView in self.photoPickerMenuViews) {
+        aView.alpha = 0.0;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -82,6 +85,13 @@
     }
 }
 
+- (void)postWasTapped:(UIGestureRecognizer*)recognizer
+{
+    NSLog(@"tapped");
+    scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
+    [self sendPostToInstragramWithKey:thePost.key];
+}
+
 - (void)sendPostToInstragramWithKey:(NSString*)postKey
 {
     NSArray *allposts = [[PostDBSingleton singleton] allposts];
@@ -92,42 +102,36 @@
         }
     }
     
-    if (selectedPost) {
+    if (selectedPost  && document == nil) {
         document = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:selectedPost.postImageLocation isDirectory:NO]];
         document.UTI = @"com.instagram.exclusivegram";
         document.delegate = self;
         document.annotation = [NSDictionary dictionaryWithObject:selectedPost.postCaption forKey:@"InstagramCaption"];
         NSLog(@"ready to load instagram");
         
-        BOOL success = [document presentOptionsMenuFromRect:CGRectMake(1, 1, 1, 1) inView:self.navigationController.view animated:YES];
+        BOOL success = [document presentOpenInMenuFromRect:CGRectMake(1, 1, 1, 1) inView:self.navigationController.view animated:YES];
         if (success) {
             postThatIsBeingPosted = selectedPost;
         }
     }
 }
 
-- (void)documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application
+- (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller
 {
-    NSLog(@"sedning");
+    document = nil;
 }
 
 - (void)documentInteractionController:(UIDocumentInteractionController *)controller didEndSendingToApplication:(NSString *)application
 {
-    NSLog(@"end sending");
-    document = nil;
+    document = nil; //not needed as 'documentInteractionControllerDidDismissOpenInMenu' will be called
+    
     [[PostDBSingleton singleton] removePost:postThatIsBeingPosted];
     postThatIsBeingPosted = nil;
 }
 
-
 - (void)photosUpdated
 {
     [self.collectionView reloadData];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)reloadScrollView
@@ -139,7 +143,10 @@
     }
     [viewsInScrollView removeAllObjects];
     
-    CGRect mainRect = CGRectMake(0, 45, 187, 187);
+    CGFloat border = 4;
+    CGFloat columns = 2;
+    CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
+    CGRect mainRect = CGRectMake(0, border, width, width);
     CGRect currrentFrame;
     for (int i=0; i<scheduledPosts.count; i++) {
         int column = i % 2;
@@ -147,16 +154,53 @@
         
         scheduledPostModel *post = scheduledPosts[i];
         
-        currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+1), row*(mainRect.size.width+1));
+        NSTimeInterval secondsToGo = [post.postTime timeIntervalSinceNow];
+        
+        // Get the system calendar
+        NSCalendar *sysCalendar = [NSCalendar currentCalendar];
+        
+        // Create the NSDates
+        NSDate *date1 = [[NSDate alloc] init];
+        NSDate *date2 = [[NSDate alloc] initWithTimeInterval:secondsToGo sinceDate:date1];
+        
+        // Get conversion to months, days, hours, minutes
+        unsigned int unitFlags = NSCalendarUnitSecond |  NSCalendarUnitMinute  | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth;
+        
+        NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:date1  toDate:date2  options:0];
+        NSLog(@"Break down: %ld sec : %ld min : %ld hours : %ld days : %ld months", [breakdownInfo second], [breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
+        
+        currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
         UIView *newImage =  [[UIView alloc] initWithFrame:currrentFrame];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:newImage.bounds];
+        newImage.backgroundColor = [UIColor darkGrayColor];
+        //newImage.layer.cornerRadius = 10.0;
+        newImage.clipsToBounds = YES;
+        
+        CGRect imageRect = CGRectMake(0, 0, currrentFrame.size.width, currrentFrame.size.width);
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageRect];
         imageView.image = post.postImage;
         [newImage addSubview:imageView];
-        newImage.backgroundColor = [UIColor darkGrayColor];
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postWasTapped:)];
-        [newImage addGestureRecognizer:tap];
+        CGRect timeLabelRect = CGRectMake(10, imageRect.origin.y + imageRect.size.height + 8, imageRect.size.width - 5, 15);
+        UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
+        timeLabel.text = [NSString stringWithFormat:@"%ld mins left", ABS([breakdownInfo minute])];
+        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+        timeLabel.textColor = [UIColor whiteColor];
+        [newImage addSubview:timeLabel];
+        
+        CGRect captionLabelRect = CGRectMake(10, timeLabelRect.origin.y + timeLabelRect.size.height + 5, imageRect.size.width - 5, 17);
+        UILabel *captionLabel = [[UILabel alloc] initWithFrame:captionLabelRect];
+        captionLabel.text = post.postCaption;
+        captionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+        captionLabel.textColor = [UIColor whiteColor];
+        [newImage addSubview:captionLabel];
+        
         newImage.tag = i;
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(postWasTapped:)];
+        [newImage addGestureRecognizer:longPress];
+        
+        //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postWasTapped:)];
+        //[newImage addGestureRecognizer:tap];
+        
         
         [self.scheduledScroller insertSubview:newImage aboveSubview:shroud];
         [viewsInScrollView addObject:newImage];
@@ -165,13 +209,6 @@
     self.scheduledScroller.contentSize = CGSizeMake(self.scheduledScroller.bounds.size.width,
                                                     MAX(currrentFrame.origin.y + currrentFrame.size.height,
                                                         0));
-}
-                                       
-- (void)postWasTapped:(UIGestureRecognizer*)recognizer
-{
-    NSLog(@"tapped");
-    scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
-    [self sendPostToInstragramWithKey:thePost.key];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -182,22 +219,15 @@
     
     if (scrollView.contentOffset.y < -1 * scrollView.contentInset.top && animating == NO) {
         CGFloat expansionSpace = scrollView.contentOffset.y - scrollView.contentInset.top*-1;
+        CGFloat maxDragDown = 200;
         
-        CGRect addButtonFrame = addButton.frame;
-        addButtonFrame.origin.y = expansionSpace;
-        addButtonFrame.size.height = 44 + ABS(expansionSpace);
-        addButton.frame = addButtonFrame;
-        
-        CGFloat alphaPercent = 1.0 - ABS(expansionSpace/88);
-        addButton.alpha = alphaPercent;
-        
-        CGFloat collectionAlpha = MAX((1.0 - alphaPercent) * 0.01, 0.1);
-        self.collectionView.alpha = collectionAlpha;
+        CGFloat alphaPercent = ABS(expansionSpace/maxDragDown);
+        CGFloat scale = MIN(1.0,alphaPercent*0.1+0.95);
+        self.collectionView.transform = CGAffineTransformMakeScale(scale, scale);
+        self.collectionView.alpha = alphaPercent;
         //NSLog(@"alphaPercent: %f", alphaPercent);
-        //self.collectionView.transform = CGAffineTransformMakeScale(1-alphaPercent, 1-alphaPercent);
     }
 }
-
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
@@ -211,33 +241,31 @@
     }
 }
 
-- (IBAction)hideScrollview
+- (void)authorizePhotos
 {
-    animating = YES;
-    self.scheduledScroller.userInteractionEnabled = NO;
-    
     if ([[PhotoManager sharedManager] authorized] == NO) {
         [[PhotoManager sharedManager] getAlbumNamesWhenDone:^{
             NSLog(@"%@", [[PhotoManager sharedManager] albumNames]);
             NSLog(@"Camera Roll: %@", [[PhotoManager sharedManager] cameraRollAlbumName]);
             NSRange cacheRange = {0, 50};
             [[PhotoManager sharedManager] getLibraryImagesForAlbum:[[PhotoManager sharedManager] cameraRollAlbumName]
-                                   withRange:cacheRange
-                             completionBlock:^(NSDictionary *photos) {
-                                 //NSLog(@"%@", photos);
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                     [self.collectionView reloadData];
-                                 });
-                             }];
+                                                         withRange:cacheRange
+                                                   completionBlock:^(NSDictionary *photos) {
+                                                       //NSLog(@"%@", photos);
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           [self.collectionView reloadData];
+                                                       });
+                                                   }];
         }];
     }
+}
+
+- (IBAction)hideScrollview
+{
+    animating = YES;
+    self.scheduledScroller.userInteractionEnabled = NO;
     
-    CGPoint currentOffset = self.scheduledScroller.contentOffset;
-    CGRect currentFrame = self.scheduledScroller.frame;
-    
-    currentFrame.origin.y = currentOffset.y * -1 + self.scheduledScroller.contentInset.top;
-    self.scheduledScroller.frame = currentFrame;
-    self.scheduledScroller.contentOffset = CGPointZero;
+    [self authorizePhotos];
     
     [UIView animateWithDuration:0.2
                           delay:0.0
@@ -247,12 +275,19 @@
                          goneFrame.origin.y = self.view.bounds.size.height;
                          self.scheduledScroller.frame = goneFrame;
                          
-                         self.menuBar.alpha = 1.0;
-                         
                          self.collectionView.alpha = 1.0;
                          self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
                          self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
                          self.collectionView.contentOffset = CGPointMake(0, self.collectionView.contentInset.top*-1);
+                         
+                         self.collectionView.transform = CGAffineTransformIdentity;
+                         
+                         for (UIView *aView in self.scheduleMenuViews) {
+                             aView.alpha = 0.0;
+                         }
+                         for (UIView *aView in self.photoPickerMenuViews) {
+                             aView.alpha = 1.0;
+                         }
                      }
                      completion:^(BOOL finished) {
                          self.scheduledScroller.hidden = YES;
@@ -262,10 +297,6 @@
 
 - (IBAction)resetScrollview
 {
-    animating = NO;
-    addButton.alpha = 1.0;
-    addButton.frame = CGRectMake(0, 0, self.scheduledScroller.bounds.size.width, 44);
-    
     self.scheduledScroller.userInteractionEnabled = YES;
     self.scheduledScroller.hidden = NO;
     
@@ -277,16 +308,23 @@
                          goneFrame.origin.y = 0;
                          self.scheduledScroller.frame = goneFrame;
                          
-                         self.menuBar.alpha = 0.0;
-                         
-                         self.scheduledScroller.contentOffset = CGPointMake(0, -20);
+                         self.scheduledScroller.contentOffset = CGPointMake(0, -64);
                          
                          self.collectionView.alpha = 0.0;
                          self.collectionView.contentInset = self.scheduledScroller.contentInset;
                          self.collectionView.scrollIndicatorInsets = self.scheduledScroller.contentInset;
                          self.collectionView.contentOffset = CGPointZero;
+                         
+                         for (UIView *aView in self.scheduleMenuViews) {
+                             aView.alpha = 1.0;
+                         }
+                         for (UIView *aView in self.photoPickerMenuViews) {
+                             aView.alpha = 0.0;
+                         }
                      }
                      completion:^(BOOL finished) {
+                         self.collectionView.transform = CGAffineTransformIdentity;
+                         animating = NO;
                      }];
 }
 
