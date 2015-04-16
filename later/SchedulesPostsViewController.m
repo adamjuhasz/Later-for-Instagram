@@ -14,6 +14,7 @@
 #import "scheduledPostModel.h"
 #import "AppDelegate.h"
 #import <CoreImage/CoreImage.h>
+#import "PostActionsViewController.h"
 
 @interface SchedulesPostsViewController ()
 {
@@ -24,6 +25,8 @@
     CommentEntryViewController *captionController;
     UIDocumentInteractionController *document;
     scheduledPostModel *postThatIsBeingPosted;
+    scheduledPostModel *selectedPost;
+    UIView* selectedPostShroud;
     BOOL animating;
 }
 @end
@@ -85,11 +88,56 @@
     }
 }
 
+- (void)postWasLongTapped:(UIGestureRecognizer*)recognizer
+{
+    NSLog(@"long tapped");
+    scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
+    [self sendPostToInstragramWithKey:thePost.key];
+}
+
 - (void)postWasTapped:(UIGestureRecognizer*)recognizer
 {
     NSLog(@"tapped");
     scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
-    [self sendPostToInstragramWithKey:thePost.key];
+    selectedPost = thePost;
+    
+    selectedPostShroud = [[UIView alloc] initWithFrame:self.view.bounds];
+    selectedPostShroud.backgroundColor = [UIColor clearColor];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideSelectedPost)];
+    [selectedPostShroud addGestureRecognizer:tap];
+    [self.view insertSubview:selectedPostShroud belowSubview:self.selectedPostView];
+    
+    self.SelectedPostImageView.image = selectedPost.postImage;
+    
+    self.selectedPostView.hidden = NO;
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.selectedPostView.alpha = 1.0;
+                     }
+                     completion:^(BOOL finished) {
+                         
+                     }];
+}
+
+- (void)hideSelectedPost
+{
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                         self.selectedPostView.alpha = 0.0;
+                     }
+                     completion:^(BOOL finished) {
+                         self.selectedPostView.hidden = YES;
+                     }];
+    
+    [selectedPostShroud removeFromSuperview];
+    selectedPostShroud = nil;
+}
+
+- (IBAction)sendSelectedPostToInstagram
+{
+    [self sendPostToInstragramWithKey:selectedPost.key];
+    
+
 }
 
 - (void)sendPostToInstragramWithKey:(NSString*)postKey
@@ -195,11 +243,11 @@
         [newImage addSubview:captionLabel];
         
         newImage.tag = i;
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(postWasTapped:)];
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(postWasLongTapped:)];
         [newImage addGestureRecognizer:longPress];
         
-        //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postWasTapped:)];
-        //[newImage addGestureRecognizer:tap];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postWasTapped:)];
+        [newImage addGestureRecognizer:tap];
         
         
         [self.scheduledScroller insertSubview:newImage aboveSubview:shroud];
