@@ -32,6 +32,22 @@
     [self.hashtagTable registerNib:[UINib nibWithNibName:@"HashtagTableViewCell" bundle:nil] forCellReuseIdentifier:@"hashtag"];
     
     expandedTags = [NSMutableDictionary dictionary];
+    
+    self.datePicker.date = [NSDate dateWithTimeIntervalSinceNow:60*60];
+    
+    for (UIView* specificDatw in self.specificDatePickers) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(specificDatePicked:)];
+        [specificDatw addGestureRecognizer:tap];
+    }
+}
+
+- (void)specificDatePicked:(UIGestureRecognizer*)tapped
+{
+    UIView *selectedView = tapped.view;
+    selectedView.backgroundColor = [UIColor lightGrayColor];
+    NSInteger tag = selectedView.tag;
+    
+    [self.datePicker setDate:[NSDate dateWithTimeIntervalSinceNow:tag*(60*60)] animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -53,6 +69,7 @@
 - (void)setPhoto:(UIImage*)fullsizeImage
 {
     fullImage = fullsizeImage;
+    self.photoExample.image = fullImage;
 }
 
 - (NSString*)grabLastHashtagFrom:(NSString*)text {
@@ -85,7 +102,7 @@
 {
     scheduledPostModel *newPost = [[scheduledPostModel alloc] init];
     newPost.postCaption = self.comments.text;
-    newPost.postTime = [NSDate dateWithTimeIntervalSinceNow:10];
+    newPost.postTime = self.datePicker.date;
     newPost.postImage = fullImage;
     
     [[PostDBSingleton singleton] addPost:newPost];

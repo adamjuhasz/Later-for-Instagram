@@ -13,5 +13,7 @@
 @property IBOutlet UIScrollView *scheduledScroller;
 @property IBOutlet UIView *menuBar;
 @property IBOutlet UICollectionView *collectionView;
+@property IBOutletCollection(UIView) NSArray *scheduleMenuViews;
+@property IBOutletCollection(UIView) NSArray *photoPickerMenuViews;
 
 @end

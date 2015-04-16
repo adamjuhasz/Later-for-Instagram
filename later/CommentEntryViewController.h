@@ -16,6 +16,8 @@
 @property IBOutlet UIView *datePicking;
 @property IBOutlet UIButton *doneButton;
 @property IBOutlet UIButton *postButton;
+@property IBOutlet UIDatePicker *datePicker;
+@property IBOutletCollection(UIView) NSArray* specificDatePickers;
 
 
 - (IBAction)goBack;

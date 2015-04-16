@@ -25,6 +25,8 @@
         [[InstagramEngine sharedEngine] setAccessToken:accessToken];
     }
     
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:@"InstagramLoginSuccess" object:nil];
 }
 
@@ -53,6 +55,11 @@
 - (void)loginSuccess
 {
     [self performSegueWithIdentifier:@"segue.showScheduled" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 }
 
 @end
