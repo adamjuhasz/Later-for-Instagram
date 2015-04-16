@@ -25,6 +25,8 @@
 		2E6E214A1ADD85D5002E9372 /* PhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21491ADD85D5002E9372 /* PhotoTableViewCell.m */; };
 		2E6E214E1ADECAE4002E9372 /* scheduledPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E214D1ADECAE4002E9372 /* scheduledPostModel.m */; };
 		2E6E21511ADED280002E9372 /* PostDBSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21501ADED280002E9372 /* PostDBSingleton.m */; };
+		2E6E21551AE021D0002E9372 /* PostActionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21531AE021D0002E9372 /* PostActionsViewController.m */; };
+		2E6E21561AE021D0002E9372 /* PostActionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */; };
 		B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 280A2CEF160E5E026FC034DD /* libPods-later.a */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +74,9 @@
 		2E6E214D1ADECAE4002E9372 /* scheduledPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = scheduledPostModel.m; sourceTree = "<group>"; };
 		2E6E214F1ADED280002E9372 /* PostDBSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDBSingleton.h; sourceTree = "<group>"; };
 		2E6E21501ADED280002E9372 /* PostDBSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDBSingleton.m; sourceTree = "<group>"; };
+		2E6E21521AE021D0002E9372 /* PostActionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostActionsViewController.h; sourceTree = "<group>"; };
+		2E6E21531AE021D0002E9372 /* PostActionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostActionsViewController.m; sourceTree = "<group>"; };
+		2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostActionsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +134,6 @@
 				2E6E214B1ADD9782002E9372 /* Image Display */,
 				2E6E21471ADD74DF002E9372 /* Caption Entry */,
 				2E6E21111ADC53DB002E9372 /* Images.xcassets */,
-				2E6E21131ADC53DB002E9372 /* LaunchScreen.xib */,
 				2E6E212A1ADC647B002E9372 /* InstagramKit.plist */,
 			);
 			path = later;
@@ -172,6 +176,7 @@
 				2E6E21371ADCC5C3002E9372 /* HashtagTableViewCell.h */,
 				2E6E21381ADCC5C4002E9372 /* HashtagTableViewCell.m */,
 				2E6E213A1ADCDD23002E9372 /* HashtagTableViewCell.xib */,
+				2E6E21131ADC53DB002E9372 /* LaunchScreen.xib */,
 			);
 			name = "Caption Entry";
 			sourceTree = "<group>";
@@ -183,6 +188,9 @@
 				2E6E212D1ADC81C2002E9372 /* SchedulesPostsViewController.m */,
 				2E6E21481ADD85D5002E9372 /* PhotoTableViewCell.h */,
 				2E6E21491ADD85D5002E9372 /* PhotoTableViewCell.m */,
+				2E6E21521AE021D0002E9372 /* PostActionsViewController.h */,
+				2E6E21531AE021D0002E9372 /* PostActionsViewController.m */,
+				2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */,
 			);
 			name = "Image Display";
 			sourceTree = "<group>";
@@ -287,6 +295,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E6E21561AE021D0002E9372 /* PostActionsViewController.xib in Resources */,
 				2E6E21451ADCFB47002E9372 /* logo-120.png in Resources */,
 				2E6E213B1ADCDD23002E9372 /* HashtagTableViewCell.xib in Resources */,
 				2E6E21101ADC53DB002E9372 /* Main.storyboard in Resources */,
@@ -351,6 +360,7 @@
 				2E6E210A1ADC53DB002E9372 /* AppDelegate.m in Sources */,
 				2E6E214A1ADD85D5002E9372 /* PhotoTableViewCell.m in Sources */,
 				2E6E21071ADC53DB002E9372 /* main.m in Sources */,
+				2E6E21551AE021D0002E9372 /* PostActionsViewController.m in Sources */,
 				2E6E21361ADCBB90002E9372 /* CommentEntryViewController.m in Sources */,
 				2E6E21391ADCC5C4002E9372 /* HashtagTableViewCell.m in Sources */,
 				2E6E214E1ADECAE4002E9372 /* scheduledPostModel.m in Sources */,

@@ -15,5 +15,8 @@
 @property IBOutlet UICollectionView *collectionView;
 @property IBOutletCollection(UIView) NSArray *scheduleMenuViews;
 @property IBOutletCollection(UIView) NSArray *photoPickerMenuViews;
+@property IBOutlet UIView *selectedPostView;
+@property IBOutlet UIImageView *SelectedPostImageView;
+
 
 @end
