@@ -233,19 +233,12 @@
         imageView.image = post.postImage;
         [newImage addSubview:imageView];
         
-        CGRect timeLabelRect = CGRectMake(10, imageRect.origin.y + imageRect.size.height + 8, imageRect.size.width - 5, 15);
+        CGRect timeLabelRect = CGRectMake(10, mainRect.size.height - 25, imageRect.size.width - 5, 15);
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
         timeLabel.text = [NSString stringWithFormat:@"%ld mins left", ABS([breakdownInfo minute])];
         timeLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
         timeLabel.textColor = [UIColor whiteColor];
         [newImage addSubview:timeLabel];
-        
-        CGRect captionLabelRect = CGRectMake(10, timeLabelRect.origin.y + timeLabelRect.size.height + 5, imageRect.size.width - 5, 17);
-        UILabel *captionLabel = [[UILabel alloc] initWithFrame:captionLabelRect];
-        captionLabel.text = post.postCaption;
-        captionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
-        captionLabel.textColor = [UIColor whiteColor];
-        [newImage addSubview:captionLabel];
         
         newImage.tag = i;
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(postWasLongTapped:)];
@@ -262,6 +255,7 @@
     self.scheduledScroller.contentSize = CGSizeMake(self.scheduledScroller.bounds.size.width,
                                                     MAX(currrentFrame.origin.y + currrentFrame.size.height,
                                                         0));
+    shroud.frame = CGRectMake(0, 0, self.scheduledScroller.contentSize.width, self.scheduledScroller.contentSize.height + self.scheduledScroller.bounds.size.height);
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

@@ -12,7 +12,6 @@
 		2E6E210D1ADC53DB002E9372 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E210C1ADC53DB002E9372 /* ViewController.m */; };
 		2E6E21101ADC53DB002E9372 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E210E1ADC53DB002E9372 /* Main.storyboard */; };
 		2E6E21121ADC53DB002E9372 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21111ADC53DB002E9372 /* Images.xcassets */; };
-		2E6E21151ADC53DB002E9372 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21131ADC53DB002E9372 /* LaunchScreen.xib */; };
 		2E6E21211ADC53DB002E9372 /* laterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21201ADC53DB002E9372 /* laterTests.m */; };
 		2E6E212B1ADC647B002E9372 /* InstagramKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E212A1ADC647B002E9372 /* InstagramKit.plist */; };
 		2E6E212E1ADC81C2002E9372 /* SchedulesPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E212D1ADC81C2002E9372 /* SchedulesPostsViewController.m */; };
@@ -53,7 +52,6 @@
 		2E6E210C1ADC53DB002E9372 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2E6E210F1ADC53DB002E9372 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E6E21111ADC53DB002E9372 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		2E6E21141ADC53DB002E9372 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		2E6E211A1ADC53DB002E9372 /* Later.temp_caseinsensitive_renameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Later.temp_caseinsensitive_renameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6E211F1ADC53DB002E9372 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E6E21201ADC53DB002E9372 /* laterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = laterTests.m; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 				2E6E21371ADCC5C3002E9372 /* HashtagTableViewCell.h */,
 				2E6E21381ADCC5C4002E9372 /* HashtagTableViewCell.m */,
 				2E6E213A1ADCDD23002E9372 /* HashtagTableViewCell.xib */,
-				2E6E21131ADC53DB002E9372 /* LaunchScreen.xib */,
 			);
 			name = "Caption Entry";
 			sourceTree = "<group>";
@@ -299,7 +296,6 @@
 				2E6E21451ADCFB47002E9372 /* logo-120.png in Resources */,
 				2E6E213B1ADCDD23002E9372 /* HashtagTableViewCell.xib in Resources */,
 				2E6E21101ADC53DB002E9372 /* Main.storyboard in Resources */,
-				2E6E21151ADC53DB002E9372 /* LaunchScreen.xib in Resources */,
 				2E6E212B1ADC647B002E9372 /* InstagramKit.plist in Resources */,
 				2E6E21421ADCFA82002E9372 /* logo.png in Resources */,
 				2E6E21461ADCFB47002E9372 /* logo-180.png in Resources */,
@@ -392,14 +388,6 @@
 				2E6E210F1ADC53DB002E9372 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		2E6E21131ADC53DB002E9372 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2E6E21141ADC53DB002E9372 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
