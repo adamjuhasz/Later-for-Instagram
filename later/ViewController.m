@@ -33,7 +33,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     if ([[[InstagramEngine sharedEngine] accessToken] isEqualToString:@""] || [[InstagramEngine sharedEngine] accessToken] == nil) {
-        NSLog(@"not logged in");
+        self.loginButton.alpha = 0.0;
+        self.loginButton.hidden = NO;
+        [UIView animateWithDuration:0.3 animations:^{
+            self.loginButton.alpha = 1.0;
+        }];
     } else {
         [self performSegueWithIdentifier:@"segue.showScheduled" sender:self];
     }

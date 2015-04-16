@@ -39,6 +39,11 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(specificDatePicked:)];
         [specificDatw addGestureRecognizer:tap];
     }
+    
+    UIScreenEdgePanGestureRecognizer *rightSwideSwipe = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(schedulePost)];
+    rightSwideSwipe.edges = UIRectEdgeRight;
+    rightSwideSwipe.delaysTouchesBegan = YES;
+    [self.view addGestureRecognizer:rightSwideSwipe];
 }
 
 - (void)specificDatePicked:(UIGestureRecognizer*)tapped

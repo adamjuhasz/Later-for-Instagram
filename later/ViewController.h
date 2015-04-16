@@ -10,6 +10,7 @@
 
 @interface ViewController : UIViewController
 
+@property IBOutlet UIView *loginButton;
 
 @end
 

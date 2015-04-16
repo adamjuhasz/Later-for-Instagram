@@ -69,6 +69,11 @@
     for (UIView *aView in self.photoPickerMenuViews) {
         aView.alpha = 0.0;
     }
+    
+    UIScreenEdgePanGestureRecognizer *leftSideSwipe = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(resetScrollview)];
+    leftSideSwipe.edges = UIRectEdgeLeft;
+    leftSideSwipe.delaysTouchesBegan = YES;
+    [self.view addGestureRecognizer:leftSideSwipe];
 }
 
 - (void)viewDidAppear:(BOOL)animated
