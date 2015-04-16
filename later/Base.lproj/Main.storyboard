@@ -19,31 +19,44 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghg-uE-8sP">
-                                <rect key="frame" x="165" y="537" width="38" height="30"/>
-                                <state key="normal" title="Login">
+                                <rect key="frame" x="74" y="522" width="228" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="k1l-0A-o3j"/>
+                                    <constraint firstAttribute="width" constant="228" id="wVa-pD-fDz"/>
+                                </constraints>
+                                <state key="normal" title="Sign into Instagram">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="loginToInstagram" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Nxi-Lp-bne"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="rGe-wM-ODw">
+                                <rect key="frame" x="67" y="214" width="240" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" id="cp5-xk-nTR"/>
+                                    <constraint firstAttribute="width" constant="240" id="ijK-9c-4cU"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="ghg-uE-8sP" secondAttribute="bottom" constant="100" id="3QE-ad-7EA"/>
-                            <constraint firstAttribute="centerX" secondItem="ghg-uE-8sP" secondAttribute="centerX" constant="4" id="tcZ-DJ-RxZ"/>
+                            <constraint firstAttribute="centerY" secondItem="rGe-wM-ODw" secondAttribute="centerY" id="WBK-K0-GIY"/>
+                            <constraint firstAttribute="centerX" secondItem="rGe-wM-ODw" secondAttribute="centerX" id="ozg-eR-qBG"/>
+                            <constraint firstAttribute="centerX" secondItem="ghg-uE-8sP" secondAttribute="centerX" id="tcZ-DJ-RxZ"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <segue destination="Z6d-KB-Dgc" kind="presentation" identifier="segue.showComments" id="kGn-jj-CMg"/>
                         <segue destination="koD-Pf-wLA" kind="presentation" identifier="segue.showScheduled" id="XPf-Kr-ANp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="311.5" y="95.5"/>
+            <point key="canvasLocation" x="-312.5" y="95.5"/>
         </scene>
         <!--Schedules Posts View Controller-->
         <scene sceneID="E9r-LO-ANH">
@@ -264,6 +277,7 @@
                         <outlet property="selectedPostView" destination="fFp-kU-6vr" id="BB9-fd-5jS"/>
                         <outletCollection property="photoPickerMenuViews" destination="Nx6-Z7-uWt" id="k62-Gs-NPO"/>
                         <outletCollection property="scheduleMenuViews" destination="sGv-TM-h60" id="NxO-rG-pgk"/>
+                        <segue destination="Z6d-KB-Dgc" kind="show" identifier="show.caption" id="riB-XQ-bEb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GsM-6l-sI4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -515,7 +529,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jkX-DY-3yf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="811.5" y="895.5"/>
+            <point key="canvasLocation" x="1311.5" y="95.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="f7O-75-rqP">
@@ -531,7 +545,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2nJ-ST-1AO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="356" y="-700"/>
+            <point key="canvasLocation" x="241.5" y="95.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo.png" width="1024" height="1024"/>
+    </resources>
 </document>

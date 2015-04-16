@@ -267,12 +267,12 @@
     
     if (scrollView.contentOffset.y < -1 * scrollView.contentInset.top && animating == NO) {
         CGFloat expansionSpace = scrollView.contentOffset.y - scrollView.contentInset.top*-1;
-        CGFloat maxDragDown = 200;
+        CGFloat maxDragDown = 250;
         
         CGFloat alphaPercent = ABS(expansionSpace/maxDragDown);
         CGFloat scale = MIN(1.0,alphaPercent*0.1+0.95);
         self.collectionView.transform = CGAffineTransformMakeScale(scale, scale);
-        self.collectionView.alpha = alphaPercent;
+        self.collectionView.alpha = MAX(0.5,alphaPercent);
         //NSLog(@"alphaPercent: %f", alphaPercent);
     }
 }
