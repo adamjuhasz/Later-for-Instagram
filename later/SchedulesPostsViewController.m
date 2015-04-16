@@ -91,6 +91,13 @@
             [self sendPostToInstragramWithKey:postKey];
         }
     }
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.logo.frame = CGRectMake((self.view.bounds.size.width - 44)/2, 20, 44, 44);
+    }];
+    
+    UICollectionViewFlowLayout *layout = (id)self.collectionView.collectionViewLayout;
+    layout.itemSize = CGSizeMake((self.view.bounds.size.width - 2*layout.minimumInteritemSpacing -1 )/3.0, (self.view.bounds.size.width - 2*layout.minimumInteritemSpacing)/3.0);
 }
 
 - (void)postWasLongTapped:(UIGestureRecognizer*)recognizer
