@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import <InstagramKit/InstagramKit.h>
 #import "PostDBSingleton.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 @interface AppDelegate ()
 
@@ -19,6 +22,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [Fabric with:@[CrashlyticsKit]];
+
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
         //not called if user selects an action, will call 'handleActionWithIdentifier' with info
         UILocalNotification *swipedNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
