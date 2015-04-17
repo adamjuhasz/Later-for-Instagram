@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E3E92F51AE0B8B10048B5E8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E92F31AE0B8B10048B5E8 /* Crashlytics.framework */; };
+		2E3E92F61AE0B8B10048B5E8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3E92F41AE0B8B10048B5E8 /* Fabric.framework */; };
 		2E6E21071ADC53DB002E9372 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21061ADC53DB002E9372 /* main.m */; };
 		2E6E210A1ADC53DB002E9372 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21091ADC53DB002E9372 /* AppDelegate.m */; };
 		2E6E210D1ADC53DB002E9372 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E210C1ADC53DB002E9372 /* ViewController.m */; };
@@ -44,6 +46,8 @@
 		1B97193DDF911A4B06A8DDE6 /* Pods-later.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-later.debug.xcconfig"; path = "Pods/Target Support Files/Pods-later/Pods-later.debug.xcconfig"; sourceTree = "<group>"; };
 		25742B44346AC6B5DC0C3481 /* Pods-later.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-later.release.xcconfig"; path = "Pods/Target Support Files/Pods-later/Pods-later.release.xcconfig"; sourceTree = "<group>"; };
 		280A2CEF160E5E026FC034DD /* libPods-later.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-later.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E3E92F31AE0B8B10048B5E8 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		2E3E92F41AE0B8B10048B5E8 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		2E6E21011ADC53DB002E9372 /* Later.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Later.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6E21051ADC53DB002E9372 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E6E21061ADC53DB002E9372 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -85,7 +89,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6E215B1AE05877002E9372 /* Photos.framework in Frameworks */,
+				2E3E92F51AE0B8B10048B5E8 /* Crashlytics.framework in Frameworks */,
 				B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */,
+				2E3E92F61AE0B8B10048B5E8 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +108,8 @@
 		2E6E20F81ADC53DB002E9372 = {
 			isa = PBXGroup;
 			children = (
+				2E3E92F31AE0B8B10048B5E8 /* Crashlytics.framework */,
+				2E3E92F41AE0B8B10048B5E8 /* Fabric.framework */,
 				2E6E21031ADC53DB002E9372 /* later */,
 				2E6E211D1ADC53DB002E9372 /* laterTests */,
 				2E6E21021ADC53DB002E9372 /* Products */,
@@ -225,6 +233,7 @@
 				2E6E20FE1ADC53DB002E9372 /* Frameworks */,
 				2E6E20FF1ADC53DB002E9372 /* Resources */,
 				0958001018EC542A28C1F4D5 /* Copy Pods Resources */,
+				2E3E92F21AE0B88B0048B5E8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -331,6 +340,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-later/Pods-later-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		2E3E92F21AE0B88B0048B5E8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 2231fe0b1e370f1d9ffb9b97b35a1cb4d24359fc cddd15fd7561247dd9c391ce2666fad7b05aa70c42d938765933616888fc1cdb";
 		};
 		3A235D69879DFCFD721BBC45 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -484,6 +506,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = later/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -499,6 +525,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = later/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
