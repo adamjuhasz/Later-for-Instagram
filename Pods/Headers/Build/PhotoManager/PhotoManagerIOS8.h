@@ -1,0 +1,1 @@
+../../../../../PhotoManager/Pod/Classes/PhotoManagerIOS8.h

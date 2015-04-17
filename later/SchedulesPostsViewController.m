@@ -55,7 +55,6 @@
     self.collectionView.scrollIndicatorInsets = self.scheduledScroller.contentInset;
     //self.collectionView.alpha = 0.0;
     
-    [self reloadScrollView];
     [self.collectionView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(photosUpdated) name:@"PhotoManagerLoaded" object:nil];
@@ -78,6 +77,8 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self reloadScrollView];
+    
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     if (appDelegate.notification) {
         NSString *postKey = [appDelegate.notification.userInfo objectForKey:@"key"];
@@ -302,7 +303,7 @@
             NSLog(@"%@", [[PhotoManager sharedManager] albumNames]);
             NSLog(@"Camera Roll: %@", [[PhotoManager sharedManager] cameraRollAlbumName]);
             NSRange cacheRange = {0, 50};
-            [[PhotoManager sharedManager] getLibraryImagesForAlbum:[[PhotoManager sharedManager] cameraRollAlbumName]
+            [[PhotoManager sharedManager] cacheThumbnailsForAlbum:[[PhotoManager sharedManager] cameraRollAlbumName]
                                                          withRange:cacheRange
                                                    completionBlock:^(NSDictionary *photos) {
                                                        //NSLog(@"%@", photos);
@@ -400,13 +401,14 @@
                            dequeueReusableCellWithReuseIdentifier:@"PhotoCell"
                            forIndexPath:indexPath];
     
-    UIImage *image;
     long row = [indexPath row];
     
     PhotoManager *shared =  [PhotoManager sharedManager];
-    image =  [shared imageIn:shared.cameraRollAlbumName atIndex:row];
-    
-    myCell.photoView.image = image;
+    if (shared.authorized) {
+        [shared getThumbnailFor:shared.cameraRollAlbumName atIndex:row completionBlock:^(UIImage *image) {
+            myCell.photoView.image = image;
+        }];
+    }
     
     return myCell;
 }
@@ -414,8 +416,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"CLICK!");
-    UIImage *thumbnail = [[PhotoManager sharedManager] imageIn:[[PhotoManager sharedManager] cameraRollAlbumName] atIndex:indexPath.row];
-    [captionController setThumbnail:thumbnail];
+    [[PhotoManager sharedManager] getThumbnailFor:[[PhotoManager sharedManager] cameraRollAlbumName]
+                                          atIndex:indexPath.row
+                                  completionBlock:^(UIImage *image) {
+        [captionController setThumbnail:image];
+    }];
+    
     [self.navigationController pushViewController:captionController animated:YES];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
