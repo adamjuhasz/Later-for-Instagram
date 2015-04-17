@@ -26,6 +26,7 @@
 		2E6E21511ADED280002E9372 /* PostDBSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21501ADED280002E9372 /* PostDBSingleton.m */; };
 		2E6E21551AE021D0002E9372 /* PostActionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21531AE021D0002E9372 /* PostActionsViewController.m */; };
 		2E6E21561AE021D0002E9372 /* PostActionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */; };
+		2E6E215B1AE05877002E9372 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E215A1AE05877002E9372 /* Photos.framework */; };
 		B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 280A2CEF160E5E026FC034DD /* libPods-later.a */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		2E6E21521AE021D0002E9372 /* PostActionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostActionsViewController.h; sourceTree = "<group>"; };
 		2E6E21531AE021D0002E9372 /* PostActionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostActionsViewController.m; sourceTree = "<group>"; };
 		2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostActionsViewController.xib; sourceTree = "<group>"; };
+		2E6E215A1AE05877002E9372 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E6E215B1AE05877002E9372 /* Photos.framework in Frameworks */,
 				B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,6 +207,7 @@
 		8886719E3A40C9812E5CACF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E215A1AE05877002E9372 /* Photos.framework */,
 				280A2CEF160E5E026FC034DD /* libPods-later.a */,
 			);
 			name = Frameworks;
@@ -429,7 +433,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -466,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -484,7 +488,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Later;
-				PROVISIONING_PROFILE = "3680bf93-2588-43fb-8ddf-e4b3acf66621";
+				PROVISIONING_PROFILE = "1aa84b6f-9a77-435e-b8e4-60ed376de8f4";
 			};
 			name = Debug;
 		};
@@ -499,7 +503,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Later;
-				PROVISIONING_PROFILE = "3680bf93-2588-43fb-8ddf-e4b3acf66621";
+				PROVISIONING_PROFILE = "1aa84b6f-9a77-435e-b8e4-60ed376de8f4";
 			};
 			name = Release;
 		};

@@ -10,16 +10,22 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="186"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pH1-OT-cXl">
-                    <rect key="frame" x="15" y="11" width="177" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pH1-OT-cXl">
+                    <rect key="frame" x="15" y="10" width="161" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="fEW-eJ-1SZ"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLe-Dx-vZA">
-                    <rect key="frame" x="216" y="11" width="96" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLe-Dx-vZA">
+                    <rect key="frame" x="200" y="10" width="100" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="VCB-Rl-MpS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="f8h-Ng-zm3">
@@ -33,13 +39,31 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="pH1-OT-cXl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="9bI-3b-U1O"/>
+                <constraint firstItem="qLe-Dx-vZA" firstAttribute="leading" secondItem="pH1-OT-cXl" secondAttribute="trailing" constant="24" id="Anf-LG-y4j"/>
                 <constraint firstItem="f8h-Ng-zm3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="II7-bj-Jjv"/>
                 <constraint firstAttribute="trailing" secondItem="f8h-Ng-zm3" secondAttribute="trailing" id="J5Q-Qw-KVO"/>
+                <constraint firstItem="qLe-Dx-vZA" firstAttribute="centerY" secondItem="pH1-OT-cXl" secondAttribute="centerY" constant="1" id="Rzc-tt-0vp"/>
                 <constraint firstAttribute="bottom" secondItem="f8h-Ng-zm3" secondAttribute="bottom" id="UDL-c5-zkd"/>
+                <constraint firstAttribute="bottom" secondItem="pH1-OT-cXl" secondAttribute="bottom" constant="154" id="VBF-ne-Vvu"/>
                 <constraint firstItem="f8h-Ng-zm3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="c2F-Ha-End"/>
+                <constraint firstItem="pH1-OT-cXl" firstAttribute="bottom" secondItem="qLe-Dx-vZA" secondAttribute="bottom" id="gUW-GY-VfR"/>
+                <constraint firstItem="qLe-Dx-vZA" firstAttribute="height" secondItem="pH1-OT-cXl" secondAttribute="height" id="hb9-ZM-iYv"/>
+                <constraint firstAttribute="trailing" secondItem="qLe-Dx-vZA" secondAttribute="trailing" constant="10" id="nMZ-5m-s7e"/>
+                <constraint firstAttribute="trailing" secondItem="qLe-Dx-vZA" secondAttribute="trailing" constant="20" id="qHb-tM-fxg"/>
+                <constraint firstItem="pH1-OT-cXl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="qWj-fM-IgD"/>
+                <constraint firstAttribute="trailing" secondItem="pH1-OT-cXl" secondAttribute="trailing" constant="128" id="xh6-Ed-cZk"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="VBF-ne-Vvu"/>
+                    <exclude reference="xh6-Ed-cZk"/>
+                    <exclude reference="Rzc-tt-0vp"/>
+                    <exclude reference="nMZ-5m-s7e"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="similarTags" destination="f8h-Ng-zm3" id="FsQ-KV-VoN"/>
                 <outlet property="tagCount" destination="qLe-Dx-vZA" id="uW6-ze-284"/>

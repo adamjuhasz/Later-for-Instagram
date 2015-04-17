@@ -37,7 +37,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   InstagramKit: 32fe78c44f41701825ac567343fb2b682c6e3d02
-  PhotoManager: f1dce7583c7db7923bed77a72da2a127bb4b75ff
+  PhotoManager: 2ec55d43eea345007686b330ca5c57fb160db05f
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
 
 COCOAPODS: 0.34.4
