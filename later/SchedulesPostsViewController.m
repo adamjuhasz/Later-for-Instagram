@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import <CoreImage/CoreImage.h>
 #import "PostActionsViewController.h"
+#import <pop/POP.h>
 
 @interface SchedulesPostsViewController ()
 {
@@ -29,6 +30,10 @@
     UIView* selectedPostShroud;
     BOOL animating;
 }
+
+@property UIDynamicAnimator *animator;
+@property UIGravityBehavior *gravityBehavior;
+
 @end
 
 @implementation SchedulesPostsViewController
@@ -97,8 +102,9 @@
         self.logo.frame = CGRectMake((self.view.bounds.size.width - 44)/2, 20, 44, 44);
     }];
     
+    CGFloat columns = 4;
     UICollectionViewFlowLayout *layout = (id)self.collectionView.collectionViewLayout;
-    layout.itemSize = CGSizeMake((self.view.bounds.size.width - 2*layout.minimumInteritemSpacing -1 )/3.0, (self.view.bounds.size.width - 2*layout.minimumInteritemSpacing)/3.0);
+    layout.itemSize = CGSizeMake((self.view.bounds.size.width - (columns-1)*layout.minimumInteritemSpacing - 1 )/columns, (self.view.bounds.size.width - (columns-1)*layout.minimumInteritemSpacing)/columns);
 }
 
 - (void)postWasLongTapped:(UIGestureRecognizer*)recognizer
@@ -156,7 +162,7 @@
 - (void)sendPostToInstragramWithKey:(NSString*)postKey
 {
     NSArray *allposts = [[PostDBSingleton singleton] allposts];
-    scheduledPostModel *selectedPost;
+    selectedPost = nil;
     for (scheduledPostModel *post in allposts) {
         if ([postKey isEqualToString:post.key]) {
             selectedPost = post;
@@ -290,9 +296,9 @@
         return;
     }
     
-    if (velocity.y < -1.0 && scrollView.contentOffset.y < 0) {
+    if (velocity.y < -1.0 && scrollView.contentOffset.y < 0 || scrollView.contentOffset.y < 150) {
         *targetContentOffset = CGPointZero;
-        [self hideScrollview];
+        [self hideScrollviewWithVelocity:velocity.y];
     }
 }
 
@@ -317,23 +323,54 @@
 
 - (IBAction)hideScrollview
 {
+    [self hideScrollviewWithVelocity:0];
+}
+
+- (void)hideScrollviewWithVelocity:(CGFloat)velocity
+{
     animating = YES;
     self.scheduledScroller.userInteractionEnabled = NO;
     
     [self authorizePhotos];
     
+    CGRect goneFrame = self.scheduledScroller.frame;
+    goneFrame.origin.y = self.view.bounds.size.height;
+    
+    POPSpringAnimation *animation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
+    animation.springBounciness = 8;
+    animation.velocity = @(velocity);
+    NSLog(@"to: %f", goneFrame.origin.y);
+    animation.toValue = @(goneFrame.origin.y + goneFrame.size.height/2.0 - 64); //64 for nav bar and position uses center point
+    animation.completionBlock = ^(POPAnimation *anim, BOOL finished){
+        self.scheduledScroller.hidden = YES;
+    };
+    [self.scheduledScroller.layer pop_addAnimation:animation forKey:@"fullscreen"];
+    
+    //self.collectionView.contentInset = ;
+    
+    POPSpringAnimation *offset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
+    offset.toValue = [NSValue valueWithCGPoint:CGPointMake(0, self.collectionView.contentInset.top*-1)];
+    offset.springBounciness = animation.springBounciness;
+    offset.velocity = [NSValue valueWithCGPoint:CGPointMake(0, velocity)];
+    [self.collectionView pop_addAnimation:offset forKey:@"offset"];
+    
+    POPSpringAnimation *inset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentInset];
+    inset.toValue = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(64, 0, 0, 0)];
+    inset.springBounciness = animation.springBounciness;
+    inset.velocity = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(velocity, 0, 0, 0)];
+    [self.collectionView pop_addAnimation:inset forKey:@"inset"];
+    
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         CGRect goneFrame = self.scheduledScroller.frame;
-                         goneFrame.origin.y = self.view.bounds.size.height;
-                         self.scheduledScroller.frame = goneFrame;
+     
+                         //self.scheduledScroller.frame = goneFrame;
                          
                          self.collectionView.alpha = 1.0;
-                         self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-                         self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
-                         self.collectionView.contentOffset = CGPointMake(0, self.collectionView.contentInset.top*-1);
+                         //
+                         //self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
+                         //self.collectionView.contentOffset = CGPointMake(0, self.collectionView.contentInset.top*-1);
                          
                          self.collectionView.transform = CGAffineTransformIdentity;
                          
@@ -345,7 +382,7 @@
                          }
                      }
                      completion:^(BOOL finished) {
-                         self.scheduledScroller.hidden = YES;
+                         
                      }];
 
 }

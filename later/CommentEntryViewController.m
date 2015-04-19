@@ -84,10 +84,15 @@
     NSString *lastOne = split[split.count-1];
     if (lastOne.length < 2)
         return nil;
+    
+    //are there more than one hashtag in the mix?
+    
     char startChar = [lastOne characterAtIndex:0];
     if (startChar == '#') {
         NSRange firstCharacterIndex = {0,1};
         NSString *tag = [lastOne stringByReplacingCharactersInRange:firstCharacterIndex withString:@""];
+        //remove potential puncationaton at the end
+        
         return tag;
     }
     return nil;
@@ -175,6 +180,7 @@
     
     NSArray *similarTags = [expandedTags objectForKey:tag.name];
     if (similarTags != nil) {
+        NSLog(@"large size for %d", indexPath.row);
         return 44 + similarTags.count*44;
     }
     
@@ -220,9 +226,13 @@
     NSString *appendText;
     if (writtenTag != nil) {
         NSRange subRange = [selectedTag rangeOfString:writtenTag];
-        int difference = (int)selectedTag.length - (int)subRange.length;
-        NSRange substringRange = {writtenTag.length, difference};
-        appendText = [selectedTag substringWithRange:substringRange];
+        if (subRange.length > 0) {
+            int difference = (int)selectedTag.length - (int)subRange.length;
+            NSRange substringRange = {writtenTag.length, difference};
+            appendText = [selectedTag substringWithRange:substringRange];
+        } else {
+            appendText = [NSString stringWithFormat:@" #%@", selectedTag];
+        }
     } else {
         appendText = [NSString stringWithFormat:@"#%@", selectedTag];
     }

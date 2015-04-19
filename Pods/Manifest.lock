@@ -1,11 +1,11 @@
 PODS:
   - AFNetworking (2.5.2):
-    - AFNetworking/NSURLConnection
-    - AFNetworking/NSURLSession
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-    - AFNetworking/UIKit
+    - AFNetworking/NSURLConnection (= 2.5.2)
+    - AFNetworking/NSURLSession (= 2.5.2)
+    - AFNetworking/Reachability (= 2.5.2)
+    - AFNetworking/Security (= 2.5.2)
+    - AFNetworking/Serialization (= 2.5.2)
+    - AFNetworking/UIKit (= 2.5.2)
   - AFNetworking/NSURLConnection (2.5.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
@@ -20,24 +20,37 @@ PODS:
   - AFNetworking/UIKit (2.5.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - DACircularProgress (2.3.1)
+  - FXBlurView (1.6.3)
   - InstagramKit (3.5.0):
     - AFNetworking (~> 2.0)
   - PhotoManager (0.1.0)
-  - Shimmer (1.0.2)
+  - pop (1.0.7)
 
 DEPENDENCIES:
+  - DACircularProgress
+  - FXBlurView
   - InstagramKit (= 3.5.0)
   - PhotoManager (from `../PhotoManager`)
-  - Shimmer
+  - pop (from `https://github.com/facebook/pop.git`)
 
 EXTERNAL SOURCES:
   PhotoManager:
     :path: ../PhotoManager
+  pop:
+    :git: https://github.com/facebook/pop.git
+
+CHECKOUT OPTIONS:
+  pop:
+    :commit: 038f29b2de47db3fce803c5a180eee604ebe1977
+    :git: https://github.com/facebook/pop.git
 
 SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
+  DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
   InstagramKit: 32fe78c44f41701825ac567343fb2b682c6e3d02
-  PhotoManager: 2ec55d43eea345007686b330ca5c57fb160db05f
-  Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
+  PhotoManager: 51264482e64e4249475846534aa4a070a56c73f5
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
 
-COCOAPODS: 0.34.4
+COCOAPODS: 0.36.4
