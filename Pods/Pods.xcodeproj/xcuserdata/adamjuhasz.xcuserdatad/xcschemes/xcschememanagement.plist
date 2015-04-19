@@ -4,12 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>PhotoManager.xcscheme</key>
+		<key>Pods-later-AFNetworking.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-later-AFNetworking.xcscheme</key>
+		<key>Pods-later-DACircularProgress.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-later-FXBlurView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -19,12 +24,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-later-PhotoManager-PhotoManager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-later-PhotoManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-later-Shimmer.xcscheme</key>
+		<key>Pods-later-pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -37,32 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3DC411E981B64BAF45DD8302</key>
+		<key>19446417F72E1AA6B693FC4C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>87D9C7B92E5BA84AD517E24A</key>
+		<key>45C4BC7C57C3F87E6215D8B9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A0CB683BD69450E90ABECCE8</key>
+		<key>493186F11BD08EDBBFAAA3F7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A4CD10575E502246A49468AE</key>
+		<key>895DED1D5CB8786727EA77F8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BDC652AA98DF63F32B502426</key>
+		<key>B742746DDA64BF25166672E8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F33E1307F2DE806B60E94B89</key>
+		<key>D5A3D021C5F729D2E78515BD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E8E95EB91EC217CA60CB022E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EA81A09B6E42DCA1BB2D6EBD</key>
 		<dict>
 			<key>primary</key>
 			<true/>

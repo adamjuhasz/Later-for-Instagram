@@ -38,7 +38,7 @@
 			<string>io.ajuhasz.later</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>instagram</string>
+				<string>instagramlater</string>
 			</array>
 		</dict>
 		<dict>
