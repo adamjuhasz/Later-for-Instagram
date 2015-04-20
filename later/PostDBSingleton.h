@@ -15,8 +15,10 @@
 @interface PostDBSingleton : NSObject
 
 + (id)singleton;
+
 - (void)addPost:(scheduledPostModel*)post;
 - (void)removePost:(scheduledPostModel*)post;
 - (NSArray*)allposts;
+- (void)save;
 
 @end

@@ -161,6 +161,20 @@
                      }];
 }
 
+- (IBAction)snoozeSelectedPost
+{
+    [self snoozePost:selectedPost];
+    [self hideSelectedPost];
+}
+
+- (void)snoozePost:(scheduledPostModel*)post
+{
+    post.postTime = [post.postTime dateByAddingTimeInterval:60*60];
+    [[PostDBSingleton singleton] removePost:post];
+    [[PostDBSingleton singleton] addPost:post];
+    [self reloadScrollView];
+}
+
 - (IBAction)sendSelectedPostToInstagram
 {
     [self sendPostToInstragramWithKey:selectedPost.key];
@@ -511,6 +525,15 @@
     [self reloadScrollView];
     [self resetScrollview];
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"show.editSelectedPost"]) {
+        CommentEntryViewController *captionViewController = (id)segue.destinationViewController;
+        captionViewController.post = selectedPost;
+        [self hideSelectedPost];
+    }
 }
 
 @end

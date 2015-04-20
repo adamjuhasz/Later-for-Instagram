@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataSource = self;
+    self.delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -25,9 +26,9 @@
     [self setViewControllers:@[self.pages[1]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)swithToPage:(NSInteger)pageNumber
+{
+    [self setViewControllers:@[self.pages[pageNumber]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
 }
 
 #pragma mark - Page View Controller Data Source
@@ -62,6 +63,14 @@
 - (void)switchToPage:(NSInteger)pageNumber
 {
     [self setViewControllers:@[self.pages[pageNumber]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
+{
+    UIViewController *newViewController = [self.viewControllers objectAtIndex:0];
+    NSUInteger index = [self.pages indexOfObject:newViewController];
+    
+    [self.controllerDelegate inputPageChangeToPageNumber:index];
 }
 
 @end

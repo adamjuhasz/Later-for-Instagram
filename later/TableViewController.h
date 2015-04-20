@@ -13,6 +13,7 @@
 @protocol TableViewControllerDelegate <NSObject>
 @required
 - (void)didSelectHashtag:(NSString*)hashtag atIndexPath:(NSIndexPath*)indexPath;
+- (void)searchCompleteForHashtag:(NSString*)hashtag;
 
 @end
 
