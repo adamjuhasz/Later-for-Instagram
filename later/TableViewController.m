@@ -95,12 +95,12 @@
                                                 NSMutableArray *similarTagArray = [NSMutableArray array];
                                                 for (int i=0; i<MIN(5,sortedValues.count); i++) {
                                                     NSString *hashtagName = sortedValues[i];
-                                                    NSNumber *hashtagCount = [NSNumber numberWithUnsignedInteger:[countedTags countForObject:sortedValues[i]]];
                                                     
                                                     if ([countedTags countForObject:sortedValues[i]] <= 2) {
                                                         break;
                                                     }
                                                     /*
+                                                    NSNumber *hashtagCount = [NSNumber numberWithUnsignedInteger:[countedTags countForObject:sortedValues[i]]];
                                                     NSDictionary *tagInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                              hashtagName, @"name",
                                                                              hashtagCount, @"count",

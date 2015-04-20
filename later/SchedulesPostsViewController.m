@@ -53,7 +53,7 @@
     self.scheduledScroller.scrollIndicatorInsets = self.scheduledScroller.contentInset;
     
     shroud = [[UIView alloc] initWithFrame:CGRectMake(0, addButton.frame.size.height, self.scheduledScroller.bounds.size.width, self.scheduledScroller.bounds.size.height)];
-    shroud.backgroundColor = [UIColor whiteColor];
+    shroud.backgroundColor = [UIColor blackColor];
     [self.scheduledScroller addSubview:shroud];
     
     self.collectionView.contentInset = self.scheduledScroller.contentInset;
@@ -85,6 +85,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self reloadScrollView];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -237,7 +238,7 @@
     CGFloat columns = 2;
     CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
     CGRect mainRect = CGRectMake(0, border, width, width);
-    CGRect currrentFrame;
+    CGRect currrentFrame = CGRectZero;
     for (int i=0; i<scheduledPosts.count; i++) {
         int column = i % 2;
         int row = floor(i / 2.0);
@@ -442,7 +443,7 @@
     CGRect goneFrame = self.scheduledScroller.frame;
     goneFrame.origin.y = 0;
     
-    [UIView animateWithDuration:0.2
+    [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{

@@ -37,6 +37,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     if ([[[InstagramEngine sharedEngine] accessToken] isEqualToString:@""] || [[InstagramEngine sharedEngine] accessToken] == nil) {
         self.loginButton.alpha = 0.0;
         self.loginButton.hidden = NO;
