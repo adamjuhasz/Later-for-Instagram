@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/CommentEntryViewController.m"
-            timestampString = "451197312.345007"
+            timestampString = "451238599.609931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "-goBack"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "451156648.034669"
+            timestampString = "451240919.189333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "233"
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "451156648.034669"
+            timestampString = "451240919.189333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
             landmarkName = "-scrollViewDidScroll:"
             landmarkType = "5">
          </BreakpointContent>
@@ -180,11 +180,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "451158402.240475"
+            timestampString = "451240919.189333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "451"
+            endingLineNumber = "451"
             landmarkName = "-collectionView:numberOfItemsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -212,11 +212,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "451156648.034669"
+            timestampString = "451240919.189333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "256"
-            endingLineNumber = "256"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "-reloadScrollView"
             landmarkType = "5">
          </BreakpointContent>
@@ -276,7 +276,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "451156648.034669"
+            timestampString = "451240919.189333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "198"
@@ -292,11 +292,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/CommentEntryViewController.m"
-            timestampString = "451197312.345007"
+            timestampString = "451238599.609931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "-grabLastHashtagFrom:"
             landmarkType = "5">
          </BreakpointContent>
@@ -314,6 +314,22 @@
             startingLineNumber = "45"
             endingLineNumber = "45"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "later/SchedulesPostsViewController.m"
+            timestampString = "451240919.189333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "-scrollViewWillEndDragging:withVelocity:targetContentOffset:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
