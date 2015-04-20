@@ -7,18 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CaptionInputsPageViewController.h"
+#import "TableViewController.h"
+#import "DatePickerViewController.h"
 
-@interface CommentEntryViewController : UIViewController <UITextViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate>
 
 @property IBOutlet UITextView *comments;
 @property IBOutlet UIImageView *photoExample;
-@property IBOutlet UITableView *hashtagTable;
-@property IBOutlet UIView *datePicking;
+
 @property IBOutlet UIButton *doneButton;
 @property IBOutlet UIButton *postButton;
-@property IBOutlet UIDatePicker *datePicker;
-@property IBOutletCollection(UIView) NSArray* specificDatePickers;
 
+@property IBOutlet UIView *ContainerView;
+@property IBOutlet CaptionInputsPageViewController *inputPageController;
+@property IBOutlet TableViewController *tableViewController;
+@property IBOutlet DatePickerViewController *DatePickerViewController;
+
+@property (nonatomic, strong) NSLayoutConstraint *bottomConstraint;
 
 - (IBAction)goBack;
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath;
