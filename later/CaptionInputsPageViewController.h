@@ -8,8 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CaptionInputsPageViewController : UIPageViewController <UIPageViewControllerDataSource>
+@protocol inputsPageDelegate <NSObject>
+@required
+
+- (void)inputPageChangeToPageNumber:(NSInteger)pageNumber;
+
+@end
+
+@interface CaptionInputsPageViewController : UIPageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
 @property IBOutletCollection(UIViewController) NSArray* pages;
+@property (weak) id <inputsPageDelegate> controllerDelegate;
+
+- (void)swithToPage:(NSInteger)pageNumber;
 
 @end

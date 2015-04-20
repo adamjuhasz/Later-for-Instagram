@@ -30,14 +30,21 @@
     
     self.ContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    NSDictionary *views = @{@"view": self.ContainerView,
+    /*NSDictionary *views = @{@"view": self.ContainerView,
                             @"top": self.topLayoutGuide };
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[top][view]" options:0 metrics:nil views:views]];
     self.bottomConstraint = [NSLayoutConstraint constraintWithItem:self.ContainerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0];
     [self.view addConstraint:self.bottomConstraint];
-    
+    */
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+    if (self.post) {
+        self.comments.text = self.post.postCaption;
+        [self setThumbnail:self.post.postImage];
+        [self setPhoto:self.post.postImage];
+        self.DatePickerViewController.datePicker.date = self.post.postTime;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -93,22 +100,46 @@
 
 - (IBAction)schedulePost
 {
-    scheduledPostModel *newPost = [[scheduledPostModel alloc] init];
-    newPost.postCaption = self.comments.text;
-    newPost.postTime = self.DatePickerViewController.currentDateSelected;
-    newPost.postImage = fullImage;
+    BOOL newPost = NO;
+    if (self.post == nil) {
+        self.post = [[scheduledPostModel alloc] init];
+        self.post.postImage = fullImage;
+        newPost = YES;
+    }
     
-    [[PostDBSingleton singleton] addPost:newPost];
+    self.post.postCaption = self.comments.text;
+    self.post.postTime = self.DatePickerViewController.currentDateSelected;
+    
+    if (newPost) {
+        [[PostDBSingleton singleton] addPost:self.post];
+    } else {
+        //remove and then re-add so if date change we are in the right place in the array
+        [[PostDBSingleton singleton] removePost:self.post];
+        [[PostDBSingleton singleton] addPost:self.post];
+    }
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-
+    self.doneButton.hidden = NO;
+    self.postButton.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.doneButton.alpha = 1.0;
+        self.postButton.alpha = 0.0;
+    }];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-
+    self.doneButton.hidden = NO;
+    self.postButton.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.doneButton.alpha = 0.0;
+        self.postButton.alpha = 1.0;
+    }];
+    [self.inputPageController swithToPage:1];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -123,6 +154,11 @@
     }
     
     return YES;
+}
+
+- (void)searchCompleteForHashtag:(NSString *)hashtag
+{
+    [self.inputPageController swithToPage:0];
 }
 
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath
@@ -155,6 +191,7 @@
         
         self.inputPageController = segue.destinationViewController;
         self.inputPageController.pages = @[self.tableViewController, self.DatePickerViewController];
+        self.inputPageController.controllerDelegate = self;
     }
 }
 
@@ -168,8 +205,26 @@
 {
     CGRect frame = [sender.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect newFrame = [self.view convertRect:frame fromView:[[UIApplication sharedApplication] delegate].window];
-    self.bottomConstraint.constant = newFrame.origin.y - CGRectGetHeight(self.view.frame);
+    //self.bottomConstraint.constant = newFrame.origin.y - CGRectGetHeight(self.view.frame);
+    CGFloat height = (newFrame.origin.y - self.ContainerView.frame.origin.y);
+    self.containerHeightConstraint.constant =  height;
     [self.view layoutIfNeeded];
+}
+
+- (void)inputPageChangeToPageNumber:(NSInteger)pageNumber
+{
+    switch (pageNumber) {
+        case 0:
+            [self.comments becomeFirstResponder];
+            break;
+        
+        case 1:
+            [self doneEditing:self];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

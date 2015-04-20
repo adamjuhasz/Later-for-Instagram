@@ -16,6 +16,16 @@
 
 @implementation scheduledPostModel
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        NSString *randomFilename = [[[NSUUID UUID] UUIDString] stringByAppendingString:@".igo"];
+        self.key = randomFilename;
+    }
+    return self;
+}
+
 - (NSString*)postImageLocation
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -23,25 +33,23 @@
     return [documentsDirectory stringByAppendingPathComponent:self.key];
 }
 
-- (void)setPostImage:(UIImage *)thePostImage
+- (void)saveImage
 {
-    _postImage = thePostImage;
-    
-    if (self.postImageLocation != nil) {
-        //delete old file
-    }
-    
-    NSString *randomFilename = [[[NSUUID UUID] UUIDString] stringByAppendingString:@".igo"];
-    self.key = randomFilename;
-    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *completeFilename = [documentsDirectory stringByAppendingPathComponent:randomFilename];
+    NSString *completeFilename = [documentsDirectory stringByAppendingPathComponent:self.key];
     NSError *error;
     [UIImageJPEGRepresentation(_postImage, 1.0) writeToFile:completeFilename options:0 error:&error];
     if (error) {
         NSLog(@"%@", error);
     }
+}
+
+- (void)setPostImage:(UIImage *)thePostImage
+{
+    _postImage = thePostImage;
+    
+    [self saveImage];
 }
 
 - (UIImage*)postImage
@@ -74,6 +82,7 @@
     [aCoder encodeObject:self.key forKey:@"key"];
     [aCoder encodeObject:self.postTime forKey:@"postTime"];
     [aCoder encodeObject:self.postCaption forKey:@"postCaption"];
+    [self saveImage];
 }
 
 @end

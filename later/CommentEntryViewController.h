@@ -10,8 +10,9 @@
 #import "CaptionInputsPageViewController.h"
 #import "TableViewController.h"
 #import "DatePickerViewController.h"
+#import "scheduledPostModel.h"
 
-@interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate>
+@interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate, inputsPageDelegate>
 
 @property IBOutlet UITextView *comments;
 @property IBOutlet UIImageView *photoExample;
@@ -23,8 +24,10 @@
 @property IBOutlet CaptionInputsPageViewController *inputPageController;
 @property IBOutlet TableViewController *tableViewController;
 @property IBOutlet DatePickerViewController *DatePickerViewController;
+@property IBOutlet NSLayoutConstraint *containerHeightConstraint;
 
 @property (nonatomic, strong) NSLayoutConstraint *bottomConstraint;
+@property scheduledPostModel* post;
 
 - (IBAction)goBack;
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath;
