@@ -18,4 +18,6 @@
 @property UIImage *postImage;
 @property UILocalNotification *postLocalNotification;
 
+- (void)saveImage;
+
 @end

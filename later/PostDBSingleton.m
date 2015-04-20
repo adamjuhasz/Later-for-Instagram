@@ -66,23 +66,29 @@
     if (!inserted)
         [arrayOfPosts addObject:object];
     
-    [self registerToSupplyNotifications];
-    
-    UILocalNotification *theNotification = [[UILocalNotification alloc] init];
-    theNotification.fireDate = object.postTime;
-    theNotification.timeZone = [NSTimeZone localTimeZone];
-    theNotification.alertBody = [NSString stringWithFormat:@"It's time to send \"%@\"", object.postCaption];
-    theNotification.alertAction = @"Send";
-    theNotification.alertTitle = @"Post scheduled";
-    theNotification.applicationIconBadgeNumber = 1;
-    theNotification.userInfo = [NSDictionary dictionaryWithObject:object.key forKey:@"key"];
-    theNotification.category = @"standard";
-    
-    object.postLocalNotification = theNotification;
-    [self save];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:kPostDBUpatedNotification object:self userInfo:[NSDictionary dictionaryWithObject:object forKey:kPostThatWasAddedToSingleton]];
-    [[UIApplication sharedApplication] scheduleLocalNotification:theNotification];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
+        [self registerToSupplyNotifications];
+        
+        UILocalNotification *theNotification = [[UILocalNotification alloc] init];
+        theNotification.fireDate = object.postTime;
+        theNotification.timeZone = [NSTimeZone localTimeZone];
+        theNotification.alertBody = [NSString stringWithFormat:@"It's time to send \"%@\"", object.postCaption];
+        theNotification.alertAction = @"Send";
+        theNotification.alertTitle = @"Post scheduled";
+        theNotification.applicationIconBadgeNumber = 1;
+        theNotification.userInfo = [NSDictionary dictionaryWithObject:object.key forKey:@"key"];
+        theNotification.category = @"standard";
+        theNotification.soundName = @"TrainStation.wav";
+        
+        object.postLocalNotification = theNotification;
+        [self save];
+        
+        
+        [[UIApplication sharedApplication] scheduleLocalNotification:theNotification];
+    });
+    
 }
 
 - (void)removePost:(scheduledPostModel *)post
@@ -95,7 +101,8 @@
     UILocalNotification *notification = post.postLocalNotification;
     NSArray *notifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
     for (UILocalNotification *aNotification in notifications) {
-        if ([[notification.userInfo objectForKey:@"key"] isEqualToString:post.key]) {
+        NSString *key = [notification.userInfo objectForKey:@"key"];
+        if ([key isEqualToString:post.key]) {
             [[UIApplication sharedApplication] cancelLocalNotification:aNotification];
         }
     }
@@ -113,13 +120,6 @@
 {
     UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     
-    UIMutableUserNotificationAction *viewAction = [[UIMutableUserNotificationAction alloc] init];
-    viewAction.identifier = @"view";
-    viewAction.title = @"View";
-    viewAction.activationMode = UIUserNotificationActivationModeForeground;
-    viewAction.authenticationRequired = NO;
-    viewAction.destructive = NO;
-    
     UIMutableUserNotificationAction *sendAction = [[UIMutableUserNotificationAction alloc] init];
     sendAction.identifier = @"send";
     sendAction.title = @"Send";
@@ -127,7 +127,14 @@
     sendAction.authenticationRequired = NO;
     sendAction.destructive = NO;
     
-    NSArray *standardActions = [NSArray arrayWithObjects:sendAction, viewAction, nil];
+    UIMutableUserNotificationAction *snoozeActiom = [[UIMutableUserNotificationAction alloc] init];
+    snoozeActiom.identifier = @"snooze";
+    snoozeActiom.title = @"Snooze";
+    snoozeActiom.activationMode = UIUserNotificationActivationModeBackground;
+    snoozeActiom.authenticationRequired = NO;
+    snoozeActiom.destructive = NO;
+    
+    NSArray *standardActions = [NSArray arrayWithObjects:sendAction, snoozeActiom, nil];
     
     UIMutableUserNotificationCategory *standardCategory = [[UIMutableUserNotificationCategory alloc] init];
     standardCategory.identifier = @"standard";
@@ -137,6 +144,25 @@
     UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:[NSSet setWithObject:standardCategory]];
     
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+}
+
+- (void)snoozePost:(scheduledPostModel*)post
+{
+    [self removePost:post];
+    
+    post.postTime = [post.postTime dateByAddingTimeInterval:60*60];
+    [self addPost:post];
+}
+
+- (scheduledPostModel*)postForKey:(NSString *)key
+{
+    for (scheduledPostModel *post in arrayOfPosts) {
+        if ([post.key isEqualToString:key]) {
+            return post;
+        }
+    }
+    
+    return nil;
 }
 
 @end

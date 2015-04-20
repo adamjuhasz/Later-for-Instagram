@@ -12,11 +12,13 @@
 #import "scheduledPostModel.h"
 #import "PostDBSingleton.h"
 #import "TableViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface CommentEntryViewController ()
 {
     UIImage *thumbnail;
     UIImage *fullImage;
+    SystemSoundID clickSound;
 }
 @end
 
@@ -24,18 +26,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
     [self.comments setAutocorrectionType:UITextAutocorrectionTypeNo];
     [self.comments setSpellCheckingType:UITextSpellCheckingTypeYes];
     
     self.ContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /*NSDictionary *views = @{@"view": self.ContainerView,
-                            @"top": self.topLayoutGuide };
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[top][view]" options:0 metrics:nil views:views]];
-    self.bottomConstraint = [NSLayoutConstraint constraintWithItem:self.ContainerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-    [self.view addConstraint:self.bottomConstraint];
-    */
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
     
@@ -50,11 +46,20 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.comments becomeFirstResponder];
+    
+    //reset caption
+    self.comments.text = @"";
+    
     self.photoExample.image = thumbnail;
     
     //reset
     [self.DatePickerViewController resetDate];
+    
+    //reser table
+    [self.tableViewController clearTable];
+    
+    //show keyboard
+    [self.comments becomeFirstResponder];
 }
 
 - (void)setThumbnail:(UIImage*)aThumbnail
@@ -101,6 +106,11 @@
 
 - (IBAction)schedulePost
 {
+    NSString *clickPath = [[NSBundle mainBundle] pathForResource:@"ThatsIt" ofType:@"wav"];
+    NSURL *clickURl = [NSURL fileURLWithPath:clickPath];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)clickURl, &clickSound);
+    AudioServicesPlaySystemSound(clickSound);
+    
     BOOL newPost = NO;
     if (self.post == nil) {
         self.post = [[scheduledPostModel alloc] init];
