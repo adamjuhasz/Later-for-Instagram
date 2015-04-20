@@ -155,8 +155,6 @@
 - (IBAction)sendSelectedPostToInstagram
 {
     [self sendPostToInstragramWithKey:selectedPost.key];
-    
-
 }
 
 - (void)sendPostToInstragramWithKey:(NSString*)postKey
@@ -191,6 +189,8 @@
 - (void)documentInteractionController:(UIDocumentInteractionController *)controller didEndSendingToApplication:(NSString *)application
 {
     document = nil; //not needed as 'documentInteractionControllerDidDismissOpenInMenu' will be called
+    
+    [self hideSelectedPost];
     
     [[PostDBSingleton singleton] removePost:postThatIsBeingPosted];
     postThatIsBeingPosted = nil;
@@ -247,10 +247,30 @@
         imageView.image = post.postImage;
         [newImage addSubview:imageView];
         
-        CGRect timeLabelRect = CGRectMake(10, mainRect.size.height - 25, imageRect.size.width - 5, 15);
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        id colorTop = (id)[[UIColor clearColor] CGColor];
+        id colorBottom = (id)[[UIColor colorWithWhite:0.1 alpha:0.9] CGColor];
+        gradient.colors = @[colorTop, colorBottom];
+        NSNumber *stopTop = [NSNumber numberWithFloat:0.2];
+        NSNumber *stopBottom = [NSNumber numberWithFloat:0.9];
+        gradient.locations = @[stopTop, stopBottom];
+        gradient.frame = newImage.bounds;
+        [newImage.layer insertSublayer:gradient above:imageView.layer];
+        
+        CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (30+5), imageRect.size.width - 5, 30);
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
-        timeLabel.text = [NSString stringWithFormat:@"%ld mins left", ABS([breakdownInfo minute])];
-        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+        NSString *timelabelText = @"Soon";
+        if (breakdownInfo.month > 0) {
+            timelabelText = [NSString stringWithFormat:@"%ld Months", breakdownInfo.month];
+        } else if (breakdownInfo.day > 0) {
+            timelabelText = [NSString stringWithFormat:@"%ld Days", breakdownInfo.day];
+        } else if (breakdownInfo.hour > 0) {
+            timelabelText = [NSString stringWithFormat:@"%ld Hours", breakdownInfo.hour];
+        } else if (breakdownInfo.minute > 0) {
+            timelabelText = [NSString stringWithFormat:@"%ld Minutes", breakdownInfo.minute];
+        }
+        timeLabel.text = timelabelText;
+        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:35];
         timeLabel.textColor = [UIColor whiteColor];
         [newImage addSubview:timeLabel];
         
@@ -296,7 +316,7 @@
         return;
     }
     
-    if (velocity.y < -1.0 && scrollView.contentOffset.y < 0 || scrollView.contentOffset.y < 150) {
+    if ((velocity.y < -1.0 && scrollView.contentOffset.y < 0) || (scrollView.contentOffset.y < -150)) {
         *targetContentOffset = CGPointZero;
         [self hideScrollviewWithVelocity:velocity.y];
     }
@@ -328,6 +348,11 @@
 
 - (void)hideScrollviewWithVelocity:(CGFloat)velocity
 {
+    if (animating) {
+        //already down
+        return;
+    }
+    
     animating = YES;
     self.scheduledScroller.userInteractionEnabled = NO;
     
@@ -364,14 +389,7 @@
                           delay:0.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-     
-                         //self.scheduledScroller.frame = goneFrame;
-                         
                          self.collectionView.alpha = 1.0;
-                         //
-                         //self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
-                         //self.collectionView.contentOffset = CGPointMake(0, self.collectionView.contentInset.top*-1);
-                         
                          self.collectionView.transform = CGAffineTransformIdentity;
                          
                          for (UIView *aView in self.scheduleMenuViews) {
@@ -392,14 +410,14 @@
     self.scheduledScroller.userInteractionEnabled = YES;
     self.scheduledScroller.hidden = NO;
     
+    CGRect goneFrame = self.scheduledScroller.frame;
+    goneFrame.origin.y = 0;
+    
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         CGRect goneFrame = self.scheduledScroller.frame;
-                         goneFrame.origin.y = 0;
                          self.scheduledScroller.frame = goneFrame;
-                         
                          self.scheduledScroller.contentOffset = CGPointMake(0, -64);
                          
                          self.collectionView.alpha = 0.0;
@@ -417,6 +435,7 @@
                      completion:^(BOOL finished) {
                          self.collectionView.transform = CGAffineTransformIdentity;
                          animating = NO;
+                         self.scheduledScroller.frame = goneFrame;
                      }];
 }
 

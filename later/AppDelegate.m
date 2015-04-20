@@ -19,7 +19,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [Fabric with:@[CrashlyticsKit]];
@@ -30,6 +29,16 @@
         self.notification = swipedNotification;
         self.notificationAction = @"view";
     }
+    
+    NSArray *posts = [[PostDBSingleton singleton] allposts];
+    NSInteger pastDuePosts = 0;
+    for (scheduledPostModel *post in posts) {
+        if ([post.postTime compare:[NSDate date]] == NSOrderedAscending) {
+            pastDuePosts++;
+        }
+    }
+    application.applicationIconBadgeNumber = pastDuePosts;
+    
     return YES;
 }
 

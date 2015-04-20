@@ -196,13 +196,13 @@
 				2E25D6071AE42C2800774220 /* CaptionInputsPageViewController.m */,
 				2E25D6091AE42E1100774220 /* TableViewController.h */,
 				2E25D60A1AE42E1100774220 /* TableViewController.m */,
+				2E25D60C1AE4A9B200774220 /* DatePickerViewController.h */,
+				2E25D60D1AE4A9B200774220 /* DatePickerViewController.m */,
 				2E6E21341ADCBB90002E9372 /* CommentEntryViewController.h */,
 				2E6E21351ADCBB90002E9372 /* CommentEntryViewController.m */,
 				2E6E21371ADCC5C3002E9372 /* HashtagTableViewCell.h */,
 				2E6E21381ADCC5C4002E9372 /* HashtagTableViewCell.m */,
 				2E6E213A1ADCDD23002E9372 /* HashtagTableViewCell.xib */,
-				2E25D60C1AE4A9B200774220 /* DatePickerViewController.h */,
-				2E25D60D1AE4A9B200774220 /* DatePickerViewController.m */,
 			);
 			name = "Caption Entry";
 			sourceTree = "<group>";

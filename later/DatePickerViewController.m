@@ -41,6 +41,7 @@
 
 - (void)resetDate
 {
+    self.datePicker.minimumDate = [NSDate date];
     self.datePicker.date = [NSDate dateWithTimeIntervalSinceNow:60*60];
 }
 
