@@ -49,6 +49,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self.comments becomeFirstResponder];
     self.photoExample.image = thumbnail;
     

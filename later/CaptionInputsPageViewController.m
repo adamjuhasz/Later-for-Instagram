@@ -23,12 +23,24 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self setViewControllers:@[self.pages[1]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 }
 
 - (void)swithToPage:(NSInteger)pageNumber
 {
-    [self setViewControllers:@[self.pages[pageNumber]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    UIViewController *newViewController = [self.viewControllers objectAtIndex:0];
+    NSUInteger index = [self.pages indexOfObject:newViewController];
+ 
+    if (index == pageNumber) {
+        return;
+    }
+    
+    UIPageViewControllerNavigationDirection direction = UIPageViewControllerNavigationDirectionForward;
+    if (index > pageNumber) {
+        direction = UIPageViewControllerNavigationDirectionReverse;
+    }
+    [self setViewControllers:@[self.pages[pageNumber]] direction:direction animated:YES completion:nil];
 }
 
 #pragma mark - Page View Controller Data Source
@@ -60,10 +72,6 @@
     return self.pages[index];
 }
 
-- (void)switchToPage:(NSInteger)pageNumber
-{
-    [self setViewControllers:@[self.pages[pageNumber]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-}
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
