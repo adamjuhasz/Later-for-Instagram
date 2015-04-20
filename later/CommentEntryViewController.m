@@ -11,11 +11,10 @@
 #import "HashtagTableViewCell.h"
 #import "scheduledPostModel.h"
 #import "PostDBSingleton.h"
+#import "TableViewController.h"
 
 @interface CommentEntryViewController ()
 {
-    NSArray *searchedTags;
-    NSMutableDictionary *expandedTags;
     UIImage *thumbnail;
     UIImage *fullImage;
 }
@@ -29,41 +28,25 @@
     [self.comments setAutocorrectionType:UITextAutocorrectionTypeNo];
     [self.comments setSpellCheckingType:UITextSpellCheckingTypeYes];
     
-    [self.hashtagTable registerNib:[UINib nibWithNibName:@"HashtagTableViewCell" bundle:nil] forCellReuseIdentifier:@"hashtag"];
+    self.ContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    expandedTags = [NSMutableDictionary dictionary];
+    NSDictionary *views = @{@"view": self.ContainerView,
+                            @"top": self.topLayoutGuide };
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[top][view]" options:0 metrics:nil views:views]];
+    self.bottomConstraint = [NSLayoutConstraint constraintWithItem:self.ContainerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+    [self.view addConstraint:self.bottomConstraint];
     
-    self.datePicker.date = [NSDate dateWithTimeIntervalSinceNow:60*60];
-    
-    for (UIView* specificDatw in self.specificDatePickers) {
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(specificDatePicked:)];
-        [specificDatw addGestureRecognizer:tap];
-    }
-    
-    UIScreenEdgePanGestureRecognizer *rightSwideSwipe = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(schedulePost)];
-    rightSwideSwipe.edges = UIRectEdgeRight;
-    rightSwideSwipe.delaysTouchesBegan = YES;
-    [self.view addGestureRecognizer:rightSwideSwipe];
-}
-
-- (void)specificDatePicked:(UIGestureRecognizer*)tapped
-{
-    UIView *selectedView = tapped.view;
-    selectedView.backgroundColor = [UIColor lightGrayColor];
-    NSInteger tag = selectedView.tag;
-    
-    [self.datePicker setDate:[NSDate dateWithTimeIntervalSinceNow:tag*(60*60)] animated:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.comments becomeFirstResponder];
     self.photoExample.image = thumbnail;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    //reset
+    [self.DatePickerViewController resetDate];
 }
 
 - (void)setThumbnail:(UIImage*)aThumbnail
@@ -112,7 +95,7 @@
 {
     scheduledPostModel *newPost = [[scheduledPostModel alloc] init];
     newPost.postCaption = self.comments.text;
-    newPost.postTime = self.datePicker.date;
+    newPost.postTime = self.DatePickerViewController.currentDateSelected;
     newPost.postImage = fullImage;
     
     [[PostDBSingleton singleton] addPost:newPost];
@@ -120,20 +103,12 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    [UIView animateWithDuration:0.5 animations:^{
-        self.postButton.alpha = 0.0;
-        self.doneButton.alpha = 1.0;
-    }];
+
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    [UIView animateWithDuration:0.5 animations:^{
-        self.postButton.alpha = 1.0;
-        self.doneButton.alpha = 0.0;
-        self.datePicking.alpha = 1.0;
-        self.hashtagTable.alpha = 0.0;
-    }];
+
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -142,82 +117,12 @@
     NSString *hashtag = [self grabLastHashtagFrom:comment];
 
     if (hashtag.length > 4) {
-            //NSLog(@"%@", tag);
-            [[InstagramEngine sharedEngine] searchTagsWithName:hashtag
-                                                   withSuccess:^(NSArray *tags, InstagramPaginationInfo *paginationInfo) {
-                                                       NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-                                                       [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                                                       for (int i=0; i<tags.count; i++) {
-                                                           //InstagramTag *tag = tags[i];
-                                                           //NSLog(@"%@ - %@", tag.name, [formatter stringFromNumber:[NSNumber numberWithInteger:tag.mediaCount]]);
-                                                       }
-                                                       searchedTags = tags;
-                                                       [self.hashtagTable reloadData];
-                                                       [UIView animateWithDuration:0.5 animations:^{
-                                                           self.datePicking.alpha = 0.0;
-                                                           self.hashtagTable.alpha = 1.0;
-                                                       }];
-                                                       
-                                                   }
-                                                       failure:^(NSError *error) {
-                                                           NSLog(@"%@", error);
-                                                       }];
-    }
-    
-    if (hashtag == nil && range.length == 0) {
-        searchedTags = nil;
-        [expandedTags removeAllObjects];
-        [self.hashtagTable reloadData];
+        [self.tableViewController searchForTag:hashtag];
+    } else if (hashtag == nil && range.length == 0) {
+        [self.tableViewController clearTable];
     }
     
     return YES;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSInteger row = [indexPath row];
-    InstagramTag *tag = searchedTags[row];
-    
-    NSArray *similarTags = [expandedTags objectForKey:tag.name];
-    if (similarTags != nil) {
-        NSLog(@"large size for %d", indexPath.row);
-        return 44 + similarTags.count*44;
-    }
-    
-    return 44;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return searchedTags.count;
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    HashtagTableViewCell *cell = (id)[tableView dequeueReusableCellWithIdentifier:@"hashtag" forIndexPath:indexPath];
-
-    NSInteger row = [indexPath row];
-    InstagramTag *tag = searchedTags[row];
-    
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    
-    cell.tagName.text = [NSString stringWithFormat:@"#%@", tag.name];
-    cell.tagCount.text = [formatter stringFromNumber:[NSNumber numberWithInteger:tag.mediaCount]];
-    
-    NSArray *similarTags = [expandedTags objectForKey:tag.name];
-    if (similarTags != nil) {
-        cell.similarTagArray = similarTags;
-        cell.delegate = self;
-        [cell.similarTags reloadData];
-    };
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger row = [indexPath row];
-    NSString *selectedTag = [searchedTags[row] name];
-    [self didSelectHashtag:selectedTag atIndexPath:indexPath];
 }
 
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath
@@ -238,50 +143,33 @@
     }
     NSString *newComment = [NSString stringWithFormat:@"%@%@ ", self.comments.text, appendText];
     self.comments.text = newComment;
-    
-    [[InstagramEngine sharedEngine] getMediaWithTagName:selectedTag count:50 maxId:0
-                                            withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
-                                                NSCountedSet *countedTags = [[NSCountedSet alloc] init];
-                                                for(int i=0; i<media.count; i++) {
-                                                    InstagramMedia *post = media[i];
-                                                    NSArray *postTags = post.tags;
-                                                    NSMutableSet *postTagSet = [NSMutableSet setWithArray:postTags];
-                                                    [postTagSet removeObject:selectedTag];
-                                                    [countedTags addObjectsFromArray:postTagSet.allObjects];
-                                                }
-                                                
-                                                NSArray *sortedValues = [countedTags.allObjects sortedArrayUsingComparator:^(id obj1, id obj2) {
-                                                    NSUInteger n = [countedTags countForObject:obj1];
-                                                    NSUInteger m = [countedTags countForObject:obj2];
-                                                    return (n <= m)? (n < m)? NSOrderedDescending : NSOrderedSame : NSOrderedAscending;
-                                                }];
-                                                
-                                                NSMutableArray *similarTagArray = [NSMutableArray array];
-                                                for (int i=0; i<MIN(5,sortedValues.count); i++) {
-                                                    NSString *hashtagName = sortedValues[i];
-                                                    NSNumber *hashtagCount = [NSNumber numberWithUnsignedInteger:[countedTags countForObject:sortedValues[i]]];
-                                                    
-                                                    if ([countedTags countForObject:sortedValues[i]] <= 2) {
-                                                        break;
-                                                    }
-                                                    
-                                                    NSDictionary *tagInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                             hashtagName, @"name",
-                                                                             hashtagCount, @"count",
-                                                                             nil];
-                                                    [similarTagArray addObject:hashtagName];
-                                                }
-                                                [expandedTags setObject:similarTagArray forKey:selectedTag];
-                                                if (indexPath) {
-                                                    NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
-                                                    [self.hashtagTable reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-                                                }
-                                                //NSLog(@"%@, %d", similarTagArray, similarTagArray.count);
-                                                
-                                            } failure:^(NSError *error) {
-                                                
-                                            }];
+}
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"embed.PageController"]) {
+        self.tableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];
+        self.tableViewController.delegate = self;
+        
+        self.DatePickerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"DatePickerViewController"];
+        
+        self.inputPageController = segue.destinationViewController;
+        self.inputPageController.pages = @[self.tableViewController, self.DatePickerViewController];
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)sender
+{
+    self.bottomConstraint.constant = 0;
+    [self.view layoutIfNeeded];
+}
+
+- (void)keyboardDidShow:(NSNotification *)sender
+{
+    CGRect frame = [sender.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect newFrame = [self.view convertRect:frame fromView:[[UIApplication sharedApplication] delegate].window];
+    self.bottomConstraint.constant = newFrame.origin.y - CGRectGetHeight(self.view.frame);
+    [self.view layoutIfNeeded];
 }
 
 @end
