@@ -20,5 +20,7 @@
 - (void)removePost:(scheduledPostModel*)post;
 - (NSArray*)allposts;
 - (void)save;
+- (void)snoozePost:(scheduledPostModel*)post;
+- (scheduledPostModel*)postForKey:(NSString*)key;
 
 @end

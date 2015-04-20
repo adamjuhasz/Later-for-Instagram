@@ -18,7 +18,11 @@
     [super viewDidLoad];
     
     [self resetDate];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     for (UIView* specificDatw in self.specificDatePickers) {
         specificDatw.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(specificDatePicked:)];

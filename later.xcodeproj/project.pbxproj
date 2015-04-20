@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2E2220541AE59FCB007D2E38 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E2220531AE59FCB007D2E38 /* Launch Screen.xib */; };
+		2E2220581AE5B984007D2E38 /* BCN.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2E2220571AE5B984007D2E38 /* BCN.wav */; };
+		2E22205E1AE5B9EE007D2E38 /* PleasantTone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2E22205D1AE5B9EE007D2E38 /* PleasantTone.wav */; };
+		2E2220601AE5BA44007D2E38 /* TrainStation.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2E22205F1AE5BA44007D2E38 /* TrainStation.wav */; };
+		2E2220621AE5BAD2007D2E38 /* ThatsIt.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2E2220611AE5BAD2007D2E38 /* ThatsIt.wav */; };
 		2E25D6081AE42C2800774220 /* CaptionInputsPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E25D6071AE42C2800774220 /* CaptionInputsPageViewController.m */; };
 		2E25D60B1AE42E1100774220 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E25D60A1AE42E1100774220 /* TableViewController.m */; };
 		2E25D60E1AE4A9B200774220 /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E25D60D1AE4A9B200774220 /* DatePickerViewController.m */; };
@@ -52,6 +56,10 @@
 		25742B44346AC6B5DC0C3481 /* Pods-later.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-later.release.xcconfig"; path = "Pods/Target Support Files/Pods-later/Pods-later.release.xcconfig"; sourceTree = "<group>"; };
 		280A2CEF160E5E026FC034DD /* libPods-later.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-later.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E2220531AE59FCB007D2E38 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		2E2220571AE5B984007D2E38 /* BCN.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BCN.wav; sourceTree = "<group>"; };
+		2E22205D1AE5B9EE007D2E38 /* PleasantTone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PleasantTone.wav; sourceTree = "<group>"; };
+		2E22205F1AE5BA44007D2E38 /* TrainStation.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = TrainStation.wav; sourceTree = "<group>"; };
+		2E2220611AE5BAD2007D2E38 /* ThatsIt.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ThatsIt.wav; sourceTree = "<group>"; };
 		2E25D6061AE42C2800774220 /* CaptionInputsPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptionInputsPageViewController.h; sourceTree = "<group>"; };
 		2E25D6071AE42C2800774220 /* CaptionInputsPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptionInputsPageViewController.m; sourceTree = "<group>"; };
 		2E25D6091AE42E1100774220 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
@@ -118,6 +126,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E2220631AE5BC26007D2E38 /* Alert sounds */ = {
+			isa = PBXGroup;
+			children = (
+				2E22205D1AE5B9EE007D2E38 /* PleasantTone.wav */,
+				2E22205F1AE5BA44007D2E38 /* TrainStation.wav */,
+				2E2220571AE5B984007D2E38 /* BCN.wav */,
+			);
+			name = "Alert sounds";
+			sourceTree = "<group>";
+		};
 		2E6E20F81ADC53DB002E9372 = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +184,8 @@
 		2E6E21041ADC53DB002E9372 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2E2220611AE5BAD2007D2E38 /* ThatsIt.wav */,
+				2E2220631AE5BC26007D2E38 /* Alert sounds */,
 				2E6E21431ADCFB47002E9372 /* logo-120.png */,
 				2E6E21441ADCFB47002E9372 /* logo-180.png */,
 				2E6E21411ADCFA82002E9372 /* logo.png */,
@@ -332,10 +352,14 @@
 				2E6E21101ADC53DB002E9372 /* Main.storyboard in Resources */,
 				2E6E212B1ADC647B002E9372 /* InstagramKit.plist in Resources */,
 				2E6E21421ADCFA82002E9372 /* logo.png in Resources */,
+				2E2220581AE5B984007D2E38 /* BCN.wav in Resources */,
+				2E22205E1AE5B9EE007D2E38 /* PleasantTone.wav in Resources */,
 				2E6E21461ADCFB47002E9372 /* logo-180.png in Resources */,
+				2E2220621AE5BAD2007D2E38 /* ThatsIt.wav in Resources */,
 				2E3E92F81AE1A7890048B5E8 /* Settings.bundle in Resources */,
 				2E6E21121ADC53DB002E9372 /* Images.xcassets in Resources */,
 				2E2220541AE59FCB007D2E38 /* Launch Screen.xib in Resources */,
+				2E2220601AE5BA44007D2E38 /* TrainStation.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

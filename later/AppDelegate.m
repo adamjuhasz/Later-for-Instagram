@@ -44,12 +44,14 @@
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler
 {
-    NSLog(@"handleactionid: %@", identifier);
-    
-    self.notification = notification;
-    self.notificationAction = identifier;
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationActedUpod" object:nil];
+    if ([identifier isEqualToString:@"snooze"]) {
+        scheduledPostModel *post = [[PostDBSingleton singleton] postForKey:[notification.userInfo objectForKey:@"key"]];
+        [[PostDBSingleton singleton] snoozePost:post];
+    } else {
+        self.notification = notification;
+        self.notificationAction = identifier;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationActedUpod" object:nil];
+    }
     
     if (completionHandler) {
         completionHandler();

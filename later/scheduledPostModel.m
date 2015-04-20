@@ -35,13 +35,10 @@
 
 - (void)saveImage
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *completeFilename = [documentsDirectory stringByAppendingPathComponent:self.key];
     NSError *error;
-    [UIImageJPEGRepresentation(_postImage, 1.0) writeToFile:completeFilename options:0 error:&error];
+    [UIImageJPEGRepresentation(_postImage, 1.0) writeToFile:self.postImageLocation options:0 error:&error];
     if (error) {
-        NSLog(@"%@", error);
+        NSLog(@"Error saving file: %@", error);
     }
 }
 
@@ -72,7 +69,7 @@
         self.key = [aDecoder decodeObjectForKey:@"key"];
         self.postTime = [aDecoder decodeObjectForKey:@"postTime"];
         self.postCaption = [aDecoder decodeObjectForKey:@"postCaption"];
-        _postImage = [UIImage imageWithContentsOfFile:self.postImageLocation];
+        _postImage = [[UIImage imageWithContentsOfFile:self.postImageLocation] copy];
     }
     return self;
 }

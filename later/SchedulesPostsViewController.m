@@ -164,15 +164,8 @@
 
 - (IBAction)snoozeSelectedPost
 {
-    [self snoozePost:selectedPost];
+    [[PostDBSingleton singleton] snoozePost:selectedPost];
     [self hideSelectedPost];
-}
-
-- (void)snoozePost:(scheduledPostModel*)post
-{
-    post.postTime = [post.postTime dateByAddingTimeInterval:60*60];
-    [[PostDBSingleton singleton] removePost:post];
-    [[PostDBSingleton singleton] addPost:post];
     [self reloadScrollView];
 }
 
@@ -268,11 +261,13 @@
         CGRect imageRect = CGRectMake(0, 0, currrentFrame.size.width, currrentFrame.size.width);
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageRect];
         imageView.image = post.postImage;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
         [newImage addSubview:imageView];
         
         CAGradientLayer *gradient = [CAGradientLayer layer];
         id colorTop = (id)[[UIColor clearColor] CGColor];
-        id colorBottom = (id)[[UIColor colorWithWhite:0.1 alpha:0.9] CGColor];
+        id colorBottom = (id)[[UIColor colorWithWhite:0.0 alpha:0.9] CGColor];
         gradient.colors = @[colorTop, colorBottom];
         NSNumber *stopTop = [NSNumber numberWithFloat:0.2];
         NSNumber *stopBottom = [NSNumber numberWithFloat:0.9];
@@ -282,25 +277,38 @@
         
         CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (40+5), imageRect.size.width - 5, 40);
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
-        NSString *timelabelText = @"Soon";
+        
+        UIFont *font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
+        NSDictionary *attrsDictionary =[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
+        UIFont *smallFont = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
+        NSDictionary *smallAttrsDictionary =[NSDictionary dictionaryWithObject:smallFont forKey:NSFontAttributeName];
+        
+        NSMutableAttributedString *timelabelText = [[NSMutableAttributedString alloc] initWithString:@"Soon" attributes:attrsDictionary];
         if (ABS(breakdownInfo.month) > 0) {
-            timelabelText = [NSString stringWithFormat:@"%ldmo", ABS(breakdownInfo.month)];
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", ABS(breakdownInfo.month)] attributes:attrsDictionary];
+            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"mo" attributes:smallAttrsDictionary]];
         } else if (ABS(breakdownInfo.day) > 0) {
-            timelabelText = [NSString stringWithFormat:@"%ldd", ABS(breakdownInfo.day)];
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", ABS(breakdownInfo.day)] attributes:attrsDictionary];
+            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"d" attributes:smallAttrsDictionary]];
         } else if (ABS(breakdownInfo.hour) > 0) {
-            timelabelText = [NSString stringWithFormat:@"%ldh", ABS(breakdownInfo.hour)];
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", ABS(breakdownInfo.hour)] attributes:attrsDictionary];
+            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"h" attributes:smallAttrsDictionary]];
         } else if (ABS(breakdownInfo.minute) > 0) {
-            timelabelText = [NSString stringWithFormat:@"%ldm", ABS(breakdownInfo.minute)];
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", ABS(breakdownInfo.minute)] attributes:attrsDictionary];
+            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"m" attributes:smallAttrsDictionary]];
         }
         timeLabel.textColor = [UIColor whiteColor];
         timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
-        
         if ([date2 compare:date1] == NSOrderedDescending) {
             
         } else {
-            timelabelText = [timelabelText stringByAppendingString:@" late"];
+            if ([timelabelText.string isEqualToString:@"Soon"]) {
+                timelabelText = [[NSMutableAttributedString alloc] initWithString:@"Now" attributes:attrsDictionary] ;
+            } else {
+                [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@" late" attributes:smallAttrsDictionary]];
+            }
         }
-        timeLabel.text = timelabelText;
+        timeLabel.attributedText = timelabelText;
         
         [newImage addSubview:timeLabel];
         
@@ -508,6 +516,8 @@
         [captionController setThumbnail:image];
     }];
     
+    captionController.comments.text = @"";
+    captionController.post = nil;
     [self.navigationController pushViewController:captionController animated:YES];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
