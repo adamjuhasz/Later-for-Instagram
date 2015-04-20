@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <DACircularProgress/DACircularProgressView.h>
 
 @interface ViewController : UIViewController
 
 @property IBOutlet UIView *loginButton;
+@property IBOutlet DACircularProgressView *progress;
 
 @end
 

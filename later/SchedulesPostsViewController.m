@@ -42,7 +42,7 @@
     [super viewDidLoad];
     
     if ([[PhotoManager sharedManager] authorized] == NO) {
-        
+
     }
     
     // Do any additional setup after loading the view.
@@ -53,7 +53,7 @@
     self.scheduledScroller.scrollIndicatorInsets = self.scheduledScroller.contentInset;
     
     shroud = [[UIView alloc] initWithFrame:CGRectMake(0, addButton.frame.size.height, self.scheduledScroller.bounds.size.width, self.scheduledScroller.bounds.size.height)];
-    shroud.backgroundColor = [UIColor blackColor];
+    shroud.backgroundColor = [UIColor whiteColor];
     [self.scheduledScroller addSubview:shroud];
     
     self.collectionView.contentInset = self.scheduledScroller.contentInset;
@@ -78,6 +78,9 @@
     leftSideSwipe.edges = UIRectEdgeLeft;
     leftSideSwipe.delaysTouchesBegan = YES;
     [self.view addGestureRecognizer:leftSideSwipe];
+    
+    self.selectedPostView.layer.cornerRadius = 4;
+    self.selectedPostView.clipsToBounds = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -98,14 +101,13 @@
         }
     }
     
-    [UIView animateWithDuration:0.3 animations:^{
-        self.logo.frame = CGRectMake((self.view.bounds.size.width - 44)/2, 20, 44, 44);
-    }];
-    
     CGFloat columns = 4;
     UICollectionViewFlowLayout *layout = (id)self.collectionView.collectionViewLayout;
     layout.itemSize = CGSizeMake((self.view.bounds.size.width - (columns-1)*layout.minimumInteritemSpacing - 1 )/columns, (self.view.bounds.size.width - (columns-1)*layout.minimumInteritemSpacing)/columns);
+    
+    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadScrollView) userInfo:nil repeats:YES];
 }
+
 
 - (void)postWasLongTapped:(UIGestureRecognizer*)recognizer
 {
@@ -119,18 +121,25 @@
     NSLog(@"tapped");
     scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
     selectedPost = thePost;
-    
+    [self showSelectedPostWithImage:selectedPost.postImage];
+}
+
+- (void)showSelectedPostWithImage:(UIImage*)image
+{
     selectedPostShroud = [[UIView alloc] initWithFrame:self.view.bounds];
-    selectedPostShroud.backgroundColor = [UIColor clearColor];
+    selectedPostShroud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
+    selectedPostShroud.alpha = 0.0;
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideSelectedPost)];
     [selectedPostShroud addGestureRecognizer:tap];
     [self.view insertSubview:selectedPostShroud belowSubview:self.selectedPostView];
     
-    self.SelectedPostImageView.image = selectedPost.postImage;
+    self.SelectedPostImageView.image = image;
     
     self.selectedPostView.hidden = NO;
     [UIView animateWithDuration:0.4
                      animations:^{
+                         selectedPostShroud.alpha = 1.0;
                          self.selectedPostView.alpha = 1.0;
                      }
                      completion:^(BOOL finished) {
@@ -143,13 +152,13 @@
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.selectedPostView.alpha = 0.0;
+                         selectedPostShroud.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
                          self.selectedPostView.hidden = YES;
+                         [selectedPostShroud removeFromSuperview];
+                         selectedPostShroud = nil;
                      }];
-    
-    [selectedPostShroud removeFromSuperview];
-    selectedPostShroud = nil;
 }
 
 - (IBAction)sendSelectedPostToInstagram
@@ -232,9 +241,8 @@
         
         // Get conversion to months, days, hours, minutes
         unsigned int unitFlags = NSCalendarUnitSecond |  NSCalendarUnitMinute  | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth;
-        
         NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:date1  toDate:date2  options:0];
-        NSLog(@"Break down: %ld sec : %ld min : %ld hours : %ld days : %ld months", [breakdownInfo second], [breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
+        //NSLog(@"Break down: %ld sec : %ld min : %ld hours : %ld days : %ld months", [breakdownInfo second], [breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
         
         currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
         UIView *newImage =  [[UIView alloc] initWithFrame:currrentFrame];
@@ -257,21 +265,28 @@
         gradient.frame = newImage.bounds;
         [newImage.layer insertSublayer:gradient above:imageView.layer];
         
-        CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (30+5), imageRect.size.width - 5, 30);
+        CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (40+5), imageRect.size.width - 5, 40);
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
         NSString *timelabelText = @"Soon";
-        if (breakdownInfo.month > 0) {
-            timelabelText = [NSString stringWithFormat:@"%ld Months", breakdownInfo.month];
-        } else if (breakdownInfo.day > 0) {
-            timelabelText = [NSString stringWithFormat:@"%ld Days", breakdownInfo.day];
-        } else if (breakdownInfo.hour > 0) {
-            timelabelText = [NSString stringWithFormat:@"%ld Hours", breakdownInfo.hour];
-        } else if (breakdownInfo.minute > 0) {
-            timelabelText = [NSString stringWithFormat:@"%ld Minutes", breakdownInfo.minute];
+        if (ABS(breakdownInfo.month) > 0) {
+            timelabelText = [NSString stringWithFormat:@"%ldmo", ABS(breakdownInfo.month)];
+        } else if (ABS(breakdownInfo.day) > 0) {
+            timelabelText = [NSString stringWithFormat:@"%ldd", ABS(breakdownInfo.day)];
+        } else if (ABS(breakdownInfo.hour) > 0) {
+            timelabelText = [NSString stringWithFormat:@"%ldh", ABS(breakdownInfo.hour)];
+        } else if (ABS(breakdownInfo.minute) > 0) {
+            timelabelText = [NSString stringWithFormat:@"%ldm", ABS(breakdownInfo.minute)];
+        }
+        timeLabel.textColor = [UIColor whiteColor];
+        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
+        
+        if ([date2 compare:date1] == NSOrderedDescending) {
+            
+        } else {
+            timelabelText = [timelabelText stringByAppendingString:@" late"];
         }
         timeLabel.text = timelabelText;
-        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:35];
-        timeLabel.textColor = [UIColor whiteColor];
+        
         [newImage addSubview:timeLabel];
         
         newImage.tag = i;

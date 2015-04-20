@@ -28,6 +28,11 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:@"InstagramLoginSuccess" object:nil];
+    
+    self.progress.trackTintColor = [UIColor clearColor];
+    self.progress.progressTintColor = self.view.backgroundColor;
+    self.progress.progress = 0.0;
+    self.progress.thicknessRatio = 1.0;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -41,6 +46,7 @@
     } else {
         [self performSegueWithIdentifier:@"segue.showScheduled" sender:self];
     }
+    [self.progress setProgress:1.0 animated:YES initialDelay:0.0 withDuration:5.0];
 }
 
 - (void)didReceiveMemoryWarning {
