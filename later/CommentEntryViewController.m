@@ -34,19 +34,10 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-    
-    if (self.post) {
-        self.comments.text = self.post.postCaption;
-        [self setThumbnail:self.post.postImage];
-        [self setPhoto:self.post.postImage];
-        self.DatePickerViewController.datePicker.date = self.post.postTime;
-    }
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)resetView
 {
-    [super viewDidAppear:animated];
-    
     //reset caption
     self.comments.text = @"";
     
@@ -54,6 +45,18 @@
     
     //reset
     [self.DatePickerViewController resetDate];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.post) {
+        self.comments.text = self.post.postCaption;
+        [self setThumbnail:self.post.postImage];
+        [self setPhoto:self.post.postImage];
+        self.DatePickerViewController.datePicker.date = self.post.postTime;
+    }
     
     //reser table
     [self.tableViewController clearTable];
@@ -105,12 +108,7 @@
 }
 
 - (IBAction)schedulePost
-{
-    NSString *clickPath = [[NSBundle mainBundle] pathForResource:@"ThatsIt" ofType:@"wav"];
-    NSURL *clickURl = [NSURL fileURLWithPath:clickPath];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)clickURl, &clickSound);
-    AudioServicesPlaySystemSound(clickSound);
-    
+{    
     BOOL newPost = NO;
     if (self.post == nil) {
         self.post = [[scheduledPostModel alloc] init];
@@ -125,20 +123,14 @@
         [[PostDBSingleton singleton] addPost:self.post];
     } else {
         //remove and then re-add so if date change we are in the right place in the array
-        [[PostDBSingleton singleton] removePost:self.post];
+        [[PostDBSingleton singleton] removePost:self.post withDelete:NO];
         [[PostDBSingleton singleton] addPost:self.post];
     }
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    self.doneButton.hidden = NO;
-    self.postButton.hidden = NO;
     
-    [UIView animateWithDuration:0.3 animations:^{
-        self.doneButton.alpha = 1.0;
-        self.postButton.alpha = 0.0;
-    }];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -155,6 +147,16 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    if (self.doneButton.alpha == 0.0) {
+        self.doneButton.hidden = NO;
+        self.postButton.hidden = NO;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.doneButton.alpha = 1.0;
+            self.postButton.alpha = 0.0;
+        }];
+    }
+    
     NSString *comment = [textView.text stringByReplacingCharactersInRange:range withString:text];
     NSString *hashtag = [self grabLastHashtagFrom:comment];
 

@@ -34,5 +34,6 @@
 - (void)setThumbnail:(UIImage*)thumbnail;
 - (void)setPhoto:(UIImage*)fullsizeImage;
 - (IBAction)schedulePost;
+- (void)resetView;
 
 @end

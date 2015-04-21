@@ -557,7 +557,7 @@
                                 </constraints>
                             </view>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="7hD-dJ-zJj">
-                                <rect key="frame" x="57" y="139.5" width="337" height="216"/>
+                                <rect key="frame" x="0.0" y="139.5" width="450" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="Zrd-H9-NcA"/>
                                 </constraints>
@@ -613,7 +613,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="MsD-ut-Pii"/>
+                                <exclude reference="HYN-Ai-inp"/>
                             </mask>
                         </variation>
                     </view>

@@ -136,8 +136,10 @@
                                                 */
                                                searchedTags = tags;
                                                [self.hashtagTable reloadData];
-                                               NSUInteger indexArr[] = {0,0};
-                                               [self.hashtagTable scrollToRowAtIndexPath:[NSIndexPath indexPathWithIndexes:indexArr length:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                                               if ([self.hashtagTable numberOfRowsInSection:0] > 0) {
+                                                   NSUInteger indexArr[] = {0,0};
+                                                   [self.hashtagTable scrollToRowAtIndexPath:[NSIndexPath indexPathWithIndexes:indexArr length:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                                               }
                                                [self.delegate searchCompleteForHashtag:hashtag];
                                            }
                                                failure:^(NSError *error) {
