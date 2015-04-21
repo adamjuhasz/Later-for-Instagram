@@ -292,16 +292,16 @@
         
         NSMutableAttributedString *timelabelText = [[NSMutableAttributedString alloc] initWithString:@"Soon" attributes:attrsDictionary];
         if (ABS(breakdownInfo.month) > 0) {
-            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", ABS(breakdownInfo.month)] attributes:attrsDictionary];
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.month)] attributes:attrsDictionary];
             [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"mo" attributes:smallAttrsDictionary]];
         } else if (ABS(breakdownInfo.day) > 0) {
-            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", ABS(breakdownInfo.day)] attributes:attrsDictionary];
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.day)] attributes:attrsDictionary];
             [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"d" attributes:smallAttrsDictionary]];
         } else if (ABS(breakdownInfo.hour) > 0) {
-            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", ABS(breakdownInfo.hour)] attributes:attrsDictionary];
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.hour)] attributes:attrsDictionary];
             [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"h" attributes:smallAttrsDictionary]];
         } else if (ABS(breakdownInfo.minute) > 0) {
-            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", ABS(breakdownInfo.minute)] attributes:attrsDictionary];
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.minute)] attributes:attrsDictionary];
             [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"m" attributes:smallAttrsDictionary]];
         }
         timeLabel.textColor = [UIColor whiteColor];

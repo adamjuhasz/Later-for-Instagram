@@ -11,7 +11,9 @@
 #import <InstagramKit/InstagramKit.h>
 
 @interface ViewController ()
-
+{
+    NSTimer *slowPeopleTimer;
+}
 @end
 
 @implementation ViewController
@@ -45,6 +47,7 @@
         [UIView animateWithDuration:0.3 animations:^{
             self.loginButton.alpha = 1.0;
         }];
+        slowPeopleTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loginToInstagram) userInfo:nil repeats:NO];
     } else {
         [self performSegueWithIdentifier:@"segue.showScheduled" sender:self];
     }
@@ -58,6 +61,7 @@
 }
 
 - (IBAction)loginToInstagram {
+    [slowPeopleTimer invalidate];
     [[InstagramEngine sharedEngine] loginWithBlock:^(NSError *error) {
         if (!error) {
             [[NSUserDefaults standardUserDefaults] setObject:[[InstagramEngine sharedEngine] accessToken] forKey:@"instagramAccessToken"];
