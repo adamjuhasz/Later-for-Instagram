@@ -57,7 +57,7 @@
                                 </variation>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="2A9-kh-k8P" firstAttribute="centerX" secondItem="rGe-wM-ODw" secondAttribute="centerX" id="1Zv-Dr-BPc"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="ghg-uE-8sP" secondAttribute="bottom" constant="100" id="3QE-ad-7EA"/>
@@ -189,8 +189,8 @@
                                     <constraint firstAttribute="bottom" secondItem="sGv-TM-h60" secondAttribute="bottom" constant="3" id="uqD-mt-X1b"/>
                                 </constraints>
                             </view>
-                            <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fFp-kU-6vr">
-                                <rect key="frame" x="10" y="104" width="355" height="461"/>
+                            <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fFp-kU-6vr">
+                                <rect key="frame" x="10" y="103" width="355" height="461"/>
                                 <subviews>
                                     <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ouw-xK-MIA">
                                         <rect key="frame" x="10" y="10" width="335" height="335"/>
@@ -288,7 +288,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.38823530080000002" green="0.6784313917" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="113" id="12f-fi-Wbp"/>
                                             <constraint firstAttribute="width" secondItem="ee5-T7-0E4" secondAttribute="width" id="7bY-yR-QW8"/>

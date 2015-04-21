@@ -15,6 +15,7 @@
     NSString *searchedForTag;
     NSArray *searchedTags;
     NSMutableDictionary *expandedTags;
+    NSInteger protectionTag;
 }
 @end
 
@@ -27,6 +28,7 @@
     
     [self.hashtagTable registerNib:[UINib nibWithNibName:@"HashtagTableViewCell" bundle:nil] forCellReuseIdentifier:@"hashtag"];
     
+    protectionTag = 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,10 +72,23 @@
     return cell;
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger row = [indexPath row];
+    InstagramTag *tag = searchedTags[row];
+    
+    NSArray *similarTags = [expandedTags objectForKey:tag.name];
+    if (similarTags != nil) {
+        return nil;
+    }
+    return indexPath;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = [indexPath row];
     NSString *selectedTag = [searchedTags[row] name];
     [self.delegate didSelectHashtag:selectedTag atIndexPath:indexPath];
+    NSInteger protect = protectionTag;
     
     [[InstagramEngine sharedEngine] getMediaWithTagName:selectedTag count:50 maxId:0
                                             withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
@@ -111,7 +126,7 @@
                                                 
                                                 [expandedTags setObject:similarTagArray forKey:selectedTag];
                                                 
-                                                if (indexPath) {
+                                                if (indexPath && protect == protectionTag) { //make sure the table didn't change underneath us from slow internet
                                                     NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
                                                     [self.hashtagTable reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
                                                 }
@@ -127,6 +142,8 @@
     searchedForTag = hashtag;
     [[InstagramEngine sharedEngine] searchTagsWithName:hashtag
                                            withSuccess:^(NSArray *tags, InstagramPaginationInfo *paginationInfo) {
+                                               [self clearTable];
+                                               
                                                NSMutableArray *finalTags = [NSMutableArray array];
                                                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
                                                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -153,6 +170,7 @@
 
 - (void)clearTable
 {
+    protectionTag++;
     searchedTags = nil;
     [expandedTags removeAllObjects];
     [self.hashtagTable reloadData];
