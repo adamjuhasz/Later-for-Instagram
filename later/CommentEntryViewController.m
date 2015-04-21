@@ -13,6 +13,8 @@
 #import "PostDBSingleton.h"
 #import "TableViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
 
 @interface CommentEntryViewController ()
 {
@@ -130,7 +132,17 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    
+    if (self.view.frame.size.height == 480) {   //iphone 4
+        if (self.doneButton.alpha == 0.0) {
+            self.doneButton.hidden = NO;
+            self.postButton.hidden = NO;
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                self.doneButton.alpha = 1.0;
+                self.postButton.alpha = 0.0;
+            }];
+        }
+    }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -210,7 +222,12 @@
 
 - (void)keyboardWillHide:(NSNotification *)sender
 {
-    self.bottomConstraint.constant = 0;
+    CGFloat height = (self.view.frame.size.height - self.ContainerView.frame.origin.y);
+    //if (height > self.containerHeightConstraint.constant) {
+    self.containerHeightConstraint.constant =  height;
+    [self.view layoutIfNeeded];
+    //}
+
     [self.view layoutIfNeeded];
 }
 
@@ -220,8 +237,10 @@
     CGRect newFrame = [self.view convertRect:frame fromView:[[UIApplication sharedApplication] delegate].window];
     //self.bottomConstraint.constant = newFrame.origin.y - CGRectGetHeight(self.view.frame);
     CGFloat height = (newFrame.origin.y - self.ContainerView.frame.origin.y);
-    self.containerHeightConstraint.constant =  height;
-    [self.view layoutIfNeeded];
+    //if (height > self.containerHeightConstraint.constant) {
+        self.containerHeightConstraint.constant =  height;
+        [self.view layoutIfNeeded];
+    //}
 }
 
 - (void)inputPageChangeToPageNumber:(NSInteger)pageNumber

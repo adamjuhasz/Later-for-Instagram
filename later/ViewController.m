@@ -41,6 +41,7 @@
     if ([[[InstagramEngine sharedEngine] accessToken] isEqualToString:@""] || [[InstagramEngine sharedEngine] accessToken] == nil) {
         self.loginButton.alpha = 0.0;
         self.loginButton.hidden = NO;
+        self.loginButton.userInteractionEnabled = YES;
         [UIView animateWithDuration:0.3 animations:^{
             self.loginButton.alpha = 1.0;
         }];
