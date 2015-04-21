@@ -269,6 +269,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2E6E21241ADC53DB002E9372 /* Build configuration list for PBXNativeTarget "later" */;
 			buildPhases = (
+				2E2220641AE5CE7E007D2E38 /* ShellScript */,
 				3A235D69879DFCFD721BBC45 /* Check Pods Manifest.lock */,
 				2E6E20FD1ADC53DB002E9372 /* Sources */,
 				2E6E20FE1ADC53DB002E9372 /* Frameworks */,
@@ -387,6 +388,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-later/Pods-later-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		2E2220641AE5CE7E007D2E38 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PROJECT_DIR}/tools/bump_build_number.sh \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
 		};
 		2E3E92F21AE0B88B0048B5E8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
