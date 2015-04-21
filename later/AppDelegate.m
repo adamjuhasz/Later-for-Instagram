@@ -71,6 +71,14 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    NSArray *posts = [[PostDBSingleton singleton] allposts];
+    NSInteger pastDuePosts = 0;
+    for (scheduledPostModel *post in posts) {
+        if ([post.postTime compare:[NSDate date]] == NSOrderedAscending) {
+            pastDuePosts++;
+        }
+    }
+    application.applicationIconBadgeNumber = pastDuePosts;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
