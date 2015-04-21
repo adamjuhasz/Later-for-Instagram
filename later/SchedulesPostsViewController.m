@@ -169,6 +169,13 @@
     [self reloadScrollView];
 }
 
+- (IBAction)deleteSelectedPost
+{
+    [[PostDBSingleton singleton] removePost:selectedPost withDelete:YES];
+    [self hideSelectedPost];
+    [self reloadScrollView];
+}
+
 - (IBAction)sendSelectedPostToInstagram
 {
     [self sendPostToInstragramWithKey:selectedPost.key];
@@ -412,13 +419,13 @@
     //self.collectionView.contentInset = ;
     
     POPSpringAnimation *offset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
-    offset.toValue = [NSValue valueWithCGPoint:CGPointMake(0, self.collectionView.contentInset.top*-1)];
+    offset.toValue = [NSValue valueWithCGPoint:CGPointMake(0, (self.collectionView.contentInset.top+1)*-1)];
     offset.springBounciness = animation.springBounciness;
     offset.velocity = [NSValue valueWithCGPoint:CGPointMake(0, velocity)];
     [self.collectionView pop_addAnimation:offset forKey:@"offset"];
     
     POPSpringAnimation *inset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentInset];
-    inset.toValue = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(64, 0, 0, 0)];
+    inset.toValue = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(65, 0, 0, 0)];
     inset.springBounciness = animation.springBounciness;
     inset.velocity = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(velocity, 0, 0, 0)];
     [self.collectionView pop_addAnimation:inset forKey:@"inset"];
@@ -456,7 +463,7 @@
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
                          self.scheduledScroller.frame = goneFrame;
-                         self.scheduledScroller.contentOffset = CGPointMake(0, -64);
+                         self.scheduledScroller.contentOffset = CGPointMake(0, -65);
                          
                          self.collectionView.alpha = 0.0;
                          self.collectionView.contentInset = self.scheduledScroller.contentInset;
