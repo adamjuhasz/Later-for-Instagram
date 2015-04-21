@@ -127,14 +127,17 @@
     searchedForTag = hashtag;
     [[InstagramEngine sharedEngine] searchTagsWithName:hashtag
                                            withSuccess:^(NSArray *tags, InstagramPaginationInfo *paginationInfo) {
+                                               NSMutableArray *finalTags = [NSMutableArray array];
                                                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
                                                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                                               /*for (int i=0; i<tags.count; i++) {
+                                               for (int i=0; i<tags.count; i++) {
                                                    InstagramTag *tag = tags[i];
-                                                   NSLog(@"%@ - %@", tag.name, [formatter stringFromNumber:[NSNumber numberWithInteger:tag.mediaCount]]);
+                                                   if (tag.mediaCount > 1) {
+                                                       [finalTags addObject:tag];
+                                                   }
                                                }
-                                                */
-                                               searchedTags = tags;
+                                        
+                                               searchedTags = finalTags;
                                                [self.hashtagTable reloadData];
                                                if ([self.hashtagTable numberOfRowsInSection:0] > 0) {
                                                    NSUInteger indexArr[] = {0,0};
