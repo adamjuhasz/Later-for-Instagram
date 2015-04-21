@@ -209,7 +209,7 @@
     
     [self hideSelectedPost];
     
-    [[PostDBSingleton singleton] removePost:postThatIsBeingPosted];
+    [[PostDBSingleton singleton] removePost:postThatIsBeingPosted withDelete:YES];
     postThatIsBeingPosted = nil;
 }
 
@@ -518,6 +518,7 @@
     
     captionController.comments.text = @"";
     captionController.post = nil;
+    [captionController resetView];
     [self.navigationController pushViewController:captionController animated:YES];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

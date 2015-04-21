@@ -17,7 +17,7 @@
 + (id)singleton;
 
 - (void)addPost:(scheduledPostModel*)post;
-- (void)removePost:(scheduledPostModel*)post;
+- (void)removePost:(scheduledPostModel*)post withDelete:(BOOL)deleteAlso;
 - (NSArray*)allposts;
 - (void)save;
 - (void)snoozePost:(scheduledPostModel*)post;

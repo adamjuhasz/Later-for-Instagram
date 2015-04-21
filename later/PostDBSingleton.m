@@ -12,6 +12,7 @@
 @interface PostDBSingleton ()
 {
     NSMutableArray *arrayOfPosts;
+    NSTimer *saveTimer;
 }
 @end
 
@@ -50,6 +51,7 @@
 - (void)save
 {
     [NSKeyedArchiver archiveRootObject:arrayOfPosts toFile:[self filepath]];
+    NSLog(@"save done");
 }
 
 - (void)addPost:(scheduledPostModel*)object
@@ -68,6 +70,10 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kPostDBUpatedNotification object:self userInfo:[NSDictionary dictionaryWithObject:object forKey:kPostThatWasAddedToSingleton]];
     
+    if (saveTimer) {
+        [saveTimer invalidate];
+    }
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
         [self registerToSupplyNotifications];
         
@@ -83,20 +89,27 @@
         theNotification.soundName = @"TrainStation.wav";
         
         object.postLocalNotification = theNotification;
-        [self save];
         
         
-        [[UIApplication sharedApplication] scheduleLocalNotification:theNotification];
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            saveTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(save) userInfo:nil repeats:NO];
+            [[UIApplication sharedApplication] scheduleLocalNotification:theNotification];
+        });
     });
+    
+    
     
 }
 
-- (void)removePost:(scheduledPostModel *)post
+- (void)removePost:(scheduledPostModel *)post withDelete:(BOOL)deleteAlso
 {
     [arrayOfPosts removeObject:post];
     NSError *error;
     
-    [[NSFileManager defaultManager] removeItemAtPath:post.postImageLocation error:&error];
+    if (deleteAlso) {
+        [[NSFileManager defaultManager] removeItemAtPath:post.postImageLocation error:&error];
+    }
     
     UILocalNotification *notification = post.postLocalNotification;
     NSArray *notifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
@@ -107,7 +120,11 @@
         }
     }
     
-    [self save];
+    if (saveTimer) {
+        [saveTimer invalidate];
+    }
+    saveTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(save) userInfo:nil repeats:NO];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kPostDBUpatedNotification object:self userInfo:nil];
 }
 
@@ -148,10 +165,17 @@
 
 - (void)snoozePost:(scheduledPostModel*)post
 {
-    [self removePost:post];
+    scheduledPostModel *newPost = [[scheduledPostModel alloc] init];
+    newPost.postCaption = post.postCaption;
+    CGImageRef newCgIm = CGImageCreateCopy(post.postImage.CGImage);
+    newPost.postImage = [UIImage imageWithCGImage:newCgIm
+                                            scale:post.postImage.scale
+                                      orientation:post.postImage.imageOrientation];
+    newPost.postTime = [post.postTime dateByAddingTimeInterval:60*60];
+    CGImageRelease(newCgIm);
     
-    post.postTime = [post.postTime dateByAddingTimeInterval:60*60];
-    [self addPost:post];
+    [self removePost:post withDelete:YES];
+    [self addPost:newPost];
 }
 
 - (scheduledPostModel*)postForKey:(NSString *)key
