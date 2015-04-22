@@ -120,7 +120,7 @@
     }
     
     self.post.postCaption = self.comments.text;
-    self.post.postTime = self.DatePickerViewController.currentDateSelected;
+    self.post.postTime = [self.DatePickerViewController.currentDateSelected dateByAddingTimeInterval:10];;
     self.post.postLocation = self.location;
     
     if (newPost) {

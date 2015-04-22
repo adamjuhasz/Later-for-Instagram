@@ -17,6 +17,6 @@
 @property IBOutletCollection(UIView) NSArray *photoPickerMenuViews;
 @property IBOutlet UIView *selectedPostView;
 @property IBOutlet UIImageView *SelectedPostImageView;
-@property IBOutlet UIView *logo;
+@property IBOutlet UIView *pullDownHelperView;
 
 @end

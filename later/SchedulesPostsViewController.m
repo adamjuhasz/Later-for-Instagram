@@ -83,6 +83,11 @@
     self.selectedPostView.clipsToBounds = YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -228,6 +233,12 @@
 - (void)reloadScrollView
 {
     scheduledPosts = [[PostDBSingleton singleton] allposts];
+    
+    if (scheduledPosts.count == 0) {
+        self.pullDownHelperView.hidden = NO;
+    } else {
+        self.pullDownHelperView.hidden = YES;
+    }
     
     for (UIView *subview in viewsInScrollView) {
         [subview removeFromSuperview];

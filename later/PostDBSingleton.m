@@ -182,7 +182,7 @@
 
 - (void)snoozePost:(scheduledPostModel*)post
 {
-    NSTimeInterval snoozeTime = 60*(60+1);  //1 hour and 1 min
+    NSTimeInterval snoozeTime = 60*(60)+20;  //1 hour and 1 min
     
     scheduledPostModel *newPost = [[scheduledPostModel alloc] init];
     newPost.postCaption = post.postCaption;
