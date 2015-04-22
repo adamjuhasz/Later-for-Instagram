@@ -531,9 +531,9 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[PhotoManager sharedManager] fullsizeImageIn:[[PhotoManager sharedManager] cameraRollAlbumName]
                                               atIndex:indexPath.row
-                                      completionBlock:^(UIImage *image) {
-                                          NSLog(@"sent caption view the full size image");
+                                      completionBlock:^(UIImage *image, CLLocation *location) {
                                           [captionController setPhoto:image];
+                                          captionController.location = location;
                                       }];
 
     });

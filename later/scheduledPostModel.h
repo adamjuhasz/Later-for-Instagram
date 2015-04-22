@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface scheduledPostModel : NSObject <NSCoding>
 
@@ -17,6 +18,7 @@
 @property (readonly) NSString *postImageLocation;
 @property UIImage *postImage;
 @property UILocalNotification *postLocalNotification;
+@property CLLocation *postLocation;
 
 - (void)saveImage;
 

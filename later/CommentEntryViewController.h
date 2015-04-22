@@ -11,6 +11,7 @@
 #import "TableViewController.h"
 #import "DatePickerViewController.h"
 #import "scheduledPostModel.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate, inputsPageDelegate>
 
@@ -28,6 +29,7 @@
 
 @property (nonatomic, strong) NSLayoutConstraint *bottomConstraint;
 @property scheduledPostModel* post;
+@property CLLocation *location;
 
 - (IBAction)goBack;
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath;

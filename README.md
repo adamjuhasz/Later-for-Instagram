@@ -1,4 +1,3 @@
 # Later for Instagram
 
-http://ajuhasz.op/laterapp
-
+http://ajuhasz.io/laterapp

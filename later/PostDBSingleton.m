@@ -9,6 +9,23 @@
 #import "PostDBSingleton.h"
 #import <UIKit/UIKit.h>
 
+@interface UIImage (deepCopy)
+- (UIImage*)deepCopy;
+@end
+
+@implementation UIImage (deepCopy)
+
+- (UIImage*)deepCopy
+{
+    CGImageRef newCgIm = CGImageCreateCopy(self.CGImage);
+    UIImage *copy = [UIImage imageWithCGImage:newCgIm
+                                        scale:self.scale
+                                  orientation:self.imageOrientation];
+    return copy;
+}
+
+@end
+
 @interface PostDBSingleton ()
 {
     NSMutableArray *arrayOfPosts;
@@ -165,16 +182,19 @@
 
 - (void)snoozePost:(scheduledPostModel*)post
 {
+    NSTimeInterval snoozeTime = 60*(60+1);  //1 hour and 1 min
+    
     scheduledPostModel *newPost = [[scheduledPostModel alloc] init];
     newPost.postCaption = post.postCaption;
-    CGImageRef newCgIm = CGImageCreateCopy(post.postImage.CGImage);
-    newPost.postImage = [UIImage imageWithCGImage:newCgIm
-                                            scale:post.postImage.scale
-                                      orientation:post.postImage.imageOrientation];
-    newPost.postTime = [post.postTime dateByAddingTimeInterval:60*60];
-    CGImageRelease(newCgIm);
+    newPost.postImage = post.postImage;     //newPost.postImage = [post.postImage deepCopy];
+    if ([post.postTime compare:[NSDate date]] == NSOrderedAscending) {
+        //if time is in the past snooze to an hour from now
+        newPost.postTime = [NSDate dateWithTimeIntervalSinceNow:snoozeTime];
+    } else {
+        newPost.postTime = [post.postTime dateByAddingTimeInterval:snoozeTime];
+    }
     
-    [self removePost:post withDelete:YES];
+    [self removePost:post withDelete:NO];
     [self addPost:newPost];
 }
 

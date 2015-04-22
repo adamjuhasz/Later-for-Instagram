@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-later-FXBlurView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-later-InstagramKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -30,6 +25,11 @@
 			<false/>
 		</dict>
 		<key>Pods-later-PhotoManager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-later-SimpleExif.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -47,42 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>19446417F72E1AA6B693FC4C</key>
+		<key>04105A4C18D828767E74CC63</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>45C4BC7C57C3F87E6215D8B9</key>
+		<key>08A80F6AE28D4ADCCEF69EF7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>493186F11BD08EDBBFAAA3F7</key>
+		<key>61D0D4DD9DE085DC2C58403D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>895DED1D5CB8786727EA77F8</key>
+		<key>676F270AF521AF67917DC64D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B742746DDA64BF25166672E8</key>
+		<key>A58686D91E98D6F02D141816</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D5A3D021C5F729D2E78515BD</key>
+		<key>AA13C9866682CF382E4610A2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E8E95EB91EC217CA60CB022E</key>
+		<key>CB61C210472A1550A19AC372</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EA81A09B6E42DCA1BB2D6EBD</key>
+		<key>DCC4C132051E0E732BC6D5E0</key>
 		<dict>
 			<key>primary</key>
 			<true/>

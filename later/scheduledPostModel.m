@@ -7,6 +7,9 @@
 //
 
 #import "scheduledPostModel.h"
+#import <SimpleExif/ExifContainer.h>
+#import <SimpleExif/UIImage+Exif.h>
+#import <ImageIO/ImageIO.h>
 
 @interface scheduledPostModel ()
 {
@@ -36,7 +39,15 @@
 - (void)saveImage
 {
     NSError *error;
-    [UIImageJPEGRepresentation(_postImage, 1.0) writeToFile:self.postImageLocation options:0 error:&error];
+    //[UIImageJPEGRepresentation(_postImage, 1.0) writeToFile:self.postImageLocation options:0 error:&error];
+    
+    ExifContainer *exif = [[ExifContainer alloc] init];
+    if (self.postLocation) {
+        [exif addLocation:self.postLocation];
+    }
+    NSData *imageData = [_postImage addExif:exif];
+    [imageData writeToFile:self.postImageLocation options:0 error:&error];
+    
     if (error) {
         NSLog(@"Error saving file: %@", error);
     }
@@ -46,7 +57,7 @@
 {
     _postImage = thePostImage;
     
-    [self saveImage];
+    //[self saveImage];
 }
 
 - (UIImage*)postImage
@@ -69,7 +80,9 @@
         self.key = [aDecoder decodeObjectForKey:@"key"];
         self.postTime = [aDecoder decodeObjectForKey:@"postTime"];
         self.postCaption = [aDecoder decodeObjectForKey:@"postCaption"];
-        _postImage = [[UIImage imageWithContentsOfFile:self.postImageLocation] copy];
+        self.postLocation = [aDecoder decodeObjectForKey:@"postLocation"];
+        NSData *imageData = [NSData dataWithContentsOfFile:self.postImageLocation];
+        _postImage = [UIImage imageWithData:imageData];
     }
     return self;
 }
@@ -79,6 +92,7 @@
     [aCoder encodeObject:self.key forKey:@"key"];
     [aCoder encodeObject:self.postTime forKey:@"postTime"];
     [aCoder encodeObject:self.postCaption forKey:@"postCaption"];
+    [aCoder encodeObject:self.postLocation forKey:@"postLocation"];
     [self saveImage];
 }
 

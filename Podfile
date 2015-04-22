@@ -8,6 +8,7 @@ target 'later' do
   pod "PhotoManager", :path => "../PhotoManager"
   pod 'DACircularProgress'
   pod 'pop',  :git => 'https://github.com/facebook/pop.git'
+  pod 'SimpleExif'
 end
 
 target 'laterTests' do

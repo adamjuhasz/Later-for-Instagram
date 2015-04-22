@@ -57,6 +57,7 @@
         self.comments.text = self.post.postCaption;
         [self setThumbnail:self.post.postImage];
         [self setPhoto:self.post.postImage];
+        self.location = self.post.postLocation;
         self.DatePickerViewController.datePicker.date = self.post.postTime;
     }
     
@@ -120,6 +121,7 @@
     
     self.post.postCaption = self.comments.text;
     self.post.postTime = self.DatePickerViewController.currentDateSelected;
+    self.post.postLocation = self.location;
     
     if (newPost) {
         [[PostDBSingleton singleton] addPost:self.post];
