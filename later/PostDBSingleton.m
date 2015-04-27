@@ -9,6 +9,8 @@
 #import "PostDBSingleton.h"
 #import <UIKit/UIKit.h>
 
+#define SaveTimerTime 5.0
+
 @interface UIImage (deepCopy)
 - (UIImage*)deepCopy;
 @end
@@ -110,7 +112,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
 
-            saveTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(save) userInfo:nil repeats:NO];
+            saveTimer = [NSTimer scheduledTimerWithTimeInterval:SaveTimerTime target:self selector:@selector(save) userInfo:nil repeats:NO];
             [[UIApplication sharedApplication] scheduleLocalNotification:theNotification];
         });
     });
@@ -140,7 +142,7 @@
     if (saveTimer) {
         [saveTimer invalidate];
     }
-    saveTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(save) userInfo:nil repeats:NO];
+    saveTimer = [NSTimer scheduledTimerWithTimeInterval:SaveTimerTime target:self selector:@selector(save) userInfo:nil repeats:NO];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kPostDBUpatedNotification object:self userInfo:nil];
 }

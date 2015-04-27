@@ -64,6 +64,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(photosUpdated) name:@"PhotoManagerLoaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostWasAdded) name:kPostDBUpatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editPostNotificatiom:) name:@"postToBeEdited" object:nil];
     
     captionController = [self.storyboard instantiateViewControllerWithIdentifier:@"captionViewController"];
     
@@ -94,16 +95,20 @@
     [self reloadScrollView];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    if (appDelegate.notification) {
-        NSString *postKey = [appDelegate.notification.userInfo objectForKey:@"key"];
+    if (appDelegate.notificationAction) {
+        NSString *postKey = appDelegate.notificationPostKey;
         NSString *action = appDelegate.notificationAction;
         NSLog(@"user wants to %@ a specific notification (%@)", action, postKey);
         
-        appDelegate.notification = nil;
+        appDelegate.notificationPostKey = nil;
         appDelegate.notificationAction = nil;
         
-        if([appDelegate.notificationAction isEqualToString:@"send"]) {
+        if ([action isEqualToString:@"send"]) {
             [self sendPostToInstragramWithKey:postKey];
+        }
+        else if ([action isEqualToString:@"edit"]) {
+            selectedPost = [[PostDBSingleton singleton] postForKey:postKey];
+            [self performSegueWithIdentifier:@"show.editSelectedPost" sender:self];
         }
     }
     
@@ -555,6 +560,19 @@
     [self reloadScrollView];
     [self resetScrollview];
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)editPostNotificatiom:(NSNotification*)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    scheduledPostModel *post = [userInfo objectForKey:@"post"];
+    selectedPost = post;
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate.notificationPostKey = nil;
+    appDelegate.notificationAction = nil;
+    
+    [self performSegueWithIdentifier:@"show.editSelectedPost" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

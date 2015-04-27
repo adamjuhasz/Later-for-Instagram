@@ -149,8 +149,6 @@
 		2E6E20F81ADC53DB002E9372 = {
 			isa = PBXGroup;
 			children = (
-				2E3E92F31AE0B8B10048B5E8 /* Crashlytics.framework */,
-				2E3E92F41AE0B8B10048B5E8 /* Fabric.framework */,
 				2E6E21031ADC53DB002E9372 /* later */,
 				2E6E211D1ADC53DB002E9372 /* laterTests */,
 				2E6E21021ADC53DB002E9372 /* Products */,
@@ -271,6 +269,8 @@
 		8886719E3A40C9812E5CACF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E3E92F31AE0B8B10048B5E8 /* Crashlytics.framework */,
+				2E3E92F41AE0B8B10048B5E8 /* Fabric.framework */,
 				2E6E215A1AE05877002E9372 /* Photos.framework */,
 				280A2CEF160E5E026FC034DD /* libPods-later.a */,
 			);

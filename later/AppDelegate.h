@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property UILocalNotification *notification;
+@property NSString *notificationPostKey;
 @property NSString *notificationAction;
 
 @end
