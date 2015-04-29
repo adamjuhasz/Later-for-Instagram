@@ -16,6 +16,7 @@
 #import <CoreImage/CoreImage.h>
 #import "PostActionsViewController.h"
 #import <pop/POP.h>
+#import "NotificationStrings.h"
 
 @interface SchedulesPostsViewController ()
 {
@@ -65,6 +66,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(photosUpdated) name:@"PhotoManagerLoaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostWasAdded) name:kPostDBUpatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editPostNotificatiom:) name:@"postToBeEdited" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifiedSendPost:) name:kPostToBeSentNotification object:nil];
     
     captionController = [self.storyboard instantiateViewControllerWithIdentifier:@"captionViewController"];
     
@@ -582,6 +584,14 @@
         captionViewController.post = selectedPost;
         [self hideSelectedPost];
     }
+}
+
+- (void)notifiedSendPost:(NSNotification*)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    scheduledPostModel *post = [userInfo objectForKey:@"post"];
+    selectedPost = post;
+    
 }
 
 @end

@@ -12,6 +12,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <ImageIO/ImageIO.h>
+#import "NotificationStrings.h"
 
 @interface AppDelegate ()
 
@@ -53,9 +54,13 @@
         scheduledPostModel *post = [[PostDBSingleton singleton] postForKey:[notification.userInfo objectForKey:@"key"]];
         [[PostDBSingleton singleton] snoozePost:post];
     } else {
+        scheduledPostModel *post = [[PostDBSingleton singleton] postForKey:[notification.userInfo objectForKey:@"key"]];
+        
         self.notificationPostKey = [notification.userInfo objectForKey:@"key"];
         self.notificationAction = identifier;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationActedUpon" object:nil];
+        
+        NSDictionary *userinfo = [NSDictionary dictionaryWithObject:post forKey:@"post"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kPostToBeSentNotification object:nil userInfo:userinfo];
     }
     
     if (completionHandler) {
@@ -109,7 +114,7 @@
         CFStringRef fileType = CFCopyDescription(fileDp);
         NSString *typeRef = (__bridge NSString*)fileType;
         if ([typeRef isEqualToString:@"public.jpeg"] == NO) {
-            NSLog(@"bad file");
+            NSLog(@"bad file is %@", typeRef);
         }
         CFRelease(fileType);
         //NSDictionary *exifDictionary = [imageProperty valueForKey:(NSString*)kCGImagePropertyExifDictionary];

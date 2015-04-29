@@ -60,6 +60,7 @@
 		1B97193DDF911A4B06A8DDE6 /* Pods-later.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-later.debug.xcconfig"; path = "Pods/Target Support Files/Pods-later/Pods-later.debug.xcconfig"; sourceTree = "<group>"; };
 		25742B44346AC6B5DC0C3481 /* Pods-later.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-later.release.xcconfig"; path = "Pods/Target Support Files/Pods-later/Pods-later.release.xcconfig"; sourceTree = "<group>"; };
 		280A2CEF160E5E026FC034DD /* libPods-later.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-later.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E0BF0E51AF12F9200C5F7BF /* NotificationStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationStrings.h; sourceTree = "<group>"; };
 		2E2220531AE59FCB007D2E38 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		2E2220571AE5B984007D2E38 /* BCN.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BCN.wav; sourceTree = "<group>"; };
 		2E22205D1AE5B9EE007D2E38 /* PleasantTone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PleasantTone.wav; sourceTree = "<group>"; };
@@ -185,6 +186,7 @@
 				2E6E212A1ADC647B002E9372 /* InstagramKit.plist */,
 				2E3E92F71AE1A7890048B5E8 /* Settings.bundle */,
 				2E2220531AE59FCB007D2E38 /* Launch Screen.xib */,
+				2E0BF0E51AF12F9200C5F7BF /* NotificationStrings.h */,
 			);
 			path = later;
 			sourceTree = "<group>";
