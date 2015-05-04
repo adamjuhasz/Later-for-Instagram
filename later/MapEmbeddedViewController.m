@@ -32,6 +32,34 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)grabTagsForLocation:(InstagramLocation*)location
+{
+    [[InstagramEngine sharedEngine] getMediaAtLocationWithId:location.locationId
+                                                 withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
+                                                     NSCountedSet *countedSetOfTags = [[NSCountedSet alloc] init];
+                                                     for (InstagramMedia *specificPost in media) {
+                                                         if (specificPost.tags && specificPost.tags.count > 0) {
+                                                             for (NSString *tag in specificPost.tags) {
+                                                                 [countedSetOfTags addObject:tag];
+                                                             }
+                                                         }
+                                                     }
+                                                     
+                                                     NSArray *sortedTagsByCount = [countedSetOfTags.allObjects sortedArrayUsingComparator:^(id obj1, id obj2) {
+                                                         NSUInteger n = [countedSetOfTags countForObject:obj1];
+                                                         NSUInteger m = [countedSetOfTags countForObject:obj2];
+                                                         return (n <= m)? (n < m)? NSOrderedDescending : NSOrderedSame : NSOrderedAscending;
+                                                     }];
+                                                     
+                                                     for (int i=0; i<MIN(5,sortedTagsByCount.count); i++) {
+                                                         NSInteger tagUsageCount = [countedSetOfTags countForObject:sortedTagsByCount[i]];
+                                                         float percentUsingHashtag = (float)tagUsageCount * 100.0 / media.count;
+                                                         NSLog(@"%@ - %@ (%.0f)", location.name, sortedTagsByCount[i], percentUsingHashtag);
+                                                     }
+                                                 }
+                                                     failure:nil];
+}
+
 - (void)updateLocations
 {
     timeoutTimer = nil;
@@ -42,14 +70,6 @@
         if (foundLocations.count > 0) {
             NSIndexPath *top = [NSIndexPath indexPathForItem:0 inSection:0];
             [self.locationTable scrollToRowAtIndexPath:top atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        }
-        for (int i=0; i<MIN(10, foundLocations.count); i++) {
-            InstagramLocation *loc = foundLocations[i];
-            [[InstagramEngine sharedEngine] getMediaAtLocationWithId:loc.locationId
-                                                         withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
-                                                             NSLog(@"%@", media);
-                                                         }
-                                                             failure:nil];
         }
     } failure:nil];
 }
@@ -85,7 +105,7 @@
 {
     NSInteger row = [indexPath row];
     InstagramLocation *location = foundLocations[row];
-    [self.mapView setCenterCoordinate:location.coordinate animated:YES];
+    [self grabTagsForLocation:location];
 }
 
 @end

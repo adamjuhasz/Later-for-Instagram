@@ -57,7 +57,7 @@
         self.comments.text = self.post.postCaption;
         [self setThumbnail:self.post.postImage];
         [self setPhoto:self.post.postImage];
-        self.location = self.post.postLocation;
+        self.location = self.post.postEditedLocation;
         self.DatePickerViewController.datePicker.date = self.post.postTime;
     }
     
@@ -66,6 +66,16 @@
     
     //show keyboard
     [self.comments becomeFirstResponder];
+    
+    //set location
+    CLLocationCoordinate2D imageLocation = self.location.coordinate;
+    MKCoordinateRegion region;
+    region.center = imageLocation;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.01;
+    span.longitudeDelta = 0.01;
+    region.span = span;
+    self.locationPickerViewController.mapView.region = region;
 }
 
 - (void)setThumbnail:(UIImage*)aThumbnail
@@ -164,7 +174,7 @@
     
     self.post.postCaption = self.comments.text;
     self.post.postTime = [self.DatePickerViewController.currentDateSelected dateByAddingTimeInterval:10];;
-    self.post.postLocation = self.location;
+    self.post.postEditedLocation = self.location;
     
     if (newPost) {
         [[PostDBSingleton singleton] addPost:self.post];
@@ -308,16 +318,19 @@
             break;
             
             case 2:
-            [self doneEditing:self];
+            //[self doneEditing:self];
             //set location
-            CLLocationCoordinate2D imageLocation = self.location.coordinate;
-            MKCoordinateRegion region;
-            region.center = imageLocation;
-            MKCoordinateSpan span;
-            span.latitudeDelta = 0.1;
-            span.longitudeDelta = 0.1;
-            region.span = span;
-            self.locationPickerViewController.mapView.region = region;
+            if (self.location) {
+                CLLocationCoordinate2D imageLocation = self.location.coordinate;
+                MKCoordinateRegion region;
+                region.center = imageLocation;
+                MKCoordinateSpan span;
+                span.latitudeDelta = 0.1;
+                span.longitudeDelta = 0.1;
+                region.span = span;
+
+                [self.locationPickerViewController.mapView setRegion:region animated:YES];
+            }
             break;
             
         default:
