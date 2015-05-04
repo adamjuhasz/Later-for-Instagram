@@ -101,15 +101,20 @@
         theNotification.timeZone = [NSTimeZone localTimeZone];
         theNotification.alertBody = [NSString stringWithFormat:@"It's time to send \"%@\"", object.postCaption];
         theNotification.alertAction = @"Send";
-        theNotification.alertTitle = @"Post scheduled";
+        if ([theNotification respondsToSelector:@selector(setAlertTitle:)]) {
+            //only ios 8.2
+            theNotification.alertTitle = @"Post scheduled";
+        }
         theNotification.applicationIconBadgeNumber = 1;
         theNotification.userInfo = [NSDictionary dictionaryWithObject:object.key forKey:@"key"];
-        theNotification.category = @"standard";
+        if ([theNotification respondsToSelector:@selector(setCategory:)]) {
+            //only ios 8.2
+            theNotification.category = @"standard";
+        }
         theNotification.soundName = @"TrainStation.wav";
         
         object.postLocalNotification = theNotification;
-        
-        
+    
         dispatch_async(dispatch_get_main_queue(), ^{
 
             saveTimer = [NSTimer scheduledTimerWithTimeInterval:SaveTimerTime target:self selector:@selector(save) userInfo:nil repeats:NO];
