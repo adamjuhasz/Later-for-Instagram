@@ -13,7 +13,7 @@
 @interface MapEmbeddedViewController ()
 {
     NSTimer *timeoutTimer;
-    NSArray *foundLocations;
+    NSMutableArray *foundLocations;
     NSSet *nearbyTags;
 }
 @end
@@ -51,11 +51,25 @@
                                                          return (n <= m)? (n < m)? NSOrderedDescending : NSOrderedSame : NSOrderedAscending;
                                                      }];
                                                      
+                                                     NSInteger index = -1;
+                                                     for (int i=0; i<foundLocations.count; i++) {
+                                                         if ([foundLocations[i] objectForKey:@"location"] == location) {
+                                                             index = i;
+                                                             break;
+                                                         }
+                                                     }
+                                                     
                                                      for (int i=0; i<MIN(5,sortedTagsByCount.count); i++) {
                                                          NSInteger tagUsageCount = [countedSetOfTags countForObject:sortedTagsByCount[i]];
                                                          float percentUsingHashtag = (float)tagUsageCount * 100.0 / media.count;
                                                          NSLog(@"%@ - %@ (%.0f)", location.name, sortedTagsByCount[i], percentUsingHashtag);
+                                                         NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                               sortedTagsByCount[i], @"hashtag",
+                                                                               [NSNumber numberWithInteger:tagUsageCount], @"count",
+                                                                               nil];
+                                                         [foundLocations insertObject:dict atIndex:index+i+1];
                                                      }
+                                                     [self.locationTable reloadData];
                                                  }
                                                      failure:nil];
 }
@@ -65,7 +79,13 @@
     timeoutTimer = nil;
     CGFloat spanDistance = MIN(5000, ceil(self.mapView.region.span.latitudeDelta * 111131.745 / 2.0));
     [[InstagramEngine sharedEngine] searchLocationsAtLocation:self.mapView.centerCoordinate distanceInMeters:spanDistance withSuccess:^(NSArray *locations) {
-        foundLocations = [locations copy];
+        foundLocations = [locations mutableCopy];
+        for (int i=0; i<locations.count; i++) {
+            NSDictionary *locationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                locations[i], @"location",
+                                                nil];
+            [foundLocations replaceObjectAtIndex:i withObject:locationDictionary];
+        }
         [self.locationTable reloadData];
         if (foundLocations.count > 0) {
             NSIndexPath *top = [NSIndexPath indexPathForItem:0 inSection:0];
@@ -90,22 +110,31 @@
     HashtagTableViewCell *cell = (HashtagTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     NSInteger row = [indexPath row];
-    InstagramLocation *location = foundLocations[row];
-    
-    CLLocation *locationForPlace = [[CLLocation alloc] initWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
-    CLLocation *mapCenter = [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
-    NSString *distance = [NSString stringWithFormat:@"%.0f ft", [locationForPlace distanceFromLocation:mapCenter]*3.28084];
-    
-    cell.tagName.text = location.name;
-    cell.tagCount.text = distance;
+    NSDictionary *dict = foundLocations[row];
+    if ([dict objectForKey:@"location"]) {
+        InstagramLocation *location = [dict objectForKey:@"location"];
+        CLLocation *locationForPlace = [[CLLocation alloc] initWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
+        CLLocation *mapCenter = [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
+        NSString *distance = [NSString stringWithFormat:@"%.0f ft", [locationForPlace distanceFromLocation:mapCenter]*3.28084];
+        
+        cell.tagName.text = location.name;
+        cell.tagCount.text = distance;
+    } else if ([dict objectForKey:@"hashtag"]) {
+        NSString *hashtag = [dict objectForKey:@"hashtag"];
+        cell.tagName.text = [NSString stringWithFormat:@"  #%@", hashtag];
+    }
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger row = [indexPath row];
-    InstagramLocation *location = foundLocations[row];
-    [self grabTagsForLocation:location];
+    NSDictionary *dict = foundLocations[row];
+    if ([dict objectForKey:@"location"]) {
+        InstagramLocation *location = [dict objectForKey:@"location"];
+        [self grabTagsForLocation:location];
+    }
 }
 
 @end
