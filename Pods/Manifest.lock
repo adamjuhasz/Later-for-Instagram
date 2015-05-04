@@ -31,7 +31,7 @@ PODS:
 
 DEPENDENCIES:
   - DACircularProgress
-  - InstagramKit (from `https://github.com/adamjuhasz/InstagramKit.git`)
+  - InstagramKit (from `../InstagramKit`)
   - MMTweenAnimation
   - PhotoManager (from `../PhotoManager`)
   - pop (from `https://github.com/facebook/pop.git`)
@@ -39,16 +39,13 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   InstagramKit:
-    :git: https://github.com/adamjuhasz/InstagramKit.git
+    :path: ../InstagramKit
   PhotoManager:
     :path: ../PhotoManager
   pop:
     :git: https://github.com/facebook/pop.git
 
 CHECKOUT OPTIONS:
-  InstagramKit:
-    :commit: 56c04b797ac806abad5f344f4f937951d2cd8c92
-    :git: https://github.com/adamjuhasz/InstagramKit.git
   pop:
     :commit: 038f29b2de47db3fce803c5a180eee604ebe1977
     :git: https://github.com/facebook/pop.git

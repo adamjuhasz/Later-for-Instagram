@@ -14,6 +14,7 @@
 @interface scheduledPostModel ()
 {
     UIImage *_postImage;
+    CLLocation *_postLocation;
 }
 @end
 
@@ -36,14 +37,25 @@
     return [documentsDirectory stringByAppendingPathComponent:self.key];
 }
 
+- (void)setPostLocation:(CLLocation *)postLocation
+{
+    _postLocation = postLocation;
+    self.postEditedLocation = postLocation;
+}
+
+- (CLLocation*)postLocation
+{
+    return _postLocation;
+}
+
 - (void)saveImage
 {
     NSError *error;
     //[UIImageJPEGRepresentation(_postImage, 1.0) writeToFile:self.postImageLocation options:0 error:&error];
     
     ExifContainer *exif = [[ExifContainer alloc] init];
-    if (self.postLocation) {
-        [exif addLocation:self.postLocation];
+    if (self.postEditedLocation) {
+        [exif addLocation:self.postEditedLocation];
     }
     NSData *imageData = [_postImage addExif:exif];
     [imageData writeToFile:self.postImageLocation options:0 error:&error];
@@ -80,7 +92,9 @@
         self.key = [aDecoder decodeObjectForKey:@"key"];
         self.postTime = [aDecoder decodeObjectForKey:@"postTime"];
         self.postCaption = [aDecoder decodeObjectForKey:@"postCaption"];
-        self.postLocation = [aDecoder decodeObjectForKey:@"postLocation"];
+        _postLocation = [aDecoder decodeObjectForKey:@"postLocation"];
+        _postEditedLocation = [aDecoder decodeObjectForKey:@"postEditedLocation"];
+        
         NSData *imageData = [NSData dataWithContentsOfFile:self.postImageLocation];
         _postImage = [UIImage imageWithData:imageData];
     }
@@ -92,7 +106,8 @@
     [aCoder encodeObject:self.key forKey:@"key"];
     [aCoder encodeObject:self.postTime forKey:@"postTime"];
     [aCoder encodeObject:self.postCaption forKey:@"postCaption"];
-    [aCoder encodeObject:self.postLocation forKey:@"postLocation"];
+    [aCoder encodeObject:_postLocation forKey:@"postLocation"];
+    [aCoder encodeObject:_postEditedLocation forKey:@"postEditedLocation"];
     [self saveImage];
 }
 

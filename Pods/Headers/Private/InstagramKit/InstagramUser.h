@@ -1,1 +1,1 @@
-../../../InstagramKit/InstagramKit/Models/InstagramUser.h
+../../../../../InstagramKit/InstagramKit/Models/InstagramUser.h

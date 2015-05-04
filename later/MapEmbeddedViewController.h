@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface MapEmbeddedViewController : UIViewController <MKMapViewDelegate>
+@interface MapEmbeddedViewController : UIViewController <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property IBOutlet MKMapView *mapView;
+@property IBOutlet UITableView *locationTable;
 
 @end

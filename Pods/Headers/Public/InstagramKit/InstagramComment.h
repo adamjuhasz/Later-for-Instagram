@@ -1,1 +1,1 @@
-../../../InstagramKit/InstagramKit/Models/InstagramComment.h
+../../../../../InstagramKit/InstagramKit/Models/InstagramComment.h

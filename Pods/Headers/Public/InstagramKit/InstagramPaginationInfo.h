@@ -1,1 +1,1 @@
-../../../InstagramKit/InstagramKit/Models/InstagramPaginationInfo.h
+../../../../../InstagramKit/InstagramKit/Models/InstagramPaginationInfo.h

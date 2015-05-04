@@ -1,1 +1,1 @@
-../../../InstagramKit/InstagramKit/InstagramKit.h
+../../../../../InstagramKit/InstagramKit/InstagramKit.h

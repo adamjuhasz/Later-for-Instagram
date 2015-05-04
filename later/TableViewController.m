@@ -111,7 +111,6 @@
                                                     [similarTagArray addObject:similarHashtag];
                                                 }
                                                 
-
                                                 
                                                 NSRange range = {currentParentLocation+1, similarTagArray.count};
                                                 NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
@@ -123,11 +122,24 @@
                                                         [indexPaths addObject:[NSIndexPath indexPathForRow:(range.location + i) inSection:0]];
                                                     }
                                                     [self.hashtagTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                    
+                                                    for (NSDictionary *similarHashtag in searchedTags) {
+                                                        [[InstagramEngine sharedEngine] getTagDetailsWithName:[similarHashtag objectForKey:@"name"] withSuccess:^(InstagramTag *tag) {
+                                                            NSDictionary *updatedHashtag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                            [similarHashtag objectForKey:@"name"], @"name",
+                                                                                            [NSNumber numberWithInteger:tag.mediaCount], @"count",
+                                                                                            [similarHashtag objectForKey:@"originalIndex"], @"originalIndex",
+                                                                                            [similarHashtag objectForKey:@"indentLevel"], @"indentLevel",
+                                                                                            nil];
+                                                            
+                                                            NSInteger index = [searchedTags indexOfObject:similarHashtag];
+                                                            [searchedTags replaceObjectAtIndex:index withObject:updatedHashtag];
+                                                            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+                                                            [self.hashtagTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                        } failure:nil];
+                                                    }
                                                 }
-                                                
-                                            } failure:^(NSError *error) {
-                                                
-                                            }];
+                                            } failure:nil];
 
 }
 

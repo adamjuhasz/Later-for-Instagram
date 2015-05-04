@@ -4,7 +4,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'later' do
-  pod 'InstagramKit', :git => 'https://github.com/adamjuhasz/InstagramKit.git'
+  pod 'InstagramKit', :path => "../InstagramKit" 
   pod "PhotoManager", :path => "../PhotoManager"
   pod 'DACircularProgress'
   pod 'pop',  :git => 'https://github.com/facebook/pop.git'

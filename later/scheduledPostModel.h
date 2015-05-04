@@ -19,6 +19,7 @@
 @property UIImage *postImage;
 @property UILocalNotification *postLocalNotification;
 @property CLLocation *postLocation;
+@property CLLocation *postEditedLocation;
 
 - (void)saveImage;
 

@@ -761,20 +761,33 @@
                                     <constraint firstAttribute="width" constant="111" id="NMJ-cl-VB9"/>
                                 </constraints>
                             </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lL6-lT-WxQ">
+                                <rect key="frame" x="0.0" y="202" width="450" height="158"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="8Ui-eZ-74V" id="8Tm-7c-9En"/>
+                                    <outlet property="delegate" destination="8Ui-eZ-74V" id="58h-LX-p7g"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="5TQ-b5-ssH" firstAttribute="top" secondItem="lL6-lT-WxQ" secondAttribute="bottom" id="BwN-BN-xQw"/>
                             <constraint firstItem="JXL-cg-DWT" firstAttribute="centerY" secondItem="A8g-y8-0bq" secondAttribute="centerY" constant="-15" id="C8F-A0-rMg"/>
+                            <constraint firstItem="lL6-lT-WxQ" firstAttribute="top" secondItem="A8g-y8-0bq" secondAttribute="bottom" constant="2" id="EYF-jM-lmc"/>
                             <constraint firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="Hni-FC-Tkn"/>
                             <constraint firstItem="A8g-y8-0bq" firstAttribute="top" secondItem="xcd-RD-mjK" secondAttribute="bottom" id="RlF-F1-MaF"/>
                             <constraint firstAttribute="width" secondItem="A8g-y8-0bq" secondAttribute="width" id="X37-qn-ALl"/>
+                            <constraint firstItem="lL6-lT-WxQ" firstAttribute="width" secondItem="0k7-f7-AUG" secondAttribute="width" id="lSj-13-115"/>
                             <constraint firstItem="JXL-cg-DWT" firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="thn-tR-izh"/>
+                            <constraint firstAttribute="centerX" secondItem="lL6-lT-WxQ" secondAttribute="centerX" id="y1M-Ui-pfl"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="450" height="360"/>
                     <connections>
+                        <outlet property="locationTable" destination="lL6-lT-WxQ" id="TvD-kb-pva"/>
                         <outlet property="mapView" destination="A8g-y8-0bq" id="R2C-ZJ-wd7"/>
                     </connections>
                 </viewController>
