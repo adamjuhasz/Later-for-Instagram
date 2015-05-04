@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E0BF0E81AF3DDB600C5F7BF /* MapEmbeddedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0BF0E71AF3DDB600C5F7BF /* MapEmbeddedViewController.m */; };
+		2E0BF0EA1AF3DFDE00C5F7BF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0BF0E91AF3DFDE00C5F7BF /* MapKit.framework */; };
+		2E0BF0EC1AF3E76100C5F7BF /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E0BF0EB1AF3E76100C5F7BF /* location.png */; };
 		2E2220541AE59FCB007D2E38 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E2220531AE59FCB007D2E38 /* Launch Screen.xib */; };
 		2E2220581AE5B984007D2E38 /* BCN.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2E2220571AE5B984007D2E38 /* BCN.wav */; };
 		2E22205E1AE5B9EE007D2E38 /* PleasantTone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2E22205D1AE5B9EE007D2E38 /* PleasantTone.wav */; };
@@ -61,6 +64,10 @@
 		25742B44346AC6B5DC0C3481 /* Pods-later.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-later.release.xcconfig"; path = "Pods/Target Support Files/Pods-later/Pods-later.release.xcconfig"; sourceTree = "<group>"; };
 		280A2CEF160E5E026FC034DD /* libPods-later.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-later.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E0BF0E51AF12F9200C5F7BF /* NotificationStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationStrings.h; sourceTree = "<group>"; };
+		2E0BF0E61AF3DDB600C5F7BF /* MapEmbeddedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapEmbeddedViewController.h; sourceTree = "<group>"; };
+		2E0BF0E71AF3DDB600C5F7BF /* MapEmbeddedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapEmbeddedViewController.m; sourceTree = "<group>"; };
+		2E0BF0E91AF3DFDE00C5F7BF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		2E0BF0EB1AF3E76100C5F7BF /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		2E2220531AE59FCB007D2E38 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		2E2220571AE5B984007D2E38 /* BCN.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BCN.wav; sourceTree = "<group>"; };
 		2E22205D1AE5B9EE007D2E38 /* PleasantTone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PleasantTone.wav; sourceTree = "<group>"; };
@@ -120,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E0BF0EA1AF3DFDE00C5F7BF /* MapKit.framework in Frameworks */,
 				2E6E215B1AE05877002E9372 /* Photos.framework in Frameworks */,
 				2E3E92F51AE0B8B10048B5E8 /* Crashlytics.framework in Frameworks */,
 				B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */,
@@ -137,6 +145,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E0BF0F01AF7047600C5F7BF /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E21371ADCC5C3002E9372 /* HashtagTableViewCell.h */,
+				2E6E21381ADCC5C4002E9372 /* HashtagTableViewCell.m */,
+				2E6E213A1ADCDD23002E9372 /* HashtagTableViewCell.xib */,
+			);
+			name = cell;
+			sourceTree = "<group>";
+		};
 		2E2220631AE5BC26007D2E38 /* Alert sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +188,7 @@
 		2E6E21031ADC53DB002E9372 /* later */ = {
 			isa = PBXGroup;
 			children = (
+				2E0BF0EB1AF3E76100C5F7BF /* location.png */,
 				2E6E21041ADC53DB002E9372 /* Supporting Files */,
 				2E6E21081ADC53DB002E9372 /* AppDelegate.h */,
 				2E6E21091ADC53DB002E9372 /* AppDelegate.m */,
@@ -230,17 +249,17 @@
 		2E6E21471ADD74DF002E9372 /* Caption Entry */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E21341ADCBB90002E9372 /* CommentEntryViewController.h */,
+				2E6E21351ADCBB90002E9372 /* CommentEntryViewController.m */,
 				2E25D6061AE42C2800774220 /* CaptionInputsPageViewController.h */,
 				2E25D6071AE42C2800774220 /* CaptionInputsPageViewController.m */,
 				2E25D6091AE42E1100774220 /* TableViewController.h */,
 				2E25D60A1AE42E1100774220 /* TableViewController.m */,
 				2E25D60C1AE4A9B200774220 /* DatePickerViewController.h */,
 				2E25D60D1AE4A9B200774220 /* DatePickerViewController.m */,
-				2E6E21341ADCBB90002E9372 /* CommentEntryViewController.h */,
-				2E6E21351ADCBB90002E9372 /* CommentEntryViewController.m */,
-				2E6E21371ADCC5C3002E9372 /* HashtagTableViewCell.h */,
-				2E6E21381ADCC5C4002E9372 /* HashtagTableViewCell.m */,
-				2E6E213A1ADCDD23002E9372 /* HashtagTableViewCell.xib */,
+				2E0BF0F01AF7047600C5F7BF /* cell */,
+				2E0BF0E61AF3DDB600C5F7BF /* MapEmbeddedViewController.h */,
+				2E0BF0E71AF3DDB600C5F7BF /* MapEmbeddedViewController.m */,
 			);
 			name = "Caption Entry";
 			sourceTree = "<group>";
@@ -271,6 +290,7 @@
 		8886719E3A40C9812E5CACF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E0BF0E91AF3DFDE00C5F7BF /* MapKit.framework */,
 				2E3E92F31AE0B8B10048B5E8 /* Crashlytics.framework */,
 				2E3E92F41AE0B8B10048B5E8 /* Fabric.framework */,
 				2E6E215A1AE05877002E9372 /* Photos.framework */,
@@ -376,6 +396,7 @@
 				2E2220691AE60B69007D2E38 /* logo-58.png in Resources */,
 				2E6E21461ADCFB47002E9372 /* logo-180.png in Resources */,
 				2E22206F1AE60CD0007D2E38 /* launch2x.png in Resources */,
+				2E0BF0EC1AF3E76100C5F7BF /* location.png in Resources */,
 				2E2220621AE5BAD2007D2E38 /* ThatsIt.wav in Resources */,
 				2E3E92F81AE1A7890048B5E8 /* Settings.bundle in Resources */,
 				2E22206A1AE60B69007D2E38 /* logo-87.png in Resources */,
@@ -472,6 +493,7 @@
 				2E25D60E1AE4A9B200774220 /* DatePickerViewController.m in Sources */,
 				2E6E21391ADCC5C4002E9372 /* HashtagTableViewCell.m in Sources */,
 				2E6E214E1ADECAE4002E9372 /* scheduledPostModel.m in Sources */,
+				2E0BF0E81AF3DDB600C5F7BF /* MapEmbeddedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

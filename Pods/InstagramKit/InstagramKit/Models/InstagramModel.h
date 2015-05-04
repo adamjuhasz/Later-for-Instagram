@@ -37,6 +37,7 @@
 #define kData @"data"
 #define kLatitude @"latitude"
 #define kLongitude @"longitude"
+#define kLocationName @"name"
 
 #define kThumbnail @"thumbnail"
 #define kLowResolution @"low_resolution"
@@ -46,6 +47,7 @@
 #define kMediaTypeVideo @"video"
 
 #define kUser @"user"
+#define kUserHasLiked @"user_has_liked"
 #define kCreatedDate @"created_time"
 #define kLink @"link"
 #define kCaption @"caption"
@@ -85,5 +87,10 @@
 #define kMaxId @"max_id"
 #define kMaxLikeId @"max_like_id"
 #define kMaxTagId @"max_tag_id"
+
+#define kLocationId @"id"
+#define kLocationLatitude @"latitude"
+#define kLocationLongitude @"longitude"
+#define kLocationName @"name"
 
 #define IKNotNull(obj) (obj && (![obj isEqual:[NSNull null]]) && (![obj isEqual:@"<null>"]) )

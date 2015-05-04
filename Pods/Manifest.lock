@@ -23,24 +23,32 @@ PODS:
   - DACircularProgress (2.3.1)
   - InstagramKit (3.5.0):
     - AFNetworking (~> 2.0)
-  - PhotoManager (0.1.0):
-    - SimpleExif
+  - MMTweenAnimation (1.0):
+    - pop
+  - PhotoManager (0.1.0)
   - pop (1.0.7)
   - SimpleExif (0.0.1)
 
 DEPENDENCIES:
   - DACircularProgress
-  - InstagramKit (= 3.5.0)
+  - InstagramKit (from `https://github.com/adamjuhasz/InstagramKit.git`)
+  - MMTweenAnimation
   - PhotoManager (from `../PhotoManager`)
   - pop (from `https://github.com/facebook/pop.git`)
+  - SimpleExif
 
 EXTERNAL SOURCES:
+  InstagramKit:
+    :git: https://github.com/adamjuhasz/InstagramKit.git
   PhotoManager:
     :path: ../PhotoManager
   pop:
     :git: https://github.com/facebook/pop.git
 
 CHECKOUT OPTIONS:
+  InstagramKit:
+    :commit: 56c04b797ac806abad5f344f4f937951d2cd8c92
+    :git: https://github.com/adamjuhasz/InstagramKit.git
   pop:
     :commit: 038f29b2de47db3fce803c5a180eee604ebe1977
     :git: https://github.com/facebook/pop.git
@@ -48,8 +56,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  InstagramKit: 32fe78c44f41701825ac567343fb2b682c6e3d02
-  PhotoManager: df91d1465269cf3b37ff6021120c1e0ae45c2c1f
+  InstagramKit: 2599ad9b569e989e05eb9c5b5addeae1c0fd886a
+  MMTweenAnimation: 8fb42db26ba6ffaafe1bb13d2eea529e3ef89625
+  PhotoManager: 51264482e64e4249475846534aa4a070a56c73f5
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   SimpleExif: 61ba6dce666641dc4b925d9d26a2694e68ebbf4b
 

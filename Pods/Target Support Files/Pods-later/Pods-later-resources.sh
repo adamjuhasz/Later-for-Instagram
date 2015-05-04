@@ -58,9 +58,11 @@ install_resource()
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "InstagramKit/InstagramKit/InstagramKit.plist"
   install_resource "${BUILT_PRODUCTS_DIR}/PhotoManager.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "InstagramKit/InstagramKit/InstagramKit.plist"
   install_resource "${BUILT_PRODUCTS_DIR}/PhotoManager.bundle"
 fi
 

@@ -22,10 +22,5 @@
       "Pod/Assets/*.png"
     ]
   },
-  "frameworks": "UIKit, Photos",
-  "dependencies": {
-    "SimpleExif": [
-
-    ]
-  }
+  "frameworks": "UIKit, Photos"
 }

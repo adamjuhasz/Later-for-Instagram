@@ -60,6 +60,12 @@
 #define COCOAPODS_VERSION_MINOR_InstagramKit 5
 #define COCOAPODS_VERSION_PATCH_InstagramKit 0
 
+// MMTweenAnimation
+#define COCOAPODS_POD_AVAILABLE_MMTweenAnimation
+#define COCOAPODS_VERSION_MAJOR_MMTweenAnimation 1
+#define COCOAPODS_VERSION_MINOR_MMTweenAnimation 0
+#define COCOAPODS_VERSION_PATCH_MMTweenAnimation 0
+
 // PhotoManager
 #define COCOAPODS_POD_AVAILABLE_PhotoManager
 #define COCOAPODS_VERSION_MAJOR_PhotoManager 0

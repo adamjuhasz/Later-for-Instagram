@@ -702,11 +702,11 @@
                         <viewControllerLayoutGuide type="bottom" id="OMq-yg-ETS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="uqt-9P-JTW">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="360"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="k8Z-io-wdl">
-                                <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="360"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="0Ai-cM-94t" id="XkT-WF-YA9"/>
@@ -724,14 +724,63 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="300" height="300"/>
+                    <size key="freeformSize" width="450" height="360"/>
                     <connections>
                         <outlet property="hashtagTable" destination="k8Z-io-wdl" id="b7z-rC-1KP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SDa-hc-Atv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2209" y="289"/>
+            <point key="canvasLocation" x="2781" y="330"/>
+        </scene>
+        <!--Map Embedded View Controller-->
+        <scene sceneID="rdC-sC-KZm">
+            <objects>
+                <viewController storyboardIdentifier="locationPickerViewController" id="8Ui-eZ-74V" customClass="MapEmbeddedViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xcd-RD-mjK"/>
+                        <viewControllerLayoutGuide type="bottom" id="5TQ-b5-ssH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0k7-f7-AUG">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="360"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="A8g-y8-0bq">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="grL-2H-WII"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="8Ui-eZ-74V" id="U5Q-NJ-IyZ"/>
+                                </connections>
+                            </mapView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location.png" translatesAutoresizingMaskIntoConstraints="NO" id="JXL-cg-DWT">
+                                <rect key="frame" x="170" y="71" width="111" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="GuX-Qk-RPm"/>
+                                    <constraint firstAttribute="width" constant="111" id="NMJ-cl-VB9"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="JXL-cg-DWT" firstAttribute="centerY" secondItem="A8g-y8-0bq" secondAttribute="centerY" constant="-15" id="C8F-A0-rMg"/>
+                            <constraint firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="Hni-FC-Tkn"/>
+                            <constraint firstItem="A8g-y8-0bq" firstAttribute="top" secondItem="xcd-RD-mjK" secondAttribute="bottom" id="RlF-F1-MaF"/>
+                            <constraint firstAttribute="width" secondItem="A8g-y8-0bq" secondAttribute="width" id="X37-qn-ALl"/>
+                            <constraint firstItem="JXL-cg-DWT" firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="thn-tR-izh"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="450" height="360"/>
+                    <connections>
+                        <outlet property="mapView" destination="A8g-y8-0bq" id="R2C-ZJ-wd7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xgs-h5-BhE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2296" y="330"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="f7O-75-rqP">
@@ -751,6 +800,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="location.png" width="128" height="128"/>
         <image name="logo.png" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>

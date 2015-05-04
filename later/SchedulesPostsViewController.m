@@ -17,6 +17,7 @@
 #import "PostActionsViewController.h"
 #import <pop/POP.h>
 #import "NotificationStrings.h"
+#import <MMTweenAnimation/MMTweenAnimation.h>
 
 @interface SchedulesPostsViewController ()
 {
@@ -432,6 +433,8 @@
     animation.completionBlock = ^(POPAnimation *anim, BOOL finished){
         self.scheduledScroller.hidden = YES;
     };
+    
+    
     [self.scheduledScroller.layer pop_addAnimation:animation forKey:@"fullscreen"];
     
     //self.collectionView.contentInset = ;
@@ -476,11 +479,28 @@
     CGRect goneFrame = self.scheduledScroller.frame;
     goneFrame.origin.y = 0;
     
+    MMTweenAnimation *bounceAnimation = [MMTweenAnimation animation];
+    bounceAnimation.functionType = MMTweenFunctionBounce;
+    bounceAnimation.easingType = MMTweenEasingOut;
+    bounceAnimation.fromValue = self.scheduledScroller.frame.origin.y;
+    bounceAnimation.toValue = goneFrame.origin.y;
+    bounceAnimation.duration = 0.5;
+    bounceAnimation.animationBlock = ^(double currentTime, double duration, double value, id target, MMTweenAnimation *animation){
+        UIView *view = (UIView*)target;
+        CGRect frame = view.frame;
+        frame.origin.y = value;
+        view.frame = frame;
+    };
+    bounceAnimation.completionBlock =  ^(POPAnimation *anim, BOOL finished){
+        self.scheduledScroller.frame = goneFrame;
+    };
+    [self.scheduledScroller pop_addAnimation:bounceAnimation forKey:@"layer.y"];
+    
     [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         self.scheduledScroller.frame = goneFrame;
+                         //self.scheduledScroller.frame = goneFrame;
                          self.scheduledScroller.contentOffset = CGPointMake(0, -65);
                          
                          self.collectionView.alpha = 0.0;
@@ -498,7 +518,7 @@
                      completion:^(BOOL finished) {
                          self.collectionView.transform = CGAffineTransformIdentity;
                          animating = NO;
-                         self.scheduledScroller.frame = goneFrame;
+                         //self.scheduledScroller.frame = goneFrame;
                      }];
 }
 

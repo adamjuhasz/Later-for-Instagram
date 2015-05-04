@@ -79,25 +79,68 @@
     self.photoExample.image = fullImage;
 }
 
-- (NSString*)grabLastHashtagFrom:(NSString*)text {
-    NSArray *split = [text componentsSeparatedByString:@" "];
-    if (split.count == 0)
-        return nil;
-    NSString *lastOne = split[split.count-1];
-    if (lastOne.length < 2)
-        return nil;
+- (BOOL)isHahtag:(NSString*)hashtag
+{
+    if (hashtag.length < 2)
+        return NO;
     
-    //are there more than one hashtag in the mix?
-    
-    char startChar = [lastOne characterAtIndex:0];
-    if (startChar == '#') {
-        NSRange firstCharacterIndex = {0,1};
-        NSString *tag = [lastOne stringByReplacingCharactersInRange:firstCharacterIndex withString:@""];
-        //remove potential puncationaton at the end
-        
-        return tag;
+    if ([hashtag characterAtIndex:0] != '#') {
+        return NO;
     }
-    return nil;
+    
+    int count = 0;
+    for (int i=1; i<hashtag.length; i++) {
+        char c = [hashtag characterAtIndex:i];
+        if (c == '#') {
+            count++;
+        }
+    }
+    if (count > 0) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (NSString*)cleanHashtag:(NSString*)hashtag
+{
+    NSRange firstCharacter = {0,1};
+    NSMutableString *mutableHashtag = [[hashtag stringByReplacingCharactersInRange:firstCharacter withString:@""] mutableCopy];
+    
+    for (unsigned long i=(mutableHashtag.length-1); i>0; i--) {
+        char c = [mutableHashtag characterAtIndex:i];
+        if (c == ',' || c == '.' || c == '@' || c == '!' || c == '?') {
+            NSRange range = {i , 1};
+            [mutableHashtag deleteCharactersInRange:range];
+        }
+    }
+    return mutableHashtag;
+}
+
+- (NSArray*)hashtagsInString:(NSString*)string
+{
+    NSArray *split = [string componentsSeparatedByString:@" "];
+    NSMutableArray *hashtags = [split mutableCopy];
+    for(int i=0; i<hashtags.count; i++) {
+        if ([self isHahtag:hashtags[i]]) {
+            NSString *cleanHashtag = [self cleanHashtag:hashtags[i]];
+            [hashtags replaceObjectAtIndex:i withObject:cleanHashtag];
+        } else {
+            [hashtags removeObjectAtIndex:i];
+            --i;
+        }
+    }
+    return hashtags;
+}
+
+- (NSString*)grabLastHashtagFrom:(NSString*)text {
+    NSArray *hashtags = [self hashtagsInString:text];
+    
+    if (hashtags.count == 0) {
+        return nil;
+    }
+    
+    return hashtags[hashtags.count-1];
 }
 
 - (IBAction)doneEditing:(id)sender
@@ -130,11 +173,18 @@
         [[PostDBSingleton singleton] removePost:self.post withDelete:NO];
         [[PostDBSingleton singleton] addPost:self.post];
     }
+    
+    NSCountedSet *masterSet = [NSCountedSet set];
+    
+    NSSet *set = [[NSSet alloc] initWithArray:[self hashtagsInString:self.comments.text]];
+    for (NSString *hashtag in set) {
+        [masterSet addObject:hashtag];
+    }
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    if (self.view.frame.size.height == 480) {   //iphone 4
+    //if (self.view.frame.size.height == 480) {   //iphone 4
         if (self.doneButton.alpha == 0.0) {
             self.doneButton.hidden = NO;
             self.postButton.hidden = NO;
@@ -144,7 +194,7 @@
                 self.postButton.alpha = 0.0;
             }];
         }
-    }
+    //}
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -156,7 +206,6 @@
         self.doneButton.alpha = 0.0;
         self.postButton.alpha = 1.0;
     }];
-    [self.inputPageController swithToPage:1];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -216,8 +265,10 @@
         
         self.DatePickerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"DatePickerViewController"];
         
+        self.locationPickerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"locationPickerViewController"];
+        
         self.inputPageController = segue.destinationViewController;
-        self.inputPageController.pages = @[self.tableViewController, self.DatePickerViewController];
+        self.inputPageController.pages = @[self.tableViewController, self.DatePickerViewController, self.locationPickerViewController];
         self.inputPageController.controllerDelegate = self;
     }
 }
@@ -254,6 +305,19 @@
         
         case 1:
             [self doneEditing:self];
+            break;
+            
+            case 2:
+            [self doneEditing:self];
+            //set location
+            CLLocationCoordinate2D imageLocation = self.location.coordinate;
+            MKCoordinateRegion region;
+            region.center = imageLocation;
+            MKCoordinateSpan span;
+            span.latitudeDelta = 0.1;
+            span.longitudeDelta = 0.1;
+            region.span = span;
+            self.locationPickerViewController.mapView.region = region;
             break;
             
         default:

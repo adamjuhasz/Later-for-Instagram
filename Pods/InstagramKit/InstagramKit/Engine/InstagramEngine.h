@@ -20,17 +20,22 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
+
 @class InstagramUser;
 @class InstagramMedia;
 @class InstagramPaginationInfo;
 @class InstagramTag;
+@class InstagramLocation;
 
 
 typedef void(^InstagramLoginBlock)(NSError* error);
 typedef void(^InstagramMediaBlock)(NSArray *media, InstagramPaginationInfo *paginationInfo);
-typedef void (^InstagramFailureBlock)(NSError* error);
+typedef void (^InstagramObjectsBlock)(NSArray *objects, InstagramPaginationInfo *paginationInfo);
 typedef void (^InstagramTagsBlock)(NSArray *tags, InstagramPaginationInfo *paginationInfo);
 typedef void (^InstagramCommentsBlock)(NSArray *comments);
+typedef void (^InstagramFailureBlock)(NSError* error);
+typedef void (^InstagramLocationsBlock)(NSArray *locations);
 
 extern NSString *const kInstagramKitAppClientIdConfigurationKey;
 extern NSString *const kInstagramKitAppRedirectUrlConfigurationKey;
@@ -64,6 +69,17 @@ typedef enum
 
 } InstagramKitErrorCode;
 
+typedef NS_OPTIONS(NSInteger, IKLoginScope) {
+//    Default, to read any and all data related to a user (e.g. following/followed-by lists, photos, etc.)
+    IKLoginScopeBasic = 0,
+//    to create or delete comments on a user’s behalf
+    IKLoginScopeComments = 1<<1,
+//    to follow and unfollow users on a user’s behalf
+    IKLoginScopeRelationships = 1<<2,
+//    to like and unlike items on a user’s behalf
+    IKLoginScopeLikes = 1<<3
+};
+
 @interface InstagramEngine : NSObject
 
 + (InstagramEngine *)sharedEngine;
@@ -77,7 +93,10 @@ typedef enum
 
 #pragma mark - Login -
 
+//  Comes with the basic login scope
 - (void)loginWithBlock:(InstagramLoginBlock)block;
+- (void)loginWithScope:(IKLoginScope)scope completionBlock:(InstagramLoginBlock)block;
++ (NSString *)stringForScope:(IKLoginScope)scope;
 
 - (void)cancelLogin;
 
@@ -87,7 +106,7 @@ typedef enum
             sourceApplication
             annotation:(id)annotation;
 
-
+- (void)logout;
 
 #pragma mark - Media -
 
@@ -111,12 +130,16 @@ typedef enum
                withSuccess:(InstagramMediaBlock)success
                    failure:(InstagramFailureBlock)failure;
 
+#pragma mark - Locations -
 
+- (void)searchLocationsAtLocation:(CLLocationCoordinate2D)loction
+                      withSuccess:(InstagramLocationsBlock)success
+                          failure:(InstagramFailureBlock)failure;
 
 #pragma mark - Users -
 
 
-- (void)getUserDetails:(InstagramUser *)user
+- (void)getUserDetails:(NSString *)userId
            withSuccess:(void (^)(InstagramUser *userDetail))success
                failure:(InstagramFailureBlock)failure;
 
@@ -168,6 +191,15 @@ typedef enum
 
 
 
+#pragma mark - 
+
+- (void)getSelfRecentMediaWithSuccess:(InstagramMediaBlock)success
+							  failure:(InstagramFailureBlock)failure;
+
+- (void)getSelfRecentMediaWithCount:(NSInteger)count maxId:(NSString *)maxId
+							  success:(InstagramMediaBlock)success
+							  failure:(InstagramFailureBlock)failure;
+
 #pragma mark - Tags -
 
 
@@ -202,17 +234,17 @@ typedef enum
 #pragma mark - Comments -
 
 
-- (void)getCommentsOnMedia:(InstagramMedia *)media
+- (void)getCommentsOnMedia:(NSString *)mediaId
                withSuccess:(InstagramCommentsBlock)success
                    failure:(InstagramFailureBlock)failure;
 
 - (void)createComment:(NSString *)commentText
-              onMedia:(InstagramMedia *)media
+              onMedia:(NSString *)mediaId
           withSuccess:(void (^)(void))success
               failure:(InstagramFailureBlock)failure;
 
 - (void)removeComment:(NSString *)commentId
-              onMedia:(InstagramMedia *)media
+              onMedia:(NSString *)mediaId
           withSuccess:(void (^)(void))success
               failure:(InstagramFailureBlock)failure;
 
@@ -220,15 +252,15 @@ typedef enum
 #pragma mark - Likes -
 
 
-- (void)getLikesOnMedia:(InstagramMedia *)media
+- (void)getLikesOnMedia:(NSString *)mediaId
             withSuccess:(void (^)(NSArray *likedUsers))success
                 failure:(InstagramFailureBlock)failure;
 
-- (void)likeMedia:(InstagramMedia *)media
+- (void)likeMedia:(NSString *)mediaId
       withSuccess:(void (^)(void))success
           failure:(InstagramFailureBlock)failure;
 
-- (void)unlikeMedia:(InstagramMedia *)media
+- (void)unlikeMedia:(NSString *)mediaId
         withSuccess:(void (^)(void))success
             failure:(InstagramFailureBlock)failure;
 
@@ -241,15 +273,15 @@ typedef enum
                               failure:(void (^)(NSError* error))failure;
 
 - (void)getUsersFollowedByUser:(NSString *)userId
-                   withSuccess:(void (^)(NSArray *usersFollowed))success
-                       failure:(void (^)(NSError* error))failure;
+                   withSuccess:(InstagramObjectsBlock)success
+                       failure:(InstagramFailureBlock)failure;
 
 - (void)getFollowersOfUser:(NSString *)userId
-               withSuccess:(void (^)(NSArray *followers))success
-                   failure:(void (^)(NSError* error))failure;
+               withSuccess:(InstagramObjectsBlock)success
+                   failure:(InstagramFailureBlock)failure;
 
-- (void)getFollowRequestsWithSuccess:(void (^)(NSArray *requestedUsers))success
-                        failure:(void (^)(NSError* error))failure;
+- (void)getFollowRequestsWithSuccess:(InstagramObjectsBlock)success
+                        failure:(InstagramFailureBlock)failure;
 
 - (void)followUser:(NSString *)userId
        withSuccess:(void (^)(NSDictionary *response))success
@@ -279,7 +311,7 @@ typedef enum
 #pragma mark - Common Pagination Request -
 
 - (void)getPaginatedItemsForInfo:(InstagramPaginationInfo *)paginationInfo
-                     withSuccess:(InstagramMediaBlock)success
+                     withSuccess:(void (^)(NSArray *objects, InstagramPaginationInfo *paginationInfo))success
                          failure:(InstagramFailureBlock)failure;
 
 @end

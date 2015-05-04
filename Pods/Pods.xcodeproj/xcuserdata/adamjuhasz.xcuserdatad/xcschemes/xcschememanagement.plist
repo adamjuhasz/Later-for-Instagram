@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-later-MMTweenAnimation.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-later-PhotoManager-PhotoManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,42 +52,47 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>04105A4C18D828767E74CC63</key>
+		<key>08EF2A97BF1EF890202E3F7E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>08A80F6AE28D4ADCCEF69EF7</key>
+		<key>1D70E346B2B4A507E45585CA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>61D0D4DD9DE085DC2C58403D</key>
+		<key>60202F2FDC77FFACA3E84FA8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>676F270AF521AF67917DC64D</key>
+		<key>6AF93409DA9AEB0DAAF68476</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A58686D91E98D6F02D141816</key>
+		<key>7D9BEEA7FA7BFE7F2673C93D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AA13C9866682CF382E4610A2</key>
+		<key>84CAB2CD1B641BF1A647D021</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CB61C210472A1550A19AC372</key>
+		<key>939AE2B2E3A06DF443F3B3EC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DCC4C132051E0E732BC6D5E0</key>
+		<key>F6108B67E8E4176DCB8A9B2B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FD7F5875204C95B6C89FE0B1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
