@@ -13,8 +13,7 @@
 @interface TableViewController ()
 {
     NSString *searchedForTag;
-    NSArray *searchedTags;
-    NSMutableDictionary *expandedTags;
+    NSMutableArray *searchedTags;
     NSInteger protectionTag;
 }
 @end
@@ -24,25 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    expandedTags = [NSMutableDictionary dictionary];
-    
     [self.hashtagTable registerNib:[UINib nibWithNibName:@"HashtagTableViewCell" bundle:nil] forCellReuseIdentifier:@"hashtag"];
     
     protectionTag = 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSInteger row = [indexPath row];
-    InstagramTag *tag = searchedTags[row];
-    
-    NSArray *similarTags = [expandedTags objectForKey:tag.name];
-    if (similarTags != nil) {
-        NSLog(@"large size for %ld", (long)indexPath.row);
-        return 44 + similarTags.count*44;
-    }
-    
-    return 44;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -54,39 +37,33 @@
     HashtagTableViewCell *cell = (id)[tableView dequeueReusableCellWithIdentifier:@"hashtag" forIndexPath:indexPath];
     
     NSInteger row = [indexPath row];
-    InstagramTag *tag = searchedTags[row];
+    NSDictionary *tag = searchedTags[row];
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
-    cell.tagName.text = [NSString stringWithFormat:@"#%@", tag.name];
-    cell.tagCount.text = [formatter stringFromNumber:[NSNumber numberWithInteger:tag.mediaCount]];
+    NSInteger indentLevel = [[tag objectForKey:@"indentLevel"] integerValue];
+    NSMutableString *indents = [NSMutableString string];
+    for (int i=0; i<indentLevel; i++) {
+        [indents appendString:@"  "];
+    }
+    NSString *tagName = [NSString stringWithFormat:@"%@#%@", indents, [tag objectForKey:@"name"]];
+    NSString *tagCount = [NSString stringWithFormat:@"%@ posts", [formatter stringFromNumber:[NSNumber numberWithInteger:[[tag objectForKey:@"count"] integerValue]]]];
+    cell.tagName.text = tagName;
+    cell.tagCount.text = tagCount;
     
-    NSArray *similarTags = [expandedTags objectForKey:tag.name];
-    if (similarTags != nil) {
-        cell.similarTagArray = similarTags;
-        cell.delegate = (id)self.delegate;
-        [cell.similarTags reloadData];
-    };
     
     return cell;
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSInteger row = [indexPath row];
-    InstagramTag *tag = searchedTags[row];
-    
-    NSArray *similarTags = [expandedTags objectForKey:tag.name];
-    if (similarTags != nil) {
-        return nil;
-    }
-    return indexPath;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = [indexPath row];
-    NSString *selectedTag = [searchedTags[row] name];
+    
+    NSDictionary *hashtag = searchedTags[row];
+    NSString *selectedTag = [hashtag objectForKey:@"name"];
+    NSInteger selectedLocation = [[hashtag objectForKey:@"originalIndex"] integerValue];
+    NSInteger indentLevel = [[hashtag objectForKey:@"indentLevel"] integerValue];
+    
     [self.delegate didSelectHashtag:selectedTag atIndexPath:indexPath];
     NSInteger protect = protectionTag;
     
@@ -107,28 +84,41 @@
                                                     return (n <= m)? (n < m)? NSOrderedDescending : NSOrderedSame : NSOrderedAscending;
                                                 }];
                                                 
+                                                NSInteger currentParentLocation = 0;
+                                                for(NSDictionary *tag in searchedTags) {
+                                                    if ([[tag objectForKey:@"originalIndex"] integerValue] == selectedLocation) {
+                                                        currentParentLocation = [searchedTags indexOfObject:tag];
+                                                        break;
+                                                    }
+                                                }
+                                                
                                                 NSMutableArray *similarTagArray = [NSMutableArray array];
                                                 for (int i=0; i<MIN(5,sortedValues.count); i++) {
-                                                    NSString *hashtagName = sortedValues[i];
-                                                    
                                                     if ([countedTags countForObject:sortedValues[i]] <= 2) {
                                                         break;
                                                     }
-                                                    /*
-                                                    NSNumber *hashtagCount = [NSNumber numberWithUnsignedInteger:[countedTags countForObject:sortedValues[i]]];
-                                                    NSDictionary *tagInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                             hashtagName, @"name",
-                                                                             hashtagCount, @"count",
+                                                    
+                                                    NSDictionary *similarHashtag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                             sortedValues[i], @"name",
+                                                                             [NSNumber numberWithInteger:0], @"count",
+                                                                             [NSNumber numberWithInteger:(selectedLocation+1)*1000+i], @"originalIndex",
+                                                                             [NSNumber numberWithInteger:indentLevel + 1], @"indentLevel",
                                                                              nil];
-                                                     */
-                                                    [similarTagArray addObject:hashtagName];
+                                                    [similarTagArray addObject:similarHashtag];
                                                 }
                                                 
-                                                [expandedTags setObject:similarTagArray forKey:selectedTag];
+
+                                                
+                                                NSRange range = {currentParentLocation+1, similarTagArray.count};
+                                                NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
+                                                [searchedTags insertObjects:similarTagArray atIndexes:indexes];
                                                 
                                                 if (indexPath && protect == protectionTag) { //make sure the table didn't change underneath us from slow internet
-                                                    NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
-                                                    [self.hashtagTable reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                    NSMutableArray *indexPaths = [NSMutableArray array];
+                                                    for (NSInteger i = 0 ; i<range.length; i++) {
+                                                        [indexPaths addObject:[NSIndexPath indexPathForRow:(range.location + i) inSection:0]];
+                                                    }
+                                                    [self.hashtagTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
                                                 }
                                                 
                                             } failure:^(NSError *error) {
@@ -150,7 +140,13 @@
                                                for (int i=0; i<tags.count; i++) {
                                                    InstagramTag *tag = tags[i];
                                                    if (tag.mediaCount > 1) {
-                                                       [finalTags addObject:tag];
+                                                       NSDictionary *hashtagDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                    tag.name, @"name",
+                                                                                    [NSNumber numberWithInteger:tag.mediaCount], @"count",
+                                                                                    [NSNumber numberWithInteger:i], @"originalIndex",
+                                                                                    [NSNumber numberWithInteger:0], @"indentLevel",
+                                                                                    nil];
+                                                       [finalTags addObject:hashtagDict];
                                                    }
                                                }
                                         
@@ -172,7 +168,6 @@
 {
     protectionTag++;
     searchedTags = nil;
-    [expandedTags removeAllObjects];
     [self.hashtagTable reloadData];
 }
 
