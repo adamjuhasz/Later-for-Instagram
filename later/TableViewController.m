@@ -48,9 +48,13 @@
         [indents appendString:@"  "];
     }
     NSString *tagName = [NSString stringWithFormat:@"%@#%@", indents, [tag objectForKey:@"name"]];
-    NSString *tagCount = [NSString stringWithFormat:@"%@ posts", [formatter stringFromNumber:[NSNumber numberWithInteger:[[tag objectForKey:@"count"] integerValue]]]];
     cell.tagName.text = tagName;
-    cell.tagCount.text = tagCount;
+    
+    NSInteger count = [[tag objectForKey:@"count"] integerValue];
+    if (count > 0) {
+        NSString *tagCount = [NSString stringWithFormat:@"%@ posts", [formatter stringFromNumber:[NSNumber numberWithInteger:count]]];
+        cell.tagCount.text = tagCount;
+    }
     
     
     return cell;

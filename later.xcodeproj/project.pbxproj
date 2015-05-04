@@ -619,7 +619,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = later/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Later;
 				PROVISIONING_PROFILE = "1aa84b6f-9a77-435e-b8e4-60ed376de8f4";
@@ -638,7 +638,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = later/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Later;
 				PROVISIONING_PROFILE = "1aa84b6f-9a77-435e-b8e4-60ed376de8f4";
