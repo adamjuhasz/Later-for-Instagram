@@ -10,6 +10,8 @@
 		2E0BF0E81AF3DDB600C5F7BF /* MapEmbeddedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0BF0E71AF3DDB600C5F7BF /* MapEmbeddedViewController.m */; };
 		2E0BF0EA1AF3DFDE00C5F7BF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0BF0E91AF3DFDE00C5F7BF /* MapKit.framework */; };
 		2E0BF0EC1AF3E76100C5F7BF /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E0BF0EB1AF3E76100C5F7BF /* location.png */; };
+		2E0BF0F31AF8092100C5F7BF /* PostDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0BF0F21AF8092100C5F7BF /* PostDisplayView.m */; };
+		2E0BF0F51AF8093D00C5F7BF /* PostDisplayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E0BF0F41AF8093D00C5F7BF /* PostDisplayView.xib */; };
 		2E2220541AE59FCB007D2E38 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E2220531AE59FCB007D2E38 /* Launch Screen.xib */; };
 		2E2220581AE5B984007D2E38 /* BCN.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2E2220571AE5B984007D2E38 /* BCN.wav */; };
 		2E22205E1AE5B9EE007D2E38 /* PleasantTone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2E22205D1AE5B9EE007D2E38 /* PleasantTone.wav */; };
@@ -68,6 +70,9 @@
 		2E0BF0E71AF3DDB600C5F7BF /* MapEmbeddedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapEmbeddedViewController.m; sourceTree = "<group>"; };
 		2E0BF0E91AF3DFDE00C5F7BF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2E0BF0EB1AF3E76100C5F7BF /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
+		2E0BF0F11AF8092100C5F7BF /* PostDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDisplayView.h; sourceTree = "<group>"; };
+		2E0BF0F21AF8092100C5F7BF /* PostDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDisplayView.m; sourceTree = "<group>"; };
+		2E0BF0F41AF8093D00C5F7BF /* PostDisplayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostDisplayView.xib; sourceTree = "<group>"; };
 		2E2220531AE59FCB007D2E38 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		2E2220571AE5B984007D2E38 /* BCN.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BCN.wav; sourceTree = "<group>"; };
 		2E22205D1AE5B9EE007D2E38 /* PleasantTone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PleasantTone.wav; sourceTree = "<group>"; };
@@ -274,6 +279,9 @@
 				2E6E21521AE021D0002E9372 /* PostActionsViewController.h */,
 				2E6E21531AE021D0002E9372 /* PostActionsViewController.m */,
 				2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */,
+				2E0BF0F11AF8092100C5F7BF /* PostDisplayView.h */,
+				2E0BF0F21AF8092100C5F7BF /* PostDisplayView.m */,
+				2E0BF0F41AF8093D00C5F7BF /* PostDisplayView.xib */,
 			);
 			name = "Image Display";
 			sourceTree = "<group>";
@@ -396,6 +404,7 @@
 				2E2220691AE60B69007D2E38 /* logo-58.png in Resources */,
 				2E6E21461ADCFB47002E9372 /* logo-180.png in Resources */,
 				2E22206F1AE60CD0007D2E38 /* launch2x.png in Resources */,
+				2E0BF0F51AF8093D00C5F7BF /* PostDisplayView.xib in Resources */,
 				2E0BF0EC1AF3E76100C5F7BF /* location.png in Resources */,
 				2E2220621AE5BAD2007D2E38 /* ThatsIt.wav in Resources */,
 				2E3E92F81AE1A7890048B5E8 /* Settings.bundle in Resources */,
@@ -487,6 +496,7 @@
 				2E25D6081AE42C2800774220 /* CaptionInputsPageViewController.m in Sources */,
 				2E6E214A1ADD85D5002E9372 /* PhotoTableViewCell.m in Sources */,
 				2E6E21071ADC53DB002E9372 /* main.m in Sources */,
+				2E0BF0F31AF8092100C5F7BF /* PostDisplayView.m in Sources */,
 				2E25D60B1AE42E1100774220 /* TableViewController.m in Sources */,
 				2E6E21551AE021D0002E9372 /* PostActionsViewController.m in Sources */,
 				2E6E21361ADCBB90002E9372 /* CommentEntryViewController.m in Sources */,

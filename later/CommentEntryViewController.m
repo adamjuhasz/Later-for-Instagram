@@ -64,9 +64,6 @@
     //reser table
     [self.tableViewController clearTable];
     
-    //show keyboard
-    [self.comments becomeFirstResponder];
-    
     //set location
     CLLocationCoordinate2D imageLocation = self.location.coordinate;
     MKCoordinateRegion region;
@@ -76,6 +73,16 @@
     span.longitudeDelta = 0.01;
     region.span = span;
     self.locationPickerViewController.mapView.region = region;
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    [super didMoveToParentViewController:parent];
+    
+    if(parent != nil) {
+        //show keyboard
+        [self.comments becomeFirstResponder];
+    }
 }
 
 - (void)setThumbnail:(UIImage*)aThumbnail
@@ -160,7 +167,7 @@
 
 - (IBAction)goBack
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.delegate popController:self withSuccess:nil];
 }
 
 - (IBAction)schedulePost
@@ -288,10 +295,8 @@
     CGFloat height = (self.view.frame.size.height - self.ContainerView.frame.origin.y);
     //if (height > self.containerHeightConstraint.constant) {
     self.containerHeightConstraint.constant =  height;
-    [self.view layoutIfNeeded];
+    //[self.view layoutIfNeeded];
     //}
-
-    [self.view layoutIfNeeded];
 }
 
 - (void)keyboardDidShow:(NSNotification *)sender
@@ -318,7 +323,7 @@
             break;
             
             case 2:
-            //[self doneEditing:self];
+            [self doneEditing:self];
             //set location
             if (self.location) {
                 CLLocationCoordinate2D imageLocation = self.location.coordinate;

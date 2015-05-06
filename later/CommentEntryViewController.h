@@ -13,6 +13,7 @@
 #import "scheduledPostModel.h"
 #import <CoreLocation/CoreLocation.h>
 #import "MapEmbeddedViewController.h"
+#import "SchedulesPostsViewController.h"
 
 @interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate, inputsPageDelegate>
 
@@ -32,6 +33,8 @@
 @property (nonatomic, strong) NSLayoutConstraint *bottomConstraint;
 @property scheduledPostModel* post;
 @property CLLocation *location;
+
+@property SchedulesPostsViewController *delegate;
 
 - (IBAction)goBack;
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath;

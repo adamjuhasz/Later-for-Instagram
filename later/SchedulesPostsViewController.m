@@ -18,6 +18,7 @@
 #import <pop/POP.h>
 #import "NotificationStrings.h"
 #import <MMTweenAnimation/MMTweenAnimation.h>
+#import "PostDisplayView.h"
 
 @interface SchedulesPostsViewController ()
 {
@@ -31,6 +32,9 @@
     scheduledPostModel *selectedPost;
     UIView* selectedPostShroud;
     BOOL animating;
+    PostDisplayView *postDetailView;
+    UIScreenEdgePanGestureRecognizer *leftEdgeGesture, *rightEdgeGesture;
+    UIEdgeInsets initialinsets;
 }
 
 @property UIDynamicAnimator *animator;
@@ -51,15 +55,16 @@
     viewsInScrollView = [NSMutableArray array];
     scheduledPosts = [[PostDBSingleton singleton] allposts];
     
-    self.scheduledScroller.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    initialinsets = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.scheduledScroller.contentInset = initialinsets;
     self.scheduledScroller.scrollIndicatorInsets = self.scheduledScroller.contentInset;
     
     shroud = [[UIView alloc] initWithFrame:CGRectMake(0, addButton.frame.size.height, self.scheduledScroller.bounds.size.width, self.scheduledScroller.bounds.size.height)];
     shroud.backgroundColor = [UIColor blackColor];
     [self.scheduledScroller addSubview:shroud];
     
-    self.collectionView.contentInset = self.scheduledScroller.contentInset;
-    self.collectionView.scrollIndicatorInsets = self.scheduledScroller.contentInset;
+    self.collectionView.contentInset = initialinsets;
+    self.collectionView.scrollIndicatorInsets = initialinsets;
     //self.collectionView.alpha = 0.0;
     
     [self.collectionView reloadData];
@@ -70,6 +75,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifiedSendPost:) name:kPostToBeSentNotification object:nil];
     
     captionController = [self.storyboard instantiateViewControllerWithIdentifier:@"captionViewController"];
+    captionController.delegate = self;
     
     for (UIView *aView in self.scheduleMenuViews) {
         aView.alpha = 1.0;
@@ -85,6 +91,13 @@
     
     self.selectedPostView.layer.cornerRadius = 4;
     self.selectedPostView.clipsToBounds = YES;
+    
+    UINib *postViewNib = [UINib nibWithNibName:@"PostDisplayView" bundle:nil];
+    NSArray *instantiatedViews = [postViewNib instantiateWithOwner:nil options:nil];
+    postDetailView = instantiatedViews[0];
+    CGRect detailViewFrame = postDetailView.frame;
+    postDetailView.hidden = YES;
+    [self.view addSubview:postDetailView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -133,7 +146,10 @@
 - (void)postWasTapped:(UIGestureRecognizer*)recognizer
 {
     NSLog(@"tapped");
+    UIView *viewClicked = recognizer.view;
+    CGRect frameOfView = [viewClicked convertRect:viewClicked.frame toView:self.view];
     scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
+    
     selectedPost = thePost;
     [self showSelectedPostWithImage:selectedPost.postImage];
 }
@@ -152,6 +168,8 @@
     
     self.selectedPostView.hidden = NO;
     [UIView animateWithDuration:0.4
+                          delay:1.0
+                        options:0
                      animations:^{
                          selectedPostShroud.alpha = 1.0;
                          self.selectedPostView.alpha = 1.0;
@@ -209,7 +227,6 @@
         document.UTI = @"com.instagram.exclusivegram";
         document.delegate = self;
         document.annotation = [NSDictionary dictionaryWithObject:selectedPost.postCaption forKey:@"InstagramCaption"];
-        NSLog(@"ready to load instagram");
         
         BOOL success = [document presentOpenInMenuFromRect:CGRectMake(1, 1, 1, 1) inView:self.navigationController.view animated:YES];
         if (success) {
@@ -238,6 +255,52 @@
     [self.collectionView reloadData];
 }
 
+- (NSAttributedString*)stringForDate:(NSDate*)dateToBe
+{
+    // Get the system calendar
+    NSCalendar *sysCalendar = [NSCalendar currentCalendar];
+    
+    // Create the NSDates
+    NSDate *currentDate = [[NSDate alloc] init];
+
+    // Get conversion to months, days, hours, minutes
+    unsigned int unitFlags = NSCalendarUnitSecond |  NSCalendarUnitMinute  | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth;
+    NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:currentDate  toDate:dateToBe  options:0];
+    //NSLog(@"Break down: %ld sec : %ld min : %ld hours : %ld days : %ld months", [breakdownInfo second], [breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
+    
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
+    NSDictionary *attrsDictionary =[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
+    UIFont *smallFont = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
+    NSDictionary *smallAttrsDictionary =[NSDictionary dictionaryWithObject:smallFont forKey:NSFontAttributeName];
+    
+    NSMutableAttributedString *timelabelText = [[NSMutableAttributedString alloc] initWithString:@"Soon" attributes:attrsDictionary];
+    if (ABS(breakdownInfo.month) > 0) {
+        timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.month)] attributes:attrsDictionary];
+        [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"mo" attributes:smallAttrsDictionary]];
+    } else if (ABS(breakdownInfo.day) > 0) {
+        timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.day)] attributes:attrsDictionary];
+        [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"d" attributes:smallAttrsDictionary]];
+    } else if (ABS(breakdownInfo.hour) > 0) {
+        timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.hour)] attributes:attrsDictionary];
+        [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"h" attributes:smallAttrsDictionary]];
+    } else if (ABS(breakdownInfo.minute) > 0) {
+        timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.minute)] attributes:attrsDictionary];
+        [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"m" attributes:smallAttrsDictionary]];
+    }
+    
+    if ([dateToBe compare:currentDate] == NSOrderedDescending) {
+        
+    } else {
+        if ([timelabelText.string isEqualToString:@"Soon"]) {
+            timelabelText = [[NSMutableAttributedString alloc] initWithString:@"Now" attributes:attrsDictionary] ;
+        } else {
+            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@" late" attributes:smallAttrsDictionary]];
+        }
+    }
+
+    return timelabelText;
+}
+
 - (void)reloadScrollView
 {
     scheduledPosts = [[PostDBSingleton singleton] allposts];
@@ -264,20 +327,6 @@
         
         scheduledPostModel *post = scheduledPosts[i];
         
-        NSTimeInterval secondsToGo = [post.postTime timeIntervalSinceNow];
-        
-        // Get the system calendar
-        NSCalendar *sysCalendar = [NSCalendar currentCalendar];
-        
-        // Create the NSDates
-        NSDate *date1 = [[NSDate alloc] init];
-        NSDate *date2 = [[NSDate alloc] initWithTimeInterval:secondsToGo sinceDate:date1];
-        
-        // Get conversion to months, days, hours, minutes
-        unsigned int unitFlags = NSCalendarUnitSecond |  NSCalendarUnitMinute  | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth;
-        NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:date1  toDate:date2  options:0];
-        //NSLog(@"Break down: %ld sec : %ld min : %ld hours : %ld days : %ld months", [breakdownInfo second], [breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
-        
         currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
         UIView *newImage =  [[UIView alloc] initWithFrame:currrentFrame];
         newImage.backgroundColor = [UIColor darkGrayColor];
@@ -303,39 +352,9 @@
         
         CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (40+5), imageRect.size.width - 5, 40);
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
-        
-        UIFont *font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
-        NSDictionary *attrsDictionary =[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-        UIFont *smallFont = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
-        NSDictionary *smallAttrsDictionary =[NSDictionary dictionaryWithObject:smallFont forKey:NSFontAttributeName];
-        
-        NSMutableAttributedString *timelabelText = [[NSMutableAttributedString alloc] initWithString:@"Soon" attributes:attrsDictionary];
-        if (ABS(breakdownInfo.month) > 0) {
-            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.month)] attributes:attrsDictionary];
-            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"mo" attributes:smallAttrsDictionary]];
-        } else if (ABS(breakdownInfo.day) > 0) {
-            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.day)] attributes:attrsDictionary];
-            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"d" attributes:smallAttrsDictionary]];
-        } else if (ABS(breakdownInfo.hour) > 0) {
-            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.hour)] attributes:attrsDictionary];
-            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"h" attributes:smallAttrsDictionary]];
-        } else if (ABS(breakdownInfo.minute) > 0) {
-            timelabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)ABS(breakdownInfo.minute)] attributes:attrsDictionary];
-            [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@"m" attributes:smallAttrsDictionary]];
-        }
         timeLabel.textColor = [UIColor whiteColor];
+        timeLabel.attributedText = [self stringForDate:post.postTime];
         timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
-        if ([date2 compare:date1] == NSOrderedDescending) {
-            
-        } else {
-            if ([timelabelText.string isEqualToString:@"Soon"]) {
-                timelabelText = [[NSMutableAttributedString alloc] initWithString:@"Now" attributes:attrsDictionary] ;
-            } else {
-                [timelabelText appendAttributedString:[[NSAttributedString alloc] initWithString:@" late" attributes:smallAttrsDictionary]];
-            }
-        }
-        timeLabel.attributedText = timelabelText;
-        
         [newImage addSubview:timeLabel];
         
         newImage.tag = i;
@@ -380,8 +399,10 @@
         return;
     }
     
-    if ((velocity.y < -1.0 && scrollView.contentOffset.y < 0) || (scrollView.contentOffset.y < -150)) {
+    if ((velocity.y < -1.0 && scrollView.contentOffset.y < -100) || (scrollView.contentOffset.y < -150)) {
         *targetContentOffset = CGPointZero;
+        self.topConstraint.constant = scrollView.contentOffset.y;
+        [self.scheduledScroller layoutIfNeeded];
         [self hideScrollviewWithVelocity:velocity.y];
     }
 }
@@ -412,52 +433,66 @@
 
 - (void)hideScrollviewWithVelocity:(CGFloat)velocity
 {
-    if (animating) {
-        //already down
-        return;
-    }
-    
     animating = YES;
-    self.scheduledScroller.userInteractionEnabled = NO;
     
     [self authorizePhotos];
+    
+    self.scheduledScroller.layer.cornerRadius = 20.0;
+    self.scheduledScroller.clipsToBounds = YES;
     
     CGRect goneFrame = self.scheduledScroller.frame;
     goneFrame.origin.y = self.view.bounds.size.height;
     
-    POPSpringAnimation *animation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
-    animation.springBounciness = 8;
-    animation.velocity = @(velocity);
-    NSLog(@"to: %f", goneFrame.origin.y);
-    animation.toValue = @(goneFrame.origin.y + goneFrame.size.height/2.0 - 64); //64 for nav bar and position uses center point
-    animation.completionBlock = ^(POPAnimation *anim, BOOL finished){
-        self.scheduledScroller.hidden = YES;
-    };
+    //---- Scroll View ---
+    POPSpringAnimation *scheduldPostVerticalanimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayoutConstraintConstant];
+    scheduldPostVerticalanimation.springBounciness = 8;
+    scheduldPostVerticalanimation.velocity = @(velocity);
+    //scheduldPostVerticalanimation.fromValue =
+    scheduldPostVerticalanimation.toValue = @(self.view.bounds.size.height - (100)); //64 for nav bar and position uses center point
+    scheduldPostVerticalanimation.completionBlock = ^(POPAnimation *anim, BOOL finished){
+        };
+    [self.topConstraint pop_addAnimation:scheduldPostVerticalanimation forKey:@"dropDown"];
     
+    POPSpringAnimation *scheduledPostInset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentInset];
+    scheduledPostInset.toValue = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    scheduledPostInset.springBounciness = scheduldPostVerticalanimation.springBounciness;
+    scheduledPostInset.velocity = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(velocity, 0, 0, 0)];
+    [self.scheduledScroller pop_addAnimation:scheduledPostInset forKey:@"inset"];
     
-    [self.scheduledScroller.layer pop_addAnimation:animation forKey:@"fullscreen"];
+    POPSpringAnimation *scheduledPostOffset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
+    scheduledPostOffset.toValue = [NSValue valueWithCGPoint:CGPointMake(0, -2)];
+    scheduledPostOffset.springBounciness = scheduldPostVerticalanimation.springBounciness;
+    scheduledPostOffset.velocity = [NSValue valueWithCGPoint:CGPointMake(0, velocity)];
+    [self.scheduledScroller pop_addAnimation:scheduledPostOffset forKey:@"offset"];
     
-    //self.collectionView.contentInset = ;
+    POPSpringAnimation *sch
     
+    //---- Collection View ----
     POPSpringAnimation *offset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
     offset.toValue = [NSValue valueWithCGPoint:CGPointMake(0, (self.collectionView.contentInset.top+1)*-1)];
-    offset.springBounciness = animation.springBounciness;
+    offset.springBounciness = scheduldPostVerticalanimation.springBounciness;
     offset.velocity = [NSValue valueWithCGPoint:CGPointMake(0, velocity)];
     [self.collectionView pop_addAnimation:offset forKey:@"offset"];
     
     POPSpringAnimation *inset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentInset];
     inset.toValue = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(65, 0, 0, 0)];
-    inset.springBounciness = animation.springBounciness;
+    inset.springBounciness = scheduldPostVerticalanimation.springBounciness;
     inset.velocity = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(velocity, 0, 0, 0)];
     [self.collectionView pop_addAnimation:inset forKey:@"inset"];
+    
+    POPSpringAnimation *collectionAlphaAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewAlpha];
+    collectionAlphaAnimation.toValue = @(1.0);
+    [self.collectionView pop_addAnimation:collectionAlphaAnimation forKey:@"alpha"];
+    
+    CABasicAnimation *transformAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    transformAnimation.duration = 0.2;
+    transformAnimation.toValue = [NSValue valueWithCGAffineTransform:CGAffineTransformIdentity];
+    [self.collectionView.layer addAnimation:transformAnimation forKey:@"transform"];
     
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         self.collectionView.alpha = 1.0;
-                         self.collectionView.transform = CGAffineTransformIdentity;
-                         
                          for (UIView *aView in self.scheduleMenuViews) {
                              aView.alpha = 0.0;
                          }
@@ -465,10 +500,7 @@
                              aView.alpha = 1.0;
                          }
                      }
-                     completion:^(BOOL finished) {
-                         
-                     }];
-
+                     completion:nil];
 }
 
 - (IBAction)resetScrollview
@@ -482,27 +514,31 @@
     MMTweenAnimation *bounceAnimation = [MMTweenAnimation animation];
     bounceAnimation.functionType = MMTweenFunctionBounce;
     bounceAnimation.easingType = MMTweenEasingOut;
-    bounceAnimation.fromValue = self.scheduledScroller.frame.origin.y;
-    bounceAnimation.toValue = goneFrame.origin.y;
-    bounceAnimation.duration = 0.5;
+    bounceAnimation.fromValue = self.topConstraint.constant;
+    bounceAnimation.toValue = -20;
+    bounceAnimation.duration = 0.4;
     bounceAnimation.animationBlock = ^(double currentTime, double duration, double value, id target, MMTweenAnimation *animation){
-        UIView *view = (UIView*)target;
-        CGRect frame = view.frame;
-        frame.origin.y = value;
-        view.frame = frame;
-    };
+        NSLayoutConstraint *constraint = (NSLayoutConstraint*)target;
+        constraint.constant = value;
+        };
     bounceAnimation.completionBlock =  ^(POPAnimation *anim, BOOL finished){
-        self.scheduledScroller.frame = goneFrame;
-    };
-    [self.scheduledScroller pop_addAnimation:bounceAnimation forKey:@"layer.y"];
+        self.topConstraint.constant = -20;
+        };
+    [self.topConstraint pop_addAnimation:bounceAnimation forKey:@"top_constraint"];
+    
+    POPBasicAnimation *scheduledContentOffsetAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
+    scheduledContentOffsetAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(0, -64)];
+    [self.scheduledScroller pop_addAnimation:scheduledContentOffsetAnimation forKey:@"contentOffset"];
+    
+    POPSpringAnimation *scheduledPostInsetAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentInset];
+    scheduledPostInsetAnimation.toValue = [NSValue valueWithUIEdgeInsets:initialinsets];
+    scheduledPostInsetAnimation.springBounciness = 8.0;
+    [self.scheduledScroller pop_addAnimation:scheduledPostInsetAnimation forKey:@"inset"];
     
     [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         //self.scheduledScroller.frame = goneFrame;
-                         self.scheduledScroller.contentOffset = CGPointMake(0, -65);
-                         
                          self.collectionView.alpha = 0.0;
                          self.collectionView.contentInset = self.scheduledScroller.contentInset;
                          self.collectionView.scrollIndicatorInsets = self.scheduledScroller.contentInset;
@@ -522,8 +558,7 @@
                      }];
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     PhotoManager *shared = [PhotoManager sharedManager];
     NSInteger count = [shared countForAlbum:shared.cameraRollAlbumName];
@@ -533,8 +568,7 @@
     return count;
 }
 
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                 cellForItemAtIndexPath:(NSIndexPath *)indexPath
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PhotoTableViewCell *myCell = [collectionView
                            dequeueReusableCellWithReuseIdentifier:@"PhotoCell"
@@ -554,34 +588,173 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"CLICK!");
-    [[PhotoManager sharedManager] getThumbnailFor:[[PhotoManager sharedManager] cameraRollAlbumName]
-                                          atIndex:indexPath.row
-                                  completionBlock:^(UIImage *image) {
-        [captionController setThumbnail:image];
-    }];
-    
     captionController.comments.text = @"";
     captionController.post = nil;
     [captionController resetView];
-    [self.navigationController pushViewController:captionController animated:YES];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[PhotoManager sharedManager] fullsizeImageIn:[[PhotoManager sharedManager] cameraRollAlbumName]
-                                              atIndex:indexPath.row
-                                      completionBlock:^(UIImage *image, CLLocation *location) {
-                                          [captionController setPhoto:image];
-                                          captionController.location = location;
-                                      }];
+    [[PhotoManager sharedManager] getThumbnailFor:[[PhotoManager sharedManager] cameraRollAlbumName]
+                                          atIndex:indexPath.row
+                                  completionBlock:^(UIImage *image) {
+                                      [captionController setThumbnail:image];
+                                  }];
+    
+    [self pushController:captionController
+             withSuccess:^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[PhotoManager sharedManager] fullsizeImageIn:[[PhotoManager sharedManager] cameraRollAlbumName]
+                                                  atIndex:indexPath.row
+                                          completionBlock:^(UIImage *image, CLLocation *location) {
+                                              [captionController setPhoto:image];
+                                              captionController.location = location;
+                                          }];
+            
+        });
+    }];
+}
 
-    });
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        otherGestureRecognizer.enabled = NO;
+        otherGestureRecognizer.enabled = YES;
+    }
+    return YES;
+}
+
+- (void)edgeSwipe:(UIScreenEdgePanGestureRecognizer*)recognizer
+{
+    CGFloat xTranslation = [recognizer translationInView:self.view].x;
+    CGFloat xVelocity = [recognizer velocityInView:self.view].x;
+    
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+    BOOL edgeSwipeSameDirection = NO;
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateBegan:
+            [self.view endEditing:YES];
+            captionController.view.frame = CGRectMake(xTranslation, 0, captionController.view.frame.size.width, captionController.view.frame.size.height);
+            break;
+            
+        case UIGestureRecognizerStateEnded:
+            if (xTranslation > 0 && xVelocity > 0 && recognizer == leftEdgeGesture) {
+                edgeSwipeSameDirection = YES;
+            }
+            if (xTranslation < 0 && xVelocity < 0 && recognizer == rightEdgeGesture) {
+                edgeSwipeSameDirection = YES;
+                [captionController schedulePost];
+            }
+            if ((ABS(xTranslation) > self.view.frame.size.width/2.0 || ABS(xVelocity) > 50 ) && edgeSwipeSameDirection)  {
+                if (xTranslation > 0) {
+                    animation.toValue = [NSValue valueWithCGRect:CGRectMake(captionController.view.frame.size.width, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
+                } else {
+                    animation.toValue = [NSValue valueWithCGRect:CGRectMake(-1*captionController.view.frame.size.width, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
+                }
+                animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+                animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+                    [self removeController:captionController];
+                };
+            } else {
+                animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+                animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
+            }
+            [captionController.view pop_addAnimation:animation forKey:@"slide"];
+            break;
+                                            
+        default:
+            captionController.view.frame = CGRectMake(xTranslation, 0, captionController.view.frame.size.width, captionController.view.frame.size.height);
+            break;
+    }
+}
+
+- (void)pushController:(UIViewController*)controller withSuccess:(void (^)(void))success
+{
+    CGRect initialFrame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    controller.view.frame = initialFrame;
+    
+    [self addChildViewController:controller];
+    [self.view addSubview:controller.view];
+    
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    animation.fromValue = [NSValue valueWithCGRect:initialFrame];
+    animation.duration = 0.4;
+    animation.toValue = [NSValue valueWithCGRect:self.view.bounds];
+    animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+        [captionController didMoveToParentViewController:self];
+        if(success) {
+            success();
+        }
+    };
+    
+    leftEdgeGesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(edgeSwipe:)];
+    leftEdgeGesture.edges = UIRectEdgeLeft;
+    leftEdgeGesture.delaysTouchesBegan = YES;
+    leftEdgeGesture.delegate = self;
+    [self.view addGestureRecognizer:leftEdgeGesture];
+    
+    rightEdgeGesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(edgeSwipe:)];
+    rightEdgeGesture.edges = UIRectEdgeRight;
+    rightEdgeGesture.delaysTouchesBegan = YES;
+    rightEdgeGesture.delegate = self;
+    [self.view addGestureRecognizer:rightEdgeGesture];
+    
+    [controller.view pop_addAnimation:animation forKey:@"frame"];
+}
+
+- (void)popController:(UIViewController *)controller withDirection:(UIRectEdge)direction withSuccess:(void (^)(void))success
+{
+    NSInteger index = [self.childViewControllers indexOfObjectIdenticalTo:controller];
+    if (index == NSNotFound) {
+        if (success)
+            success();
+        return;
+    }
+    
+    CGRect exitFrame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    
+    switch (direction) {
+        case UIRectEdgeLeft:
+            exitFrame = CGRectMake(-1*self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+            break;
+            
+        default:
+            break;
+    }
+    
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    animation.duration = 0.4;
+    animation.toValue = [NSValue valueWithCGRect:exitFrame];
+    animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+        [self removeController:controller];
+        if(success) {
+            success();
+        }
+    };
+    
+    [self.view endEditing:YES];
+    [controller.view pop_addAnimation:animation forKey:@"frame_out"];
+}
+
+- (void)popController:(UIViewController*)controller withSuccess:(void (^)(void))success
+{
+    [self popController:controller withDirection:UIRectEdgeRight withSuccess:success];
+}
+
+- (void)removeController:(UIViewController*)controller
+{
+    [controller willMoveToParentViewController:nil];
+    [controller.view removeFromSuperview];
+    [controller removeFromParentViewController];
+    
+    [self.view removeGestureRecognizer:leftEdgeGesture];
+    [self.view removeGestureRecognizer:rightEdgeGesture];
 }
 
 - (void)newPostWasAdded
 {
     [self reloadScrollView];
     [self resetScrollview];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self popController:captionController withDirection:UIRectEdgeLeft withSuccess:nil];
 }
 
 - (void)editPostNotificatiom:(NSNotification*)notification
@@ -594,16 +767,9 @@
     appDelegate.notificationPostKey = nil;
     appDelegate.notificationAction = nil;
     
-    [self performSegueWithIdentifier:@"show.editSelectedPost" sender:self];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"show.editSelectedPost"]) {
-        CommentEntryViewController *captionViewController = (id)segue.destinationViewController;
-        captionViewController.post = selectedPost;
-        [self hideSelectedPost];
-    }
+    captionController.post = selectedPost;
+    [self pushController:captionController withSuccess:nil];
+    [self hideSelectedPost];
 }
 
 - (void)notifiedSendPost:(NSNotification*)notification
@@ -612,6 +778,7 @@
     scheduledPostModel *post = [userInfo objectForKey:@"post"];
     selectedPost = post;
     
+    [self sendSelectedPostToInstagram];
 }
 
 @end

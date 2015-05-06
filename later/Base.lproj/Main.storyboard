@@ -343,13 +343,21 @@
                             <constraint firstAttribute="width" secondItem="eqh-CT-4a4" secondAttribute="width" id="IJa-p3-2da"/>
                             <constraint firstAttribute="width" secondItem="Hrq-hU-IM6" secondAttribute="width" id="LEx-sw-wOl"/>
                             <constraint firstAttribute="centerX" secondItem="fFp-kU-6vr" secondAttribute="centerX" id="Qua-pX-4fQ"/>
+                            <constraint firstItem="ltV-Ss-H1x" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="ZYm-Qg-z4F"/>
                             <constraint firstAttribute="centerY" secondItem="Hrq-hU-IM6" secondAttribute="centerY" id="Zkk-03-oMk"/>
                             <constraint firstAttribute="centerX" secondItem="eqh-CT-4a4" secondAttribute="centerX" id="inm-zZ-w8A"/>
                             <constraint firstAttribute="centerX" secondItem="Hrq-hU-IM6" secondAttribute="centerX" id="k60-kw-Ygz"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="height" secondItem="8ho-xC-d1H" secondAttribute="height" id="mVz-bX-Lxo"/>
                             <constraint firstAttribute="centerY" secondItem="fFp-kU-6vr" secondAttribute="centerY" id="sCv-Il-Rh4"/>
+                            <constraint firstItem="Ymz-tk-UOP" firstAttribute="top" secondItem="ltV-Ss-H1x" secondAttribute="bottom" id="uuT-cB-hPV"/>
                             <constraint firstItem="eqh-CT-4a4" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="w4o-x0-no1"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="5dv-f4-Juv"/>
+                                <exclude reference="uuT-cB-hPV"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="OUN-Ny-FF8"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -361,6 +369,7 @@
                         <outlet property="menuBar" destination="eqh-CT-4a4" id="R0q-rl-mVB"/>
                         <outlet property="scheduledScroller" destination="ltV-Ss-H1x" id="aEE-VD-Exo"/>
                         <outlet property="selectedPostView" destination="fFp-kU-6vr" id="BB9-fd-5jS"/>
+                        <outlet property="topConstraint" destination="ZYm-Qg-z4F" id="sop-ao-5xS"/>
                         <outletCollection property="photoPickerMenuViews" destination="Nx6-Z7-uWt" id="k62-Gs-NPO"/>
                         <outletCollection property="scheduleMenuViews" destination="sGv-TM-h60" id="NxO-rG-pgk"/>
                         <segue destination="Z6d-KB-Dgc" kind="show" identifier="show.caption" id="riB-XQ-bEb"/>
