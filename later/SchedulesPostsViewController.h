@@ -13,12 +13,11 @@
 @property IBOutlet UIScrollView *scheduledScroller;
 @property IBOutlet UIView *menuBar;
 @property IBOutlet UICollectionView *collectionView;
-@property IBOutletCollection(UIView) NSArray *scheduleMenuViews;
-@property IBOutletCollection(UIView) NSArray *photoPickerMenuViews;
 @property IBOutlet UIView *selectedPostView;
 @property IBOutlet UIImageView *SelectedPostImageView;
 @property IBOutlet UIView *pullDownHelperView;
 @property IBOutlet NSLayoutConstraint *topConstraint;
+@property IBOutlet UIView *addButton;
 
 - (void)popController:(UIViewController*)controller withSuccess:(void (^)(void))success;
 - (void)pushController:(UIViewController*)controller withSuccess:(void (^)(void))success;

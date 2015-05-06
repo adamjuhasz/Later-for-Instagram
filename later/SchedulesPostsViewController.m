@@ -19,6 +19,9 @@
 #import "NotificationStrings.h"
 #import <MMTweenAnimation/MMTweenAnimation.h>
 #import "PostDisplayView.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 @interface SchedulesPostsViewController ()
 {
@@ -31,10 +34,12 @@
     scheduledPostModel *postThatIsBeingPosted;
     scheduledPostModel *selectedPost;
     UIView* selectedPostShroud;
-    BOOL animating;
     PostDisplayView *postDetailView;
     UIScreenEdgePanGestureRecognizer *leftEdgeGesture, *rightEdgeGesture;
     UIEdgeInsets initialinsets;
+    CGFloat topLayoutConstantMin;
+    CGFloat topLayoutConstantMax;
+    BOOL scrollViewUp;
 }
 
 @property UIDynamicAnimator *animator;
@@ -77,13 +82,6 @@
     captionController = [self.storyboard instantiateViewControllerWithIdentifier:@"captionViewController"];
     captionController.delegate = self;
     
-    for (UIView *aView in self.scheduleMenuViews) {
-        aView.alpha = 1.0;
-    }
-    for (UIView *aView in self.photoPickerMenuViews) {
-        aView.alpha = 0.0;
-    }
-    
     UIScreenEdgePanGestureRecognizer *leftSideSwipe = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(resetScrollview)];
     leftSideSwipe.edges = UIRectEdgeLeft;
     leftSideSwipe.delaysTouchesBegan = YES;
@@ -98,6 +96,43 @@
     CGRect detailViewFrame = postDetailView.frame;
     postDetailView.hidden = YES;
     [self.view addSubview:postDetailView];
+    
+    topLayoutConstantMin = -20;
+    topLayoutConstantMax = self.view.bounds.size.height - (100);
+    
+    [RACObserve(self, topConstraint.constant) subscribeNext:^(NSNumber *layoutConstant) {
+        CGFloat value = [layoutConstant floatValue];
+        CGFloat percent = (value - topLayoutConstantMin) / (topLayoutConstantMax - topLayoutConstantMin);
+        
+        self.addButton.transform = [self transformForAddButtonWithPercent:percent];
+        }];
+    
+    /*
+    [RACObserve(self, scheduledScroller.contentOffset) subscribeNext:^(id layoutConstant) {
+        CGPoint value = [(NSValue*)layoutConstant CGPointValue];
+        CGFloat percent = (value.y - -64) / (150 - -64) * -1;
+        //NSLog(@"offset percent: %f", percent);
+        //self.addButton.transform = [self transformForAddButtonWithPercent:percent];
+    }];
+    */
+    
+    scrollViewUp = YES;
+}
+         
+- (CGAffineTransform)transformForAddButtonWithPercent:(CGFloat)percent
+{
+    CGAffineTransform transformer = CGAffineTransformIdentity;
+    transformer = CGAffineTransformTranslate(transformer, -1 * (self.view.frame.size.width - 32 - 22) * percent, 0);
+    transformer = CGAffineTransformRotate(transformer, DEGREES_TO_RADIANS(-45*percent));
+    return transformer;
+}
+
+- (IBAction)crossTapped
+{
+    if (scrollViewUp)
+        [self hideScrollview];
+    else
+        [self resetScrollview];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -381,7 +416,7 @@
         return;
     }
     
-    if (scrollView.contentOffset.y < -1 * scrollView.contentInset.top && animating == NO) {
+    if (scrollView.contentOffset.y < -1 * scrollView.contentInset.top && scrollViewUp == YES) {
         CGFloat expansionSpace = scrollView.contentOffset.y - scrollView.contentInset.top*-1;
         CGFloat maxDragDown = 250;
         
@@ -401,7 +436,7 @@
     
     if ((velocity.y < -1.0 && scrollView.contentOffset.y < -100) || (scrollView.contentOffset.y < -150)) {
         *targetContentOffset = CGPointZero;
-        self.topConstraint.constant = scrollView.contentOffset.y;
+        self.topConstraint.constant = scrollView.contentOffset.y * -1;
         [self.scheduledScroller layoutIfNeeded];
         [self hideScrollviewWithVelocity:velocity.y];
     }
@@ -433,39 +468,61 @@
 
 - (void)hideScrollviewWithVelocity:(CGFloat)velocity
 {
-    animating = YES;
-    
     [self authorizePhotos];
+    scrollViewUp = NO;
     
-    self.scheduledScroller.layer.cornerRadius = 20.0;
     self.scheduledScroller.clipsToBounds = YES;
     
-    CGRect goneFrame = self.scheduledScroller.frame;
-    goneFrame.origin.y = self.view.bounds.size.height;
-    
     //---- Scroll View ---
+
     POPSpringAnimation *scheduldPostVerticalanimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayoutConstraintConstant];
     scheduldPostVerticalanimation.springBounciness = 8;
     scheduldPostVerticalanimation.velocity = @(velocity);
-    //scheduldPostVerticalanimation.fromValue =
-    scheduldPostVerticalanimation.toValue = @(self.view.bounds.size.height - (100)); //64 for nav bar and position uses center point
-    scheduldPostVerticalanimation.completionBlock = ^(POPAnimation *anim, BOOL finished){
-        };
-    [self.topConstraint pop_addAnimation:scheduldPostVerticalanimation forKey:@"dropDown"];
+    scheduldPostVerticalanimation.toValue = @(topLayoutConstantMax);
+    if ([self.topConstraint pop_animationForKey:@"layout"]) {
+        POPSpringAnimation *existingAnimation = [self.topConstraint pop_animationForKey:@"layout"];
+        existingAnimation.toValue =scheduldPostVerticalanimation.toValue;
+    } else
+        [self.topConstraint pop_addAnimation:scheduldPostVerticalanimation forKey:@"layout"];
     
     POPSpringAnimation *scheduledPostInset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentInset];
     scheduledPostInset.toValue = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     scheduledPostInset.springBounciness = scheduldPostVerticalanimation.springBounciness;
     scheduledPostInset.velocity = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(velocity, 0, 0, 0)];
-    [self.scheduledScroller pop_addAnimation:scheduledPostInset forKey:@"inset"];
+    if ([self.scheduledScroller pop_animationForKey:@"inset"]) {
+        POPSpringAnimation *existingAnimation = [self.scheduledScroller pop_animationForKey:@"inset"];
+        existingAnimation.toValue = scheduledPostInset.toValue;
+    } else
+        [self.scheduledScroller pop_addAnimation:scheduledPostInset forKey:@""];
     
     POPSpringAnimation *scheduledPostOffset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
-    scheduledPostOffset.toValue = [NSValue valueWithCGPoint:CGPointMake(0, -2)];
+    scheduledPostOffset.toValue = [NSValue valueWithCGPoint:CGPointMake(0, 4)];
     scheduledPostOffset.springBounciness = scheduldPostVerticalanimation.springBounciness;
     scheduledPostOffset.velocity = [NSValue valueWithCGPoint:CGPointMake(0, velocity)];
-    [self.scheduledScroller pop_addAnimation:scheduledPostOffset forKey:@"offset"];
+    if ([self.scheduledScroller pop_animationForKey:@"offset"]) {
+        POPSpringAnimation *existingAnimation = [self.scheduledScroller pop_animationForKey:@"offset"];
+        existingAnimation.toValue = scheduledPostOffset.toValue;
+    } else
+        [self.scheduledScroller pop_addAnimation:scheduledPostOffset forKey:@"offset"];
     
-    POPSpringAnimation *sch
+    POPSpringAnimation *scheduledPostCorderradiusAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerCornerRadius];
+    scheduledPostCorderradiusAnimation.toValue = @(5.0);
+    scheduledPostCorderradiusAnimation.springBounciness = 8.0;
+    scheduledPostCorderradiusAnimation.velocity = @(velocity);
+    if ([self.scheduledScroller.layer pop_animationForKey:@"cornerRadius"]) {
+        POPSpringAnimation *existingAnimation = [self.scheduledScroller.layer pop_animationForKey:@"cornerRadius"];
+        existingAnimation.toValue = scheduledPostCorderradiusAnimation.toValue;
+    } else
+        [self.scheduledScroller.layer pop_addAnimation:scheduledPostCorderradiusAnimation forKey:@"cornerRadius"];
+    
+    POPSpringAnimation *scheduledPostScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    scheduledPostScaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(0.9, 0.9)];
+    scheduledPostOffset.velocity = [NSValue valueWithCGPoint:CGPointMake(velocity, velocity)];
+    if ([self.scheduledScroller pop_animationForKey:@"scaling"]) {
+        POPSpringAnimation *existingAnimation = [self.scheduledScroller pop_animationForKey:@"scaling"];
+        existingAnimation.toValue = scheduledPostScaleAnimation.toValue;
+    } else
+        [self.scheduledScroller pop_addAnimation:scheduledPostScaleAnimation forKey:@"scaling"];
     
     //---- Collection View ----
     POPSpringAnimation *offset = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
@@ -484,78 +541,73 @@
     collectionAlphaAnimation.toValue = @(1.0);
     [self.collectionView pop_addAnimation:collectionAlphaAnimation forKey:@"alpha"];
     
-    CABasicAnimation *transformAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
-    transformAnimation.duration = 0.2;
-    transformAnimation.toValue = [NSValue valueWithCGAffineTransform:CGAffineTransformIdentity];
-    [self.collectionView.layer addAnimation:transformAnimation forKey:@"transform"];
-    
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         for (UIView *aView in self.scheduleMenuViews) {
-                             aView.alpha = 0.0;
-                         }
-                         for (UIView *aView in self.photoPickerMenuViews) {
-                             aView.alpha = 1.0;
-                         }
-                     }
-                     completion:nil];
+    POPSpringAnimation *collectionViewScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    collectionViewScaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
+    collectionViewScaleAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(-1 * velocity, -1 * velocity)];
+    [self.collectionView.layer pop_addAnimation:collectionViewScaleAnimation forKey:@"scale"];
 }
 
 - (IBAction)resetScrollview
 {
-    self.scheduledScroller.userInteractionEnabled = YES;
-    self.scheduledScroller.hidden = NO;
+    scrollViewUp = YES;
     
-    CGRect goneFrame = self.scheduledScroller.frame;
-    goneFrame.origin.y = 0;
-    
-    MMTweenAnimation *bounceAnimation = [MMTweenAnimation animation];
-    bounceAnimation.functionType = MMTweenFunctionBounce;
-    bounceAnimation.easingType = MMTweenEasingOut;
-    bounceAnimation.fromValue = self.topConstraint.constant;
-    bounceAnimation.toValue = -20;
-    bounceAnimation.duration = 0.4;
-    bounceAnimation.animationBlock = ^(double currentTime, double duration, double value, id target, MMTweenAnimation *animation){
-        NSLayoutConstraint *constraint = (NSLayoutConstraint*)target;
-        constraint.constant = value;
-        };
-    bounceAnimation.completionBlock =  ^(POPAnimation *anim, BOOL finished){
-        self.topConstraint.constant = -20;
-        };
-    [self.topConstraint pop_addAnimation:bounceAnimation forKey:@"top_constraint"];
+    //---- Scroll View ---
+    POPBasicAnimation *scheduledViewLayoutAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayoutConstraintConstant];
+    scheduledViewLayoutAnimation.toValue = @(topLayoutConstantMin);
+    if ([self.topConstraint pop_animationForKey:@"layout"]) {
+        POPSpringAnimation *existingAnimation = [self.topConstraint pop_animationForKey:@"layout"];
+        existingAnimation.toValue = scheduledViewLayoutAnimation.toValue;
+    } else
+        [self.topConstraint pop_addAnimation:scheduledViewLayoutAnimation forKey:@"layout"];
     
     POPBasicAnimation *scheduledContentOffsetAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
     scheduledContentOffsetAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(0, -64)];
-    [self.scheduledScroller pop_addAnimation:scheduledContentOffsetAnimation forKey:@"contentOffset"];
+    if ([self.scheduledScroller pop_animationForKey:@"offset"]) {
+        POPSpringAnimation *existingAnimation = [self.scheduledScroller pop_animationForKey:@"offset"];
+        existingAnimation.toValue = scheduledContentOffsetAnimation.toValue;
+    } else
+        [self.scheduledScroller pop_addAnimation:scheduledContentOffsetAnimation forKey:@"offset"];
     
     POPSpringAnimation *scheduledPostInsetAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentInset];
     scheduledPostInsetAnimation.toValue = [NSValue valueWithUIEdgeInsets:initialinsets];
     scheduledPostInsetAnimation.springBounciness = 8.0;
-    [self.scheduledScroller pop_addAnimation:scheduledPostInsetAnimation forKey:@"inset"];
+    if ([self.scheduledScroller pop_animationForKey:@"inset"]) {
+        POPSpringAnimation *existingAnimation = [self.scheduledScroller pop_animationForKey:@"inset"];
+        existingAnimation.toValue = scheduledPostInsetAnimation.toValue;
+    } else
+        [self.scheduledScroller pop_addAnimation:scheduledPostInsetAnimation forKey:@"inset"];
     
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         self.collectionView.alpha = 0.0;
-                         self.collectionView.contentInset = self.scheduledScroller.contentInset;
-                         self.collectionView.scrollIndicatorInsets = self.scheduledScroller.contentInset;
-                         self.collectionView.contentOffset = CGPointZero;
-                         
-                         for (UIView *aView in self.scheduleMenuViews) {
-                             aView.alpha = 1.0;
-                         }
-                         for (UIView *aView in self.photoPickerMenuViews) {
-                             aView.alpha = 0.0;
-                         }
-                     }
-                     completion:^(BOOL finished) {
-                         self.collectionView.transform = CGAffineTransformIdentity;
-                         animating = NO;
-                         //self.scheduledScroller.frame = goneFrame;
-                     }];
+    POPSpringAnimation *scheduledPostCorderradiusAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerCornerRadius];
+    scheduledPostCorderradiusAnimation.toValue = @(0.0);
+    scheduledPostCorderradiusAnimation.springBounciness = 8.0;
+    if ([self.scheduledScroller.layer pop_animationForKey:@"cornerRadius"]) {
+        POPSpringAnimation *existingAnimation = [self.scheduledScroller.layer pop_animationForKey:@"cornerRadius"];
+        existingAnimation.toValue = scheduledPostCorderradiusAnimation.toValue;
+    } else
+    [self.scheduledScroller.layer pop_addAnimation:scheduledPostCorderradiusAnimation forKey:@"cornerRadius"];
+    
+    POPSpringAnimation *scheduledPostScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    scheduledPostScaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
+    if ([self.scheduledScroller pop_animationForKey:@"scaling"]) {
+        POPSpringAnimation *existingAnimation = [self.scheduledScroller pop_animationForKey:@"scaling"];
+        existingAnimation.toValue = scheduledPostScaleAnimation.toValue;
+    } else
+        [self.scheduledScroller pop_addAnimation:scheduledPostScaleAnimation forKey:@"scaling"];
+    
+    //---- Collection View ----
+    POPSpringAnimation *collectionViewOffsetAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
+    collectionViewOffsetAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(0, -64)];
+    collectionViewOffsetAnimation.springBounciness = 8.0;
+    [self.collectionView pop_addAnimation:collectionViewOffsetAnimation forKey:@"offset"];
+    
+    POPSpringAnimation *collectionViewInsetAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPScrollViewContentInset];
+    collectionViewInsetAnimation.toValue = [NSValue valueWithUIEdgeInsets:initialinsets];
+    collectionViewInsetAnimation.springBounciness = 8.0;
+    [self.collectionView pop_addAnimation:collectionViewInsetAnimation forKey:@"inset"];
+    
+    POPSpringAnimation *collectionAlphaAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewAlpha];
+    collectionAlphaAnimation.toValue = @(0.0);
+    [self.collectionView pop_addAnimation:collectionAlphaAnimation forKey:@"alpha"];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

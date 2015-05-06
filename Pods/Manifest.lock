@@ -27,6 +27,13 @@ PODS:
     - pop
   - PhotoManager (0.1.0)
   - pop (1.0.7)
+  - ReactiveCocoa (2.5):
+    - ReactiveCocoa/UI (= 2.5)
+  - ReactiveCocoa/Core (2.5):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.5)
+  - ReactiveCocoa/UI (2.5):
+    - ReactiveCocoa/Core
   - SimpleExif (0.0.1)
 
 DEPENDENCIES:
@@ -35,6 +42,7 @@ DEPENDENCIES:
   - MMTweenAnimation
   - PhotoManager (from `../PhotoManager`)
   - pop (from `https://github.com/facebook/pop.git`)
+  - ReactiveCocoa
   - SimpleExif
 
 EXTERNAL SOURCES:
@@ -57,6 +65,7 @@ SPEC CHECKSUMS:
   MMTweenAnimation: 8fb42db26ba6ffaafe1bb13d2eea529e3ef89625
   PhotoManager: 51264482e64e4249475846534aa4a070a56c73f5
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   SimpleExif: 61ba6dce666641dc4b925d9d26a2694e68ebbf4b
 
 COCOAPODS: 0.36.4

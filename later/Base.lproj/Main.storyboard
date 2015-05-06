@@ -90,7 +90,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hrq-hU-IM6">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" indicatorStyle="white" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hrq-hU-IM6">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <gestureRecognizers/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="n2M-t0-mNX">
@@ -148,44 +148,19 @@
                             <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eqh-CT-4a4">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGv-TM-h60">
-                                        <rect key="frame" x="325" y="17" width="42" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="42" id="gf8-eC-sRX"/>
-                                            <constraint firstAttribute="height" constant="44" id="pVe-TO-3Ln"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <state key="normal" title="Add">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mqU-cl-IQK">
+                                        <rect key="frame" x="323" y="17" width="44" height="44"/>
+                                        <state key="normal" title="Button" image="plus.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="hideScrollview" destination="RgP-eD-urK" eventType="touchUpInside" id="8PS-Nc-vY6"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nx6-Z7-uWt">
-                                        <rect key="frame" x="8" y="17" width="52" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="8hb-b0-zfy"/>
-                                            <constraint firstAttribute="width" constant="52" id="ppm-w3-DDn"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <state key="normal" title="Close">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="resetScrollview" destination="RgP-eD-urK" eventType="touchUpInside" id="Zvd-O6-a5r"/>
+                                            <action selector="crossTapped" destination="RgP-eD-urK" eventType="touchUpInside" id="JFz-hv-hCu"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.38823530080000002" green="0.6784313917" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="Nx6-Z7-uWt" firstAttribute="leading" secondItem="eqh-CT-4a4" secondAttribute="leading" constant="8" id="CzZ-Vk-Cth"/>
-                                    <constraint firstAttribute="trailing" secondItem="sGv-TM-h60" secondAttribute="trailing" constant="8" id="PsH-bR-Ofp"/>
-                                    <constraint firstAttribute="bottom" secondItem="Nx6-Z7-uWt" secondAttribute="bottom" constant="3" id="WdO-wO-HFS"/>
                                     <constraint firstAttribute="height" constant="64" id="fMQ-jA-LWu"/>
-                                    <constraint firstAttribute="bottom" secondItem="sGv-TM-h60" secondAttribute="bottom" constant="3" id="uqD-mt-X1b"/>
                                 </constraints>
                             </view>
                             <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fFp-kU-6vr">
@@ -365,13 +340,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="SelectedPostImageView" destination="Ouw-xK-MIA" id="JCV-qk-cKo"/>
+                        <outlet property="addButton" destination="mqU-cl-IQK" id="Kjx-he-ndh"/>
                         <outlet property="collectionView" destination="Hrq-hU-IM6" id="ZTY-7R-FcC"/>
                         <outlet property="menuBar" destination="eqh-CT-4a4" id="R0q-rl-mVB"/>
                         <outlet property="scheduledScroller" destination="ltV-Ss-H1x" id="aEE-VD-Exo"/>
                         <outlet property="selectedPostView" destination="fFp-kU-6vr" id="BB9-fd-5jS"/>
                         <outlet property="topConstraint" destination="ZYm-Qg-z4F" id="sop-ao-5xS"/>
-                        <outletCollection property="photoPickerMenuViews" destination="Nx6-Z7-uWt" id="k62-Gs-NPO"/>
-                        <outletCollection property="scheduleMenuViews" destination="sGv-TM-h60" id="NxO-rG-pgk"/>
                         <segue destination="Z6d-KB-Dgc" kind="show" identifier="show.caption" id="riB-XQ-bEb"/>
                     </connections>
                 </viewController>
@@ -824,6 +798,7 @@
     <resources>
         <image name="location.png" width="128" height="128"/>
         <image name="logo.png" width="1024" height="1024"/>
+        <image name="plus.png" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="riB-XQ-bEb"/>
