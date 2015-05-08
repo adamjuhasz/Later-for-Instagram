@@ -35,7 +35,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    #ifdef DEBUG
+    #else
     [Fabric with:@[CrashlyticsKit]];
+    #endif
 
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
         //not called if user selects an action, will call 'handleActionWithIdentifier' with info
