@@ -49,6 +49,8 @@
 		2E6E21561AE021D0002E9372 /* PostActionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */; };
 		2E6E215B1AE05877002E9372 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E215A1AE05877002E9372 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2EB833691AFA9CEE0061D95F /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB833681AFA9CEE0061D95F /* plus.png */; };
+		2EB8336B1AFD30420061D95F /* LogInotInstagramView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8336A1AFD30420061D95F /* LogInotInstagramView.xib */; };
+		2EB8336E1AFD306D0061D95F /* LogInotInstagramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8336D1AFD306D0061D95F /* LogInotInstagramView.m */; };
 		B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 280A2CEF160E5E026FC034DD /* libPods-later.a */; };
 /* End PBXBuildFile section */
 
@@ -127,6 +129,9 @@
 		2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostActionsViewController.xib; sourceTree = "<group>"; };
 		2E6E215A1AE05877002E9372 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		2EB833681AFA9CEE0061D95F /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
+		2EB8336A1AFD30420061D95F /* LogInotInstagramView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInotInstagramView.xib; sourceTree = "<group>"; };
+		2EB8336C1AFD306D0061D95F /* LogInotInstagramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInotInstagramView.h; sourceTree = "<group>"; };
+		2EB8336D1AFD306D0061D95F /* LogInotInstagramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInotInstagramView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +273,9 @@
 				2E0BF0F01AF7047600C5F7BF /* cell */,
 				2E0BF0E61AF3DDB600C5F7BF /* MapEmbeddedViewController.h */,
 				2E0BF0E71AF3DDB600C5F7BF /* MapEmbeddedViewController.m */,
+				2EB8336A1AFD30420061D95F /* LogInotInstagramView.xib */,
+				2EB8336C1AFD306D0061D95F /* LogInotInstagramView.h */,
+				2EB8336D1AFD306D0061D95F /* LogInotInstagramView.m */,
 			);
 			name = "Caption Entry";
 			sourceTree = "<group>";
@@ -414,6 +422,7 @@
 				2E22206A1AE60B69007D2E38 /* logo-87.png in Resources */,
 				2E6E21121ADC53DB002E9372 /* Images.xcassets in Resources */,
 				2E2220541AE59FCB007D2E38 /* Launch Screen.xib in Resources */,
+				2EB8336B1AFD30420061D95F /* LogInotInstagramView.xib in Resources */,
 				2EB833691AFA9CEE0061D95F /* plus.png in Resources */,
 				2E2220601AE5BA44007D2E38 /* TrainStation.wav in Resources */,
 				2E2220701AE60CD0007D2E38 /* launchret4.png in Resources */,
@@ -507,6 +516,7 @@
 				2E25D60E1AE4A9B200774220 /* DatePickerViewController.m in Sources */,
 				2E6E21391ADCC5C4002E9372 /* HashtagTableViewCell.m in Sources */,
 				2E6E214E1ADECAE4002E9372 /* scheduledPostModel.m in Sources */,
+				2EB8336E1AFD306D0061D95F /* LogInotInstagramView.m in Sources */,
 				2E0BF0E81AF3DDB600C5F7BF /* MapEmbeddedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

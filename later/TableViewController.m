@@ -145,7 +145,12 @@
 
 - (void)searchForTag:(NSString*)hashtag
 {
+    [self clearTable];
     searchedForTag = hashtag;
+    if (![[InstagramEngine sharedEngine] accessToken]) {
+        return;
+    }
+    
     [[InstagramEngine sharedEngine] searchTagsWithName:hashtag
                                            withSuccess:^(NSArray *tags, InstagramPaginationInfo *paginationInfo) {
                                                [self clearTable];

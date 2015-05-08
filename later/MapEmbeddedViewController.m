@@ -34,6 +34,10 @@
 
 - (void)grabTagsForLocation:(InstagramLocation*)location
 {
+    if (![[InstagramEngine sharedEngine] accessToken]) {
+        return;
+    }
+    
     [[InstagramEngine sharedEngine] getMediaAtLocationWithId:location.locationId
                                                  withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
                                                      NSCountedSet *countedSetOfTags = [[NSCountedSet alloc] init];

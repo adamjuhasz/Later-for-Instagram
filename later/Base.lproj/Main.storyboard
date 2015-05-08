@@ -375,7 +375,7 @@
                                             <constraint firstAttribute="width" constant="44" id="Y9G-wC-Vba"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <state key="normal" title="Post">
+                                        <state key="normal" title="Save">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -696,13 +696,52 @@
                                     <outlet property="delegate" destination="0Ai-cM-94t" id="CeK-tq-bK5"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMa-0i-6va" customClass="LogInotInstagramView">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="360"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCt-HD-Xok">
+                                        <rect key="frame" x="158" y="165" width="134" height="30"/>
+                                        <state key="normal" title="Sign into Instagram">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="login:" destination="aMa-0i-6va" eventType="touchUpInside" id="SSz-qM-qHQ"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Want to get hashtag recomendations?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Oo-44-Gb3">
+                                        <rect key="frame" x="78" y="136" width="293" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="CCt-HD-Xok" firstAttribute="top" secondItem="1Oo-44-Gb3" secondAttribute="bottom" constant="8" id="1PJ-Uf-DSh"/>
+                                    <constraint firstAttribute="centerY" secondItem="CCt-HD-Xok" secondAttribute="centerY" id="RhU-ED-UgU"/>
+                                    <constraint firstAttribute="centerX" secondItem="1Oo-44-Gb3" secondAttribute="centerX" id="ZhQ-nY-bhf"/>
+                                    <constraint firstAttribute="centerX" secondItem="CCt-HD-Xok" secondAttribute="centerX" id="bEF-j3-nWh"/>
+                                    <constraint firstItem="CCt-HD-Xok" firstAttribute="height" secondItem="aMa-0i-6va" secondAttribute="height" id="exL-O9-AtZ"/>
+                                    <constraint firstItem="CCt-HD-Xok" firstAttribute="top" secondItem="1Oo-44-Gb3" secondAttribute="bottom" constant="8" id="tpi-9w-PU0"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="exL-O9-AtZ"/>
+                                        <exclude reference="tpi-9w-PU0"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="aMa-0i-6va" firstAttribute="height" secondItem="k8Z-io-wdl" secondAttribute="height" id="3NN-5C-fXl"/>
                             <constraint firstAttribute="centerX" secondItem="k8Z-io-wdl" secondAttribute="centerX" id="6zx-bA-Wt7"/>
                             <constraint firstAttribute="centerY" secondItem="k8Z-io-wdl" secondAttribute="centerY" id="OEy-jT-H7K"/>
+                            <constraint firstItem="aMa-0i-6va" firstAttribute="centerY" secondItem="k8Z-io-wdl" secondAttribute="centerY" id="VcV-ci-uao"/>
                             <constraint firstItem="k8Z-io-wdl" firstAttribute="height" secondItem="uqt-9P-JTW" secondAttribute="height" id="aNo-jK-In1"/>
+                            <constraint firstItem="aMa-0i-6va" firstAttribute="width" secondItem="k8Z-io-wdl" secondAttribute="width" id="b3x-Si-3MK"/>
                             <constraint firstItem="k8Z-io-wdl" firstAttribute="width" secondItem="uqt-9P-JTW" secondAttribute="width" id="hNn-yj-cV1"/>
+                            <constraint firstItem="aMa-0i-6va" firstAttribute="centerX" secondItem="k8Z-io-wdl" secondAttribute="centerX" id="yue-HQ-klf"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -752,19 +791,70 @@
                                     <outlet property="delegate" destination="8Ui-eZ-74V" id="58h-LX-p7g"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zu7-fC-MdP" customClass="LogInotInstagramView">
+                                <rect key="frame" x="0.0" y="202" width="450" height="158"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QfI-il-Ltq">
+                                        <rect key="frame" x="158" y="64" width="134" height="30"/>
+                                        <state key="normal" title="Sign into Instagram">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="login:" destination="zu7-fC-MdP" eventType="touchUpInside" id="fj7-h0-xDP"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Want to get hashtag recomendations?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VBd-Fq-iqB">
+                                        <rect key="frame" x="78" y="35" width="293" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="QfI-il-Ltq" secondAttribute="centerY" id="0Wq-DH-bRM"/>
+                                    <constraint firstAttribute="centerX" secondItem="QfI-il-Ltq" secondAttribute="centerX" id="a7V-dI-XAn"/>
+                                    <constraint firstItem="QfI-il-Ltq" firstAttribute="top" secondItem="VBd-Fq-iqB" secondAttribute="bottom" constant="8" id="c0j-hb-zbT"/>
+                                    <constraint firstItem="QfI-il-Ltq" firstAttribute="height" secondItem="zu7-fC-MdP" secondAttribute="height" id="dk3-u6-Shc"/>
+                                    <constraint firstItem="QfI-il-Ltq" firstAttribute="top" secondItem="VBd-Fq-iqB" secondAttribute="bottom" constant="8" id="rm3-Up-2Pe"/>
+                                    <constraint firstAttribute="centerX" secondItem="VBd-Fq-iqB" secondAttribute="centerX" id="xAY-T1-4p3"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="dk3-u6-Shc"/>
+                                        <exclude reference="rm3-Up-2Pe"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="height" secondItem="zu7-fC-MdP" secondAttribute="height" id="5UF-UA-gdw"/>
                             <constraint firstItem="5TQ-b5-ssH" firstAttribute="top" secondItem="lL6-lT-WxQ" secondAttribute="bottom" id="BwN-BN-xQw"/>
                             <constraint firstItem="JXL-cg-DWT" firstAttribute="centerY" secondItem="A8g-y8-0bq" secondAttribute="centerY" constant="-15" id="C8F-A0-rMg"/>
                             <constraint firstItem="lL6-lT-WxQ" firstAttribute="top" secondItem="A8g-y8-0bq" secondAttribute="bottom" constant="2" id="EYF-jM-lmc"/>
                             <constraint firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="Hni-FC-Tkn"/>
+                            <constraint firstItem="zu7-fC-MdP" firstAttribute="centerX" secondItem="lL6-lT-WxQ" secondAttribute="centerX" id="J0X-L6-ooD"/>
+                            <constraint firstAttribute="centerY" secondItem="zu7-fC-MdP" secondAttribute="centerY" id="QM5-mw-Pef"/>
                             <constraint firstItem="A8g-y8-0bq" firstAttribute="top" secondItem="xcd-RD-mjK" secondAttribute="bottom" id="RlF-F1-MaF"/>
                             <constraint firstAttribute="width" secondItem="A8g-y8-0bq" secondAttribute="width" id="X37-qn-ALl"/>
+                            <constraint firstItem="zu7-fC-MdP" firstAttribute="centerY" secondItem="lL6-lT-WxQ" secondAttribute="centerY" id="dAA-zD-QH5"/>
+                            <constraint firstAttribute="width" secondItem="zu7-fC-MdP" secondAttribute="width" id="kna-VR-PWk"/>
+                            <constraint firstItem="zu7-fC-MdP" firstAttribute="height" secondItem="lL6-lT-WxQ" secondAttribute="height" id="lGb-qm-YIo"/>
                             <constraint firstItem="lL6-lT-WxQ" firstAttribute="width" secondItem="0k7-f7-AUG" secondAttribute="width" id="lSj-13-115"/>
                             <constraint firstItem="JXL-cg-DWT" firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="thn-tR-izh"/>
+                            <constraint firstAttribute="centerX" secondItem="zu7-fC-MdP" secondAttribute="centerX" id="vN2-IZ-r7x"/>
+                            <constraint firstItem="zu7-fC-MdP" firstAttribute="width" secondItem="lL6-lT-WxQ" secondAttribute="width" id="vvS-5e-gW5"/>
                             <constraint firstAttribute="centerX" secondItem="lL6-lT-WxQ" secondAttribute="centerX" id="y1M-Ui-pfl"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="5UF-UA-gdw"/>
+                                <exclude reference="QM5-mw-Pef"/>
+                                <exclude reference="kna-VR-PWk"/>
+                                <exclude reference="vN2-IZ-r7x"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
