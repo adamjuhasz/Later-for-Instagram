@@ -15,7 +15,7 @@
 #import "MapEmbeddedViewController.h"
 #import "SchedulesPostsViewController.h"
 
-@interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate, inputsPageDelegate>
+@interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate, inputsPageDelegate, LocationHolderDelegate>
 
 @property IBOutlet UITextView *comments;
 @property IBOutlet UIImageView *photoExample;

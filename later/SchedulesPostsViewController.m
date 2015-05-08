@@ -27,7 +27,6 @@
 {
     NSMutableArray *viewsInScrollView;
     NSArray *scheduledPosts;
-    UIView *addButton;
     UIView *shroud;
     CommentEntryViewController *captionController;
     UIDocumentInteractionController *document;
@@ -64,7 +63,7 @@
     self.scheduledScroller.contentInset = initialinsets;
     self.scheduledScroller.scrollIndicatorInsets = self.scheduledScroller.contentInset;
     
-    shroud = [[UIView alloc] initWithFrame:CGRectMake(0, addButton.frame.size.height, self.scheduledScroller.bounds.size.width, self.scheduledScroller.bounds.size.height)];
+    shroud = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scheduledScroller.bounds.size.width, self.scheduledScroller.bounds.size.height)];
     shroud.backgroundColor = [UIColor blackColor];
     [self.scheduledScroller addSubview:shroud];
     
@@ -106,6 +105,15 @@
         
         self.addButton.transform = [self transformForAddButtonWithPercent:percent];
         }];
+    
+    captionController.view.layer.anchorPoint = CGPointMake(0, 0.5);
+    [RACObserve(captionController, view.frame) subscribeNext:^(NSValue *frameVale){
+        CGRect frame = [frameVale CGRectValue];
+        CGFloat percent = 1 - (self.view.frame.size.width - ABS(frame.origin.x)) / (self.view.frame.size.width);
+        NSLog(@"%f %@", percent, frameVale);
+        //self.collectionView.transform = CGAffineTransformMakeScale(percent, percent);
+    }];
+    
     
     /*
     [RACObserve(self, scheduledScroller.contentOffset) subscribeNext:^(id layoutConstant) {
@@ -203,7 +211,7 @@
     
     self.selectedPostView.hidden = NO;
     [UIView animateWithDuration:0.4
-                          delay:1.0
+                          delay:0.0
                         options:0
                      animations:^{
                          selectedPostShroud.alpha = 1.0;

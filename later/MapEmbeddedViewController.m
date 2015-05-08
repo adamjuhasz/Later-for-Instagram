@@ -81,6 +81,9 @@
 - (void)updateLocations
 {
     timeoutTimer = nil;
+    
+    [self.delegate setLocation:[[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude]];
+    
     CGFloat spanDistance = MIN(5000, ceil(self.mapView.region.span.latitudeDelta * 111131.745 / 2.0));
     [[InstagramEngine sharedEngine] searchLocationsAtLocation:self.mapView.centerCoordinate distanceInMeters:spanDistance withSuccess:^(NSArray *locations) {
         foundLocations = [locations mutableCopy];
