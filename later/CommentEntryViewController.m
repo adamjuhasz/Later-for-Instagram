@@ -265,7 +265,11 @@
             NSRange substringRange = {writtenTag.length, difference};
             appendText = [selectedTag substringWithRange:substringRange];
         } else {
-            appendText = [NSString stringWithFormat:@" #%@", selectedTag];
+            if ([self.comments.text characterAtIndex:(self.comments.text.length-1)] == ' ') {
+                appendText = [NSString stringWithFormat:@"#%@", selectedTag];
+            } else {
+                appendText = [NSString stringWithFormat:@" #%@", selectedTag];
+            }
         }
     } else {
         appendText = [NSString stringWithFormat:@"#%@", selectedTag];

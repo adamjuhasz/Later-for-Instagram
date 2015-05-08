@@ -73,6 +73,7 @@
     
     [[InstagramEngine sharedEngine] getMediaWithTagName:selectedTag count:50 maxId:0
                                             withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
+                                                NSInteger currentProtectionTag = protect;
                                                 NSCountedSet *countedTags = [[NSCountedSet alloc] init];
                                                 for(int i=0; i<media.count; i++) {
                                                     InstagramMedia *post = media[i];
@@ -123,19 +124,36 @@
                                                     }
                                                     [self.hashtagTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
                                                     
+                                                    currentProtectionTag++;
+                                                    protectionTag++;
+                                                }
+                                                else {
+                                                    [self.hashtagTable reloadData];
+                                                    
+                                                }
+                                                
+                                                if (currentProtectionTag == protectionTag) {
                                                     for (NSDictionary *similarHashtag in searchedTags) {
                                                         [[InstagramEngine sharedEngine] getTagDetailsWithName:[similarHashtag objectForKey:@"name"] withSuccess:^(InstagramTag *tag) {
-                                                            NSDictionary *updatedHashtag = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                            [similarHashtag objectForKey:@"name"], @"name",
-                                                                                            [NSNumber numberWithInteger:tag.mediaCount], @"count",
-                                                                                            [similarHashtag objectForKey:@"originalIndex"], @"originalIndex",
-                                                                                            [similarHashtag objectForKey:@"indentLevel"], @"indentLevel",
-                                                                                            nil];
                                                             
+                                                            NSDictionary *updatedHashtag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                                [similarHashtag objectForKey:@"name"], @"name",
+                                                                                                [NSNumber numberWithInteger:tag.mediaCount], @"count",
+                                                                                                [similarHashtag objectForKey:@"originalIndex"], @"originalIndex",
+                                                                                                [similarHashtag objectForKey:@"indentLevel"], @"indentLevel",
+                                                                                                nil];
+                                                                
                                                             NSInteger index = [searchedTags indexOfObject:similarHashtag];
-                                                            [searchedTags replaceObjectAtIndex:index withObject:updatedHashtag];
-                                                            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-                                                            [self.hashtagTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                            if (index != NSNotFound) {
+                                                                [searchedTags replaceObjectAtIndex:index withObject:updatedHashtag];
+                                                            
+                                                                if (currentProtectionTag == protectionTag) {
+                                                                    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+                                                                    [self.hashtagTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                                } else {
+                                                                    [self.hashtagTable reloadData];
+                                                                }
+                                                            }
                                                         } failure:nil];
                                                     }
                                                 }
