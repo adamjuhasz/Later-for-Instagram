@@ -458,6 +458,15 @@
                                     <segue destination="q4S-CS-RwX" kind="embed" identifier="embed.PageController" id="Rfn-xk-g17"/>
                                 </connections>
                             </containerView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="yut-RI-ONy">
+                                <rect key="frame" x="141" y="110" width="39" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="JcW-xW-iAQ"/>
+                                    <constraint firstAttribute="width" constant="39" id="gfi-7n-G4y"/>
+                                </constraints>
+                                <color key="pageIndicatorTintColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="currentPageIndicatorTintColor" red="0.38823530080000002" green="0.6784313917" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -465,9 +474,11 @@
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="height" secondItem="xUp-2a-DXo" secondAttribute="height" id="2Ku-PT-rOR"/>
                             <constraint firstAttribute="width" secondItem="Nmz-A5-ogK" secondAttribute="width" id="2x5-Xj-2Fu"/>
                             <constraint firstAttribute="centerX" secondItem="Nmz-A5-ogK" secondAttribute="centerX" id="Lpp-Yl-k3m"/>
+                            <constraint firstAttribute="centerX" secondItem="yut-RI-ONy" secondAttribute="centerX" id="NOK-LP-Gb9"/>
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="bottom" secondItem="xUp-2a-DXo" secondAttribute="bottom" id="Tjr-1W-mTJ"/>
                             <constraint firstAttribute="width" secondItem="A7w-XY-nWZ" secondAttribute="width" id="W0T-JX-BVC"/>
                             <constraint firstAttribute="centerX" secondItem="A7w-XY-nWZ" secondAttribute="centerX" id="YNI-oc-hso"/>
+                            <constraint firstItem="Nmz-A5-ogK" firstAttribute="top" secondItem="yut-RI-ONy" secondAttribute="bottom" constant="-13" id="c1x-lU-zQ4"/>
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="top" secondItem="xUp-2a-DXo" secondAttribute="top" constant="-7" id="dX5-wo-KgE"/>
                             <constraint firstItem="Nmz-A5-ogK" firstAttribute="top" secondItem="EoK-cM-iMa" secondAttribute="bottom" constant="10" id="exa-H5-vwt"/>
                             <constraint firstItem="xUp-2a-DXo" firstAttribute="top" secondItem="A7w-XY-nWZ" secondAttribute="bottom" constant="10" id="kkW-un-Czx"/>
@@ -493,6 +504,7 @@
                         <outlet property="comments" destination="EoK-cM-iMa" id="T5c-T1-BMr"/>
                         <outlet property="containerHeightConstraint" destination="foo-8c-hfF" id="MyO-2V-2Zh"/>
                         <outlet property="doneButton" destination="cZA-XF-5kP" id="GrV-wc-7FY"/>
+                        <outlet property="pageControl" destination="yut-RI-ONy" id="rS2-5I-zEp"/>
                         <outlet property="photoExample" destination="xUp-2a-DXo" id="koR-Nd-1EZ"/>
                         <outlet property="postButton" destination="SKd-hx-BQe" id="4Bn-2j-pwV"/>
                     </connections>

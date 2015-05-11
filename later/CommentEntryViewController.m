@@ -15,6 +15,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface CommentEntryViewController ()
 {
@@ -282,15 +283,17 @@
 {
     if ([segue.identifier isEqualToString:@"embed.PageController"]) {
         self.tableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];
-        self.tableViewController.delegate = self;
-        
         self.DatePickerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"DatePickerViewController"];
-        
         self.locationPickerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"locationPickerViewController"];
+        
+        self.tableViewController.delegate = self;
         
         self.inputPageController = segue.destinationViewController;
         self.inputPageController.pages = @[self.tableViewController, self.DatePickerViewController, self.locationPickerViewController];
         self.inputPageController.controllerDelegate = self;
+        
+        self.pageControl.numberOfPages = self.inputPageController.pages.count;
+        self.pageControl.currentPage = MIN((self.pageControl.currentPage-1), 1);
     }
 }
 
@@ -345,6 +348,7 @@
         default:
             break;
     }
+    self.pageControl.currentPage = pageNumber;
 }
 
 @end

@@ -29,6 +29,7 @@
 @property IBOutlet DatePickerViewController *DatePickerViewController;
 @property IBOutlet MapEmbeddedViewController *locationPickerViewController;
 @property IBOutlet NSLayoutConstraint *containerHeightConstraint;
+@property IBOutlet UIPageControl *pageControl;
 
 @property (nonatomic, strong) NSLayoutConstraint *bottomConstraint;
 @property scheduledPostModel* post;
