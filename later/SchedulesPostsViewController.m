@@ -497,7 +497,6 @@
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
         timeLabel.textColor = [UIColor whiteColor];
         timeLabel.attributedText = [self stringForDate:post.postTime];
-        timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
         [newImage addSubview:timeLabel];
         
         newImage.tag = i;
