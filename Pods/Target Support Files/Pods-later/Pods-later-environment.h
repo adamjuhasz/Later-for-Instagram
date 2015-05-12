@@ -66,6 +66,12 @@
 #define COCOAPODS_VERSION_MINOR_InstagramKit 5
 #define COCOAPODS_VERSION_PATCH_InstagramKit 0
 
+// Localytics
+#define COCOAPODS_POD_AVAILABLE_Localytics
+#define COCOAPODS_VERSION_MAJOR_Localytics 3
+#define COCOAPODS_VERSION_MINOR_Localytics 2
+#define COCOAPODS_VERSION_PATCH_Localytics 0
+
 // MMTweenAnimation
 #define COCOAPODS_POD_AVAILABLE_MMTweenAnimation
 #define COCOAPODS_VERSION_MAJOR_MMTweenAnimation 1

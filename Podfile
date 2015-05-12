@@ -13,6 +13,7 @@ target 'later' do
   pod 'ReactiveCocoa'
   pod 'FXBlurView'
   #pod 'POP+MCAnimate', '~> 2.0'
+  pod 'Localytics',  '~> 3.0'
 end
 
 target 'laterTests' do

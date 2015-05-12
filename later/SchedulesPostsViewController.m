@@ -20,6 +20,7 @@
 #import <MMTweenAnimation/MMTweenAnimation.h>
 #import "PostDisplayView.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <Localytics/Localytics.h>
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -295,6 +296,8 @@
     [[PostDBSingleton singleton] snoozePost:selectedPost];
     [self hideSelectedPost];
     [self reloadScrollView];
+    
+    [Localytics tagEvent:@"SnoozeSelectedPost"];
 }
 
 - (IBAction)deleteSelectedPost
@@ -330,6 +333,8 @@
     };
 
     [self reloadScrollView];
+    
+    [Localytics tagEvent:@"DeleteSelectedPost"];
 }
 
 - (IBAction)sendSelectedPostToInstagram
@@ -346,6 +351,8 @@
      
     [self pushController:captionController withSuccess:nil];
     [self hideSelectedPost];
+    
+    [Localytics tagEvent:@"EditSelectedPost"];
 }
 
 - (void)sendPostToInstragramWithKey:(NSString*)postKey
@@ -368,6 +375,8 @@
         if (success) {
             postThatIsBeingPosted = selectedPost;
         }
+        
+        [Localytics tagEvent:@"ChooseToSendPostToAnotherApp"];
     }
 }
 
@@ -384,6 +393,8 @@
     
     [[PostDBSingleton singleton] removePost:postThatIsBeingPosted withDelete:YES];
     postThatIsBeingPosted = nil;
+    
+    [Localytics tagEvent:@"SentPostToAnotherApp" attributes:[NSDictionary dictionaryWithObject:application forKey:@"application"]];
 }
 
 - (void)photosUpdated
@@ -567,6 +578,13 @@
 
 - (void)hideScrollviewWithVelocity:(CGFloat)velocity
 {
+    if (velocity == 0) {
+        [Localytics tagEvent:@"ShowImageLibrary" attributes:[NSDictionary dictionaryWithObject:@"button" forKey:@"source"]];
+    } else {
+        NSDictionary *dict = [NSDictionary dictionaryWithObjects:@[@"gesture", [NSNumber numberWithFloat:velocity]] forKeys:@[@"source", @"velocity"]];
+        [Localytics tagEvent:@"ShowImageLibrary" attributes:dict];
+    }
+
     [self authorizePhotos];
     scrollViewUp = NO;
     
