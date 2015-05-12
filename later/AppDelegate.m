@@ -45,8 +45,6 @@
         [Fabric with:@[CrashlyticsKit]];
         [Localytics integrate:[localyticsDictionary objectForKey:@"Key"]];
     #endif
-
-    
     
     [Localytics setCollectAdvertisingIdentifier:NO];
     

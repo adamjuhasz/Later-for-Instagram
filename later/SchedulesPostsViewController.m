@@ -180,7 +180,24 @@
         }
         else if ([action isEqualToString:@"edit"]) {
             selectedPost = [[PostDBSingleton singleton] postForKey:postKey];
-            [self performSegueWithIdentifier:@"show.editSelectedPost" sender:self];
+            captionController.post = selectedPost;
+            [self pushController:captionController withSuccess:nil];
+        }
+        else if ([action isEqualToString:@"view"]) {
+            selectedPost = [[PostDBSingleton singleton] postForKey:postKey];
+            if (selectedPost != nil) {
+                NSInteger index = [[[PostDBSingleton singleton] allposts] indexOfObject:selectedPost];
+                CGFloat border = 4;
+                CGFloat columns = 2;
+                CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
+                CGRect mainRect = CGRectMake(0, border, width, width);
+                CGRect currrentFrame = CGRectZero;
+                int column = index % 2;
+                int row = floor(index / 2.0);
+                currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
+                currrentFrame = [self.view convertRect:currrentFrame fromView:self.scheduledScroller];
+                [self showSelectedPostWithImage:selectedPost.postImage from:currrentFrame];
+            }
         }
     }
     
