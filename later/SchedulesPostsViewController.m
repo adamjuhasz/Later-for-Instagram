@@ -809,6 +809,7 @@
             break;
             
         case UIGestureRecognizerStateEnded:
+            NSLog(@"velocity = %f, translation = %f", xVelocity, xTranslation);
             if (xTranslation > 0 && xVelocity > 0 && recognizer == leftEdgeGesture) {
                 edgeSwipeSameDirection = YES;
             }
@@ -826,9 +827,17 @@
                 animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
                     [self removeController:captionController];
                 };
+                if (ABS(xVelocity) < 500) {
+                    xVelocity = 500;
+                }
+                animation.duration = ABS((captionController.view.frame.size.width - xTranslation) / xVelocity);
             } else {
                 animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
                 animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
+                if (ABS(xVelocity) < 500) {
+                    xVelocity = 500;
+                }
+                animation.duration = ABS((xTranslation) / xVelocity);
             }
             [captionController.view pop_addAnimation:animation forKey:@"slide"];
             break;
