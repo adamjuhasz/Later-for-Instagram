@@ -21,6 +21,7 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - DACircularProgress (2.3.1)
+  - FXBlurView (1.6.3)
   - InstagramKit (3.5.0):
     - AFNetworking (~> 2.0)
   - MMTweenAnimation (1.0):
@@ -38,6 +39,7 @@ PODS:
 
 DEPENDENCIES:
   - DACircularProgress
+  - FXBlurView
   - InstagramKit (from `../InstagramKit`)
   - MMTweenAnimation
   - PhotoManager (from `../PhotoManager`)
@@ -61,6 +63,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
   InstagramKit: 2599ad9b569e989e05eb9c5b5addeae1c0fd886a
   MMTweenAnimation: 8fb42db26ba6ffaafe1bb13d2eea529e3ef89625
   PhotoManager: 51264482e64e4249475846534aa4a070a56c73f5

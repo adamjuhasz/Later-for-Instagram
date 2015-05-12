@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FXBlurView/FXBlurView.h>
 
 @interface PostDisplayView : UIView
 
@@ -16,5 +17,10 @@
 @property IBOutlet UIButton *sendButton;
 
 @property IBOutlet UIImageView *image;
+@property IBOutlet UIView *buttonHolderView;
+@property IBOutlet FXBlurView *blurView;
+
+- (void)startGrowing;
+- (void)startShrinking;
 
 @end

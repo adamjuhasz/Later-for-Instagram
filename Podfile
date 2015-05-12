@@ -11,6 +11,7 @@ target 'later' do
   pod 'SimpleExif'
   pod 'MMTweenAnimation'
   pod 'ReactiveCocoa'
+  pod 'FXBlurView'
 end
 
 target 'laterTests' do

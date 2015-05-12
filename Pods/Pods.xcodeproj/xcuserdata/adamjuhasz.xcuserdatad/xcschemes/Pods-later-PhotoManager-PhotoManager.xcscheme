@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0333ABFD9BE21793BA9D28E4"
+               BlueprintIdentifier = "BA0B4DEA3EDFC4110D9EDFA6"
                BuildableName = "PhotoManager.bundle"
                BlueprintName = "Pods-later-PhotoManager-PhotoManager"
                ReferencedContainer = "container:Pods.xcodeproj">

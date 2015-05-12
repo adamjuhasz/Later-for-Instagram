@@ -34,11 +34,14 @@
     scheduledPostModel *selectedPost;
     UIView* selectedPostShroud;
     PostDisplayView *postDetailView;
+    NSLayoutConstraint *postDetailViewConstraintX, *postDetailViewConstraintY;
     UIScreenEdgePanGestureRecognizer *leftEdgeGesture, *rightEdgeGesture;
     UIEdgeInsets initialinsets;
     CGFloat topLayoutConstantMin;
     CGFloat topLayoutConstantMax;
+    CGRect returnImageRect;
     BOOL scrollViewUp;
+    UIView *viewSelected;
 }
 
 @property UIDynamicAnimator *animator;
@@ -86,18 +89,56 @@
     leftSideSwipe.delaysTouchesBegan = YES;
     [self.view addGestureRecognizer:leftSideSwipe];
     
-    self.selectedPostView.layer.cornerRadius = 4;
-    self.selectedPostView.clipsToBounds = YES;
-    
     UINib *postViewNib = [UINib nibWithNibName:@"PostDisplayView" bundle:nil];
     NSArray *instantiatedViews = [postViewNib instantiateWithOwner:nil options:nil];
     postDetailView = instantiatedViews[0];
-    CGRect detailViewFrame = postDetailView.frame;
     postDetailView.hidden = YES;
-    [self.view addSubview:postDetailView];
+    postDetailView.translatesAutoresizingMaskIntoConstraints = NO;
+    [postDetailView.editButton addTarget:self action:@selector(editSelectedPost) forControlEvents:UIControlEventTouchUpInside];
+    [postDetailView.snoozeButton addTarget:self action:@selector(snoozeSelectedPost) forControlEvents:UIControlEventTouchUpInside];
+    [postDetailView.deleteButton addTarget:self action:@selector(deleteSelectedPost) forControlEvents:UIControlEventTouchUpInside];
+    [postDetailView.sendButton addTarget:self action:@selector(sendSelectedPostToInstagram) forControlEvents:UIControlEventTouchUpInside];
+    postDetailView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width);
+    [self.view insertSubview:postDetailView aboveSubview:self.menuBar];
+    postDetailViewConstraintX = [NSLayoutConstraint constraintWithItem:postDetailView
+                                                                        attribute:NSLayoutAttributeCenterX
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.view
+                                                                        attribute:NSLayoutAttributeCenterX
+                                                                       multiplier:1.0
+                                                                         constant:0.0];
+    //[self.view addConstraint:postDetailViewConstraintX];
+    
+    postDetailViewConstraintY = [NSLayoutConstraint constraintWithItem:postDetailView
+                                                                      attribute:NSLayoutAttributeCenterY
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self.view
+                                                                      attribute:NSLayoutAttributeCenterY
+                                                                     multiplier:1.0
+                                                                       constant:0.0];
+    //[self.view addConstraint:postDetailViewConstraintY];
+    
+    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:postDetailView
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:1.0
+                                                                        constant:self.view.bounds.size.width];
+    [postDetailView addConstraint:widthConstraint];
+    
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:postDetailView
+                                                                        attribute:NSLayoutAttributeHeight
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:nil
+                                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                                       multiplier:1.0
+                                                                         constant:self.view.bounds.size.width];
+    [postDetailView addConstraint:heightConstraint];
     
     topLayoutConstantMin = -20;
     topLayoutConstantMax = self.view.bounds.size.height - (100);
+    
     
     [RACObserve(self, topConstraint.constant) subscribeNext:^(NSNumber *layoutConstant) {
         CGFloat value = [layoutConstant floatValue];
@@ -106,14 +147,14 @@
         self.addButton.transform = [self transformForAddButtonWithPercent:percent];
         }];
     
-    captionController.view.layer.anchorPoint = CGPointMake(0, 0.5);
+    /*
     [RACObserve(captionController, view.frame) subscribeNext:^(NSValue *frameVale){
         CGRect frame = [frameVale CGRectValue];
         CGFloat percent = 1 - (self.view.frame.size.width - ABS(frame.origin.x)) / (self.view.frame.size.width);
         NSLog(@"%f %@", percent, frameVale);
         //self.collectionView.transform = CGAffineTransformMakeScale(percent, percent);
     }];
-    
+    */
     
     /*
     [RACObserve(self, scheduledScroller.contentOffset) subscribeNext:^(id layoutConstant) {
@@ -178,7 +219,6 @@
     [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadScrollView) userInfo:nil repeats:YES];
 }
 
-
 - (void)postWasLongTapped:(UIGestureRecognizer*)recognizer
 {
     NSLog(@"long tapped");
@@ -189,51 +229,91 @@
 - (void)postWasTapped:(UIGestureRecognizer*)recognizer
 {
     NSLog(@"tapped");
-    UIView *viewClicked = recognizer.view;
-    CGRect frameOfView = [viewClicked convertRect:viewClicked.frame toView:self.view];
+    viewSelected = recognizer.view;
+    CGRect viewFrame = viewSelected.frame;
+    CGRect frameOfView = [self.scheduledScroller convertRect:viewFrame toView:self.view];
     scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
     
     selectedPost = thePost;
-    [self showSelectedPostWithImage:selectedPost.postImage];
+    [self showSelectedPostWithImage:selectedPost.postImage from:frameOfView];
 }
 
-- (void)showSelectedPostWithImage:(UIImage*)image
+- (void)showSelectedPostWithImage:(UIImage*)image from:(CGRect)rect
 {
+    returnImageRect = rect;
+    
     selectedPostShroud = [[UIView alloc] initWithFrame:self.view.bounds];
     selectedPostShroud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
-    selectedPostShroud.alpha = 0.0;
+    selectedPostShroud.alpha = 1.0;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideSelectedPost)];
     [selectedPostShroud addGestureRecognizer:tap];
-    [self.view insertSubview:selectedPostShroud belowSubview:self.selectedPostView];
+    [self.view insertSubview:selectedPostShroud belowSubview:postDetailView];
     
-    self.SelectedPostImageView.image = image;
+    postDetailView.image.image = image;
+    postDetailView.alpha = 1.0;
+    postDetailView.hidden = NO;
     
-    self.selectedPostView.hidden = NO;
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options:0
-                     animations:^{
-                         selectedPostShroud.alpha = 1.0;
-                         self.selectedPostView.alpha = 1.0;
-                     }
-                     completion:^(BOOL finished) {
-                         
-                     }];
+    POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
+    if (alphaAnimation == nil) {
+        alphaAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        [selectedPostShroud pop_addAnimation:alphaAnimation forKey:@"alpha"];
+    }
+    alphaAnimation.toValue = [NSNumber numberWithFloat:1.0];
+    
+    POPSpringAnimation *frameAnimation = [postDetailView pop_animationForKey:@"frame"];
+    if (frameAnimation == nil) {
+        frameAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
+        frameAnimation.springBounciness = 10.0;
+        [postDetailView pop_addAnimation:frameAnimation forKey:@"frame"];
+    }
+    frameAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(returnImageRect), CGRectGetMidY(returnImageRect))];
+    frameAnimation.toValue = [NSValue valueWithCGPoint:self.view.center];
+    
+    POPSpringAnimation *scaleAnimation = [postDetailView pop_animationForKey:@"scale"];
+    if (scaleAnimation == nil) {
+        scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        [postDetailView pop_addAnimation:scaleAnimation forKey:@"scale"];
+    }
+    scaleAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(returnImageRect.size.width / self.view.frame.size.width ,  returnImageRect.size.width / self.view.frame.size.width)];
+    scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
+    
+    viewSelected.hidden = YES;
+    
+    [postDetailView startGrowing];
 }
 
 - (void)hideSelectedPost
 {
-    [UIView animateWithDuration:0.4
-                     animations:^{
-                         self.selectedPostView.alpha = 0.0;
-                         selectedPostShroud.alpha = 0.0;
-                     }
-                     completion:^(BOOL finished) {
-                         self.selectedPostView.hidden = YES;
-                         [selectedPostShroud removeFromSuperview];
-                         selectedPostShroud = nil;
-                     }];
+    POPSpringAnimation *frameAnimation = [postDetailView pop_animationForKey:@"frame"];
+    if (frameAnimation == nil) {
+        frameAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
+        [postDetailView pop_addAnimation:frameAnimation forKey:@"frame"];
+    }
+    frameAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(returnImageRect), CGRectGetMidY(returnImageRect))];
+    
+    POPSpringAnimation *scaleAnimation = [postDetailView pop_animationForKey:@"scale"];
+    if (scaleAnimation == nil) {
+        scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        [postDetailView pop_addAnimation:scaleAnimation forKey:@"scale"];
+    }
+    scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(returnImageRect.size.width / self.view.frame.size.width ,  returnImageRect.size.width / self.view.frame.size.width)];
+    scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+        postDetailView.hidden = YES;
+        viewSelected.hidden = NO;
+    };
+    
+    POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
+     if (alphaAnimation == nil) {
+         alphaAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+         [selectedPostShroud pop_addAnimation:alphaAnimation forKey:@"alpha"];
+     }
+     alphaAnimation.toValue = [NSNumber numberWithFloat:0.0];
+     alphaAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+         [selectedPostShroud removeFromSuperview];
+    };
+    
+    [postDetailView startShrinking];
 }
 
 - (IBAction)snoozeSelectedPost
@@ -246,13 +326,52 @@
 - (IBAction)deleteSelectedPost
 {
     [[PostDBSingleton singleton] removePost:selectedPost withDelete:YES];
-    [self hideSelectedPost];
+    
+    POPSpringAnimation *scaleAnimation = [postDetailView pop_animationForKey:@"scale"];
+    if (scaleAnimation == nil) {
+        scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        [postDetailView pop_addAnimation:scaleAnimation forKey:@"scale"];
+    }
+    scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(2.0, 2.0)];
+    scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+        postDetailView.hidden = YES;
+    };
+    
+    POPBasicAnimation *alpahAnimationa = [postDetailView pop_animationForKey:@"alpha"];
+    if (alpahAnimationa == nil) {
+        alpahAnimationa = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        [postDetailView pop_addAnimation:alpahAnimationa forKey:@"alpha"];
+    }
+    alpahAnimationa.toValue = @(0.0);
+    
+    POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
+    if (alphaAnimation == nil) {
+        alphaAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        [selectedPostShroud pop_addAnimation:alphaAnimation forKey:@"alpha"];
+    }
+    alphaAnimation.toValue = [NSNumber numberWithFloat:0.0];
+    alphaAnimation.duration = 0.2;
+    alphaAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+        [selectedPostShroud removeFromSuperview];
+    };
+
     [self reloadScrollView];
 }
 
 - (IBAction)sendSelectedPostToInstagram
 {
     [self sendPostToInstragramWithKey:selectedPost.key];
+}
+
+- (IBAction)editSelectedPost
+{
+    captionController.comments.text = @"";
+    captionController.post = nil;
+    captionController.post = selectedPost;
+    [captionController resetView];
+     
+    [self pushController:captionController withSuccess:nil];
+    [self hideSelectedPost];
 }
 
 - (void)sendPostToInstragramWithKey:(NSString*)postKey
@@ -524,7 +643,7 @@
         [self.scheduledScroller.layer pop_addAnimation:scheduledPostCorderradiusAnimation forKey:@"cornerRadius"];
     
     POPSpringAnimation *scheduledPostScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-    scheduledPostScaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(0.9, 0.9)];
+    scheduledPostScaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
     scheduledPostOffset.velocity = [NSValue valueWithCGPoint:CGPointMake(velocity, velocity)];
     if ([self.scheduledScroller pop_animationForKey:@"scaling"]) {
         POPSpringAnimation *existingAnimation = [self.scheduledScroller pop_animationForKey:@"scaling"];

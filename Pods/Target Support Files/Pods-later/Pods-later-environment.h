@@ -54,6 +54,12 @@
 #define COCOAPODS_VERSION_MINOR_DACircularProgress 3
 #define COCOAPODS_VERSION_PATCH_DACircularProgress 1
 
+// FXBlurView
+#define COCOAPODS_POD_AVAILABLE_FXBlurView
+#define COCOAPODS_VERSION_MAJOR_FXBlurView 1
+#define COCOAPODS_VERSION_MINOR_FXBlurView 6
+#define COCOAPODS_VERSION_PATCH_FXBlurView 3
+
 // InstagramKit
 #define COCOAPODS_POD_AVAILABLE_InstagramKit
 #define COCOAPODS_VERSION_MAJOR_InstagramKit 3
