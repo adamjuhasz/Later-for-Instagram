@@ -92,53 +92,20 @@
     UINib *postViewNib = [UINib nibWithNibName:@"PostDisplayView" bundle:nil];
     NSArray *instantiatedViews = [postViewNib instantiateWithOwner:nil options:nil];
     postDetailView = instantiatedViews[0];
-    postDetailView.hidden = YES;
-    postDetailView.translatesAutoresizingMaskIntoConstraints = NO;
+    //postDetailView.hidden = YES;
+
     [postDetailView.editButton addTarget:self action:@selector(editSelectedPost) forControlEvents:UIControlEventTouchUpInside];
     [postDetailView.snoozeButton addTarget:self action:@selector(snoozeSelectedPost) forControlEvents:UIControlEventTouchUpInside];
     [postDetailView.deleteButton addTarget:self action:@selector(deleteSelectedPost) forControlEvents:UIControlEventTouchUpInside];
     [postDetailView.sendButton addTarget:self action:@selector(sendSelectedPostToInstagram) forControlEvents:UIControlEventTouchUpInside];
-    postDetailView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width);
     [self.view insertSubview:postDetailView aboveSubview:self.menuBar];
-    postDetailViewConstraintX = [NSLayoutConstraint constraintWithItem:postDetailView
-                                                                        attribute:NSLayoutAttributeCenterX
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.view
-                                                                        attribute:NSLayoutAttributeCenterX
-                                                                       multiplier:1.0
-                                                                         constant:0.0];
-    //[self.view addConstraint:postDetailViewConstraintX];
-    
-    postDetailViewConstraintY = [NSLayoutConstraint constraintWithItem:postDetailView
-                                                                      attribute:NSLayoutAttributeCenterY
-                                                                      relatedBy:NSLayoutRelationEqual
-                                                                         toItem:self.view
-                                                                      attribute:NSLayoutAttributeCenterY
-                                                                     multiplier:1.0
-                                                                       constant:0.0];
-    //[self.view addConstraint:postDetailViewConstraintY];
-    
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:postDetailView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:1.0
-                                                                        constant:self.view.bounds.size.width];
-    [postDetailView addConstraint:widthConstraint];
-    
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:postDetailView
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:nil
-                                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                                       multiplier:1.0
-                                                                         constant:self.view.bounds.size.width];
-    [postDetailView addConstraint:heightConstraint];
+    postDetailView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width);
+    postDetailView.image.frame = CGRectMake(0, 0, postDetailView.frame.size.width, postDetailView.frame.size.width);
+    postDetailView.blurView.frame = postDetailView.image.frame;
+    postDetailView.buttonHolderView.center = postDetailView.image.center;
     
     topLayoutConstantMin = -20;
     topLayoutConstantMax = self.view.bounds.size.height - (100);
-    
     
     [RACObserve(self, topConstraint.constant) subscribeNext:^(NSNumber *layoutConstant) {
         CGFloat value = [layoutConstant floatValue];
@@ -253,6 +220,9 @@
     postDetailView.image.image = image;
     postDetailView.alpha = 1.0;
     postDetailView.hidden = NO;
+    //postDetailViewConstraintX.constant = self.view.frame.size.width;
+    //postDetailViewConstraintY.constant = self.view.frame.size.width;
+    //[postDetailView removeConstraints:@[postDetailViewConstraintX, postDetailViewConstraintY]];
     
     POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
     if (alphaAnimation == nil) {
@@ -269,6 +239,7 @@
     }
     frameAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(returnImageRect), CGRectGetMidY(returnImageRect))];
     frameAnimation.toValue = [NSValue valueWithCGPoint:self.view.center];
+
     
     POPSpringAnimation *scaleAnimation = [postDetailView pop_animationForKey:@"scale"];
     if (scaleAnimation == nil) {
@@ -285,12 +256,19 @@
 
 - (void)hideSelectedPost
 {
+    NSLog(@"frame: %@  myframe %@ image %@", NSStringFromCGRect(returnImageRect), NSStringFromCGRect(postDetailView.frame), NSStringFromCGRect(postDetailView.image.frame));
+    
     POPSpringAnimation *frameAnimation = [postDetailView pop_animationForKey:@"frame"];
     if (frameAnimation == nil) {
         frameAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
         [postDetailView pop_addAnimation:frameAnimation forKey:@"frame"];
     }
     frameAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(returnImageRect), CGRectGetMidY(returnImageRect))];
+    frameAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+ 
+    };
+    
+    NSLog(@"%@", frameAnimation);
     
     POPSpringAnimation *scaleAnimation = [postDetailView pop_animationForKey:@"scale"];
     if (scaleAnimation == nil) {
@@ -301,7 +279,10 @@
     scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
         postDetailView.hidden = YES;
         viewSelected.hidden = NO;
+        NSLog(@"frame: %@  myframe %@ image %@", NSStringFromCGRect(returnImageRect), NSStringFromCGRect(postDetailView.frame), NSStringFromCGRect(postDetailView.image.frame));
+        [postDetailView.image setNeedsLayout];
     };
+    NSLog(@"%@", scaleAnimation);
     
     POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
      if (alphaAnimation == nil) {
