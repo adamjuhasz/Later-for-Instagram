@@ -92,13 +92,15 @@
     UINib *postViewNib = [UINib nibWithNibName:@"PostDisplayView" bundle:nil];
     NSArray *instantiatedViews = [postViewNib instantiateWithOwner:nil options:nil];
     postDetailView = instantiatedViews[0];
-    //postDetailView.hidden = YES;
+    postDetailView.hidden = YES;
 
     [postDetailView.editButton addTarget:self action:@selector(editSelectedPost) forControlEvents:UIControlEventTouchUpInside];
     [postDetailView.snoozeButton addTarget:self action:@selector(snoozeSelectedPost) forControlEvents:UIControlEventTouchUpInside];
     [postDetailView.deleteButton addTarget:self action:@selector(deleteSelectedPost) forControlEvents:UIControlEventTouchUpInside];
     [postDetailView.sendButton addTarget:self action:@selector(sendSelectedPostToInstagram) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view insertSubview:postDetailView aboveSubview:self.menuBar];
+    
     postDetailView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width);
     postDetailView.image.frame = CGRectMake(0, 0, postDetailView.frame.size.width, postDetailView.frame.size.width);
     postDetailView.blurView.frame = postDetailView.image.frame;
@@ -211,7 +213,7 @@
     
     selectedPostShroud = [[UIView alloc] initWithFrame:self.view.bounds];
     selectedPostShroud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
-    selectedPostShroud.alpha = 1.0;
+    selectedPostShroud.alpha = 0.0;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideSelectedPost)];
     [selectedPostShroud addGestureRecognizer:tap];
@@ -220,9 +222,6 @@
     postDetailView.image.image = image;
     postDetailView.alpha = 1.0;
     postDetailView.hidden = NO;
-    //postDetailViewConstraintX.constant = self.view.frame.size.width;
-    //postDetailViewConstraintY.constant = self.view.frame.size.width;
-    //[postDetailView removeConstraints:@[postDetailViewConstraintX, postDetailViewConstraintY]];
     
     POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
     if (alphaAnimation == nil) {
@@ -256,8 +255,6 @@
 
 - (void)hideSelectedPost
 {
-    NSLog(@"frame: %@  myframe %@ image %@", NSStringFromCGRect(returnImageRect), NSStringFromCGRect(postDetailView.frame), NSStringFromCGRect(postDetailView.image.frame));
-    
     POPSpringAnimation *frameAnimation = [postDetailView pop_animationForKey:@"frame"];
     if (frameAnimation == nil) {
         frameAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
@@ -268,8 +265,6 @@
  
     };
     
-    NSLog(@"%@", frameAnimation);
-    
     POPSpringAnimation *scaleAnimation = [postDetailView pop_animationForKey:@"scale"];
     if (scaleAnimation == nil) {
         scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
@@ -279,10 +274,8 @@
     scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
         postDetailView.hidden = YES;
         viewSelected.hidden = NO;
-        NSLog(@"frame: %@  myframe %@ image %@", NSStringFromCGRect(returnImageRect), NSStringFromCGRect(postDetailView.frame), NSStringFromCGRect(postDetailView.image.frame));
-        [postDetailView.image setNeedsLayout];
+        
     };
-    NSLog(@"%@", scaleAnimation);
     
     POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
      if (alphaAnimation == nil) {
@@ -505,7 +498,6 @@
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postWasTapped:)];
         [newImage addGestureRecognizer:tap];
-        
         
         [self.scheduledScroller insertSubview:newImage aboveSubview:shroud];
         [viewsInScrollView addObject:newImage];
