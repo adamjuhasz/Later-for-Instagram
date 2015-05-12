@@ -82,6 +82,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostWasAdded) name:kPostDBUpatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editPostNotificatiom:) name:@"postToBeEdited" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifiedSendPost:) name:kPostToBeSentNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifiedShowPost:) name:kLaterShowPostFromLocalNotification object:nil];
     
     captionController = [self.storyboard instantiateViewControllerWithIdentifier:@"captionViewController"];
     captionController.delegate = self;
@@ -186,17 +187,7 @@
         else if ([action isEqualToString:@"view"]) {
             selectedPost = [[PostDBSingleton singleton] postForKey:postKey];
             if (selectedPost != nil) {
-                NSInteger index = [[[PostDBSingleton singleton] allposts] indexOfObject:selectedPost];
-                CGFloat border = 4;
-                CGFloat columns = 2;
-                CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
-                CGRect mainRect = CGRectMake(0, border, width, width);
-                CGRect currrentFrame = CGRectZero;
-                int column = index % 2;
-                int row = floor(index / 2.0);
-                currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
-                currrentFrame = [self.view convertRect:currrentFrame fromView:self.scheduledScroller];
-                [self showSelectedPostWithImage:selectedPost.postImage from:currrentFrame];
+                [self showSelectedPost];
             }
         }
     }
@@ -206,6 +197,25 @@
     layout.itemSize = CGSizeMake((self.view.bounds.size.width - (columns-1)*layout.minimumInteritemSpacing - 1 )/columns, (self.view.bounds.size.width - (columns-1)*layout.minimumInteritemSpacing)/columns);
     
     [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadScrollView) userInfo:nil repeats:YES];
+}
+
+- (void)showSelectedPost
+{
+    NSInteger index = [[[PostDBSingleton singleton] allposts] indexOfObject:selectedPost];
+    if (index == NSNotFound) {
+        return;
+    }
+    
+    CGFloat border = 4;
+    CGFloat columns = 2;
+    CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
+    CGRect mainRect = CGRectMake(0, border, width, width);
+    CGRect currrentFrame = CGRectZero;
+    int column = index % 2;
+    int row = floor(index / 2.0);
+    currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
+    currrentFrame = [self.view convertRect:currrentFrame fromView:self.scheduledScroller];
+    [self showSelectedPostWithImage:selectedPost.postImage from:currrentFrame];
 }
 
 - (void)postWasLongTapped:(UIGestureRecognizer*)recognizer
@@ -1038,6 +1048,16 @@
     selectedPost = post;
     
     [self sendSelectedPostToInstagram];
+}
+
+- (void)notifiedShowPost:(NSNotification*)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *key = [userInfo objectForKey:@"key"];
+    selectedPost = [[PostDBSingleton singleton] postForKey:key];
+    if (selectedPost) {
+        [self showSelectedPost];
+    }
 }
 
 @end

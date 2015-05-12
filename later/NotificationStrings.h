@@ -10,5 +10,5 @@
 #define later_NotificationStrings_h
 
 #define kPostToBeSentNotification @"NotificationSendPost"
-
+#define kLaterShowPostFromLocalNotification @"NotificationShowPostFromNotification"
 #endif
