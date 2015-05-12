@@ -35,7 +35,6 @@
     scheduledPostModel *selectedPost;
     UIView* selectedPostShroud;
     PostDisplayView *postDetailView;
-    NSLayoutConstraint *postDetailViewConstraintX, *postDetailViewConstraintY;
     UIScreenEdgePanGestureRecognizer *leftEdgeGesture, *rightEdgeGesture;
     UIEdgeInsets initialinsets;
     CGFloat topLayoutConstantMin;
@@ -43,6 +42,7 @@
     CGRect returnImageRect;
     BOOL scrollViewUp;
     UIView *viewSelected;
+    UIPanGestureRecognizer *panRecognizerForMinimzedScrollView;
 }
 
 @property UIDynamicAnimator *animator;
@@ -85,11 +85,6 @@
     captionController = [self.storyboard instantiateViewControllerWithIdentifier:@"captionViewController"];
     captionController.delegate = self;
     
-    UIScreenEdgePanGestureRecognizer *leftSideSwipe = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(resetScrollview)];
-    leftSideSwipe.edges = UIRectEdgeLeft;
-    leftSideSwipe.delaysTouchesBegan = YES;
-    [self.view addGestureRecognizer:leftSideSwipe];
-    
     UINib *postViewNib = [UINib nibWithNibName:@"PostDisplayView" bundle:nil];
     NSArray *instantiatedViews = [postViewNib instantiateWithOwner:nil options:nil];
     postDetailView = instantiatedViews[0];
@@ -108,13 +103,15 @@
     postDetailView.buttonHolderView.center = postDetailView.image.center;
     
     topLayoutConstantMin = -20;
-    topLayoutConstantMax = self.view.bounds.size.height - (100);
+    topLayoutConstantMax = self.view.bounds.size.height - (64);
     
     [RACObserve(self, topConstraint.constant) subscribeNext:^(NSNumber *layoutConstant) {
         CGFloat value = [layoutConstant floatValue];
         CGFloat percent = (value - topLayoutConstantMin) / (topLayoutConstantMax - topLayoutConstantMin);
         
         self.addButton.transform = [self transformForAddButtonWithPercent:percent];
+        
+        //self.scheduledScroller.alpha = (1-percent)*0.5+0.5;
         }];
     
     /*
@@ -136,6 +133,10 @@
     */
     
     scrollViewUp = YES;
+    
+    panRecognizerForMinimzedScrollView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScroll:)];
+    panRecognizerForMinimzedScrollView.enabled = NO;
+    [self.scheduledScroller addGestureRecognizer:panRecognizerForMinimzedScrollView];
 }
          
 - (CGAffineTransform)transformForAddButtonWithPercent:(CGFloat)percent
@@ -151,7 +152,7 @@
     if (scrollViewUp)
         [self hideScrollview];
     else
-        [self resetScrollview];
+        [self showScrollview];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -662,10 +663,14 @@
     collectionViewScaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
     collectionViewScaleAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(-1 * velocity, -1 * velocity)];
     [self.collectionView.layer pop_addAnimation:collectionViewScaleAnimation forKey:@"scale"];
+    
+    panRecognizerForMinimzedScrollView.enabled = YES;
 }
 
-- (IBAction)resetScrollview
+- (IBAction)showScrollview
 {
+    panRecognizerForMinimzedScrollView.enabled = NO;
+    
     scrollViewUp = YES;
     
     //---- Scroll View ---
@@ -834,6 +839,36 @@
     }
 }
 
+- (void)panScroll:(UIPanGestureRecognizer*)recognizer
+{
+    CGFloat yPan = [recognizer translationInView:self.view].y * -1;
+    CGFloat yPanVelocity = [recognizer velocityInView:self.view].y * -1;
+    
+    POPSpringAnimation *scheduldPostVerticalanimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayoutConstraintConstant];
+    scheduldPostVerticalanimation.springBounciness = 8;
+    scheduldPostVerticalanimation.velocity = @(yPanVelocity);
+    scheduldPostVerticalanimation.toValue = @(topLayoutConstantMax - yPan);
+    if ([self.topConstraint pop_animationForKey:@"layout"]) {
+        POPSpringAnimation *existingAnimation = [self.topConstraint pop_animationForKey:@"layout"];
+        existingAnimation.toValue = scheduldPostVerticalanimation.toValue;
+    } else
+        [self.topConstraint pop_addAnimation:scheduldPostVerticalanimation forKey:@"layout"];
+    
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateEnded:
+            //decide if we drop back down or move up
+            if (yPanVelocity > 0 || yPan > (topLayoutConstantMax - topLayoutConstantMin)/2.0) {
+                [self showScrollview];
+            } else {
+                [self hideScrollview];
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 - (void)pushController:(UIViewController*)controller withSuccess:(void (^)(void))success
 {
     CGRect initialFrame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
@@ -922,7 +957,7 @@
 - (void)newPostWasAdded
 {
     [self reloadScrollView];
-    [self resetScrollview];
+    [self showScrollview];
     [self popController:captionController withDirection:UIRectEdgeLeft withSuccess:nil];
 }
 
