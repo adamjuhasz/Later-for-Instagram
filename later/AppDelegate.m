@@ -35,17 +35,19 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    #ifdef DEBUG
-    #else
-    [Fabric with:@[CrashlyticsKit]];
-    #endif
-
     NSBundle* bundle = [NSBundle mainBundle];
     NSString* plistPath = [bundle pathForResource:@"localytics" ofType:@"plist"];
     NSDictionary *localyticsDictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
     
-    [Localytics integrate:[localyticsDictionary objectForKey:@"Key"]];
+    #ifdef DEBUG
+        [Localytics integrate:[localyticsDictionary objectForKey:@"Debug-Key"]];
+    #else
+        [Fabric with:@[CrashlyticsKit]];
+        [Localytics integrate:[localyticsDictionary objectForKey:@"Key"]];
+    #endif
+
+    
+    
     [Localytics setCollectAdvertisingIdentifier:NO];
     
     if (application.applicationState != UIApplicationStateBackground)
