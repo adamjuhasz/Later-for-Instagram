@@ -12,6 +12,7 @@ target 'later' do
   pod 'MMTweenAnimation'
   pod 'ReactiveCocoa'
   pod 'FXBlurView'
+  #pod 'POP+MCAnimate', '~> 2.0'
 end
 
 target 'laterTests' do
