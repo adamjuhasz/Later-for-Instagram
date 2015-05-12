@@ -69,6 +69,12 @@
 		2EB8336B1AFD30420061D95F /* LogInotInstagramView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8336A1AFD30420061D95F /* LogInotInstagramView.xib */; };
 		2EB8336E1AFD306D0061D95F /* LogInotInstagramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8336D1AFD306D0061D95F /* LogInotInstagramView.m */; };
 		2ED295BB1B0283910053CD02 /* localytics.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295BA1B0283910053CD02 /* localytics.plist */; };
+		2ED295C01B0296BA0053CD02 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295BD1B0296BA0053CD02 /* Back.png */; };
+		2ED295C11B0296BA0053CD02 /* Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295BE1B0296BA0053CD02 /* Back@2x.png */; };
+		2ED295C21B0296BA0053CD02 /* Back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295BF1B0296BA0053CD02 /* Back@3x.png */; };
+		2ED295C71B0297610053CD02 /* Check.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295C41B0297610053CD02 /* Check.png */; };
+		2ED295C81B0297610053CD02 /* Check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295C51B0297610053CD02 /* Check@2x.png */; };
+		2ED295C91B0297610053CD02 /* Check@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295C61B0297610053CD02 /* Check@3x.png */; };
 		B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 280A2CEF160E5E026FC034DD /* libPods-later.a */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +174,12 @@
 		2EB8336C1AFD306D0061D95F /* LogInotInstagramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInotInstagramView.h; sourceTree = "<group>"; };
 		2EB8336D1AFD306D0061D95F /* LogInotInstagramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInotInstagramView.m; sourceTree = "<group>"; };
 		2ED295BA1B0283910053CD02 /* localytics.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = localytics.plist; sourceTree = "<group>"; };
+		2ED295BD1B0296BA0053CD02 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
+		2ED295BE1B0296BA0053CD02 /* Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@2x.png"; sourceTree = "<group>"; };
+		2ED295BF1B0296BA0053CD02 /* Back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@3x.png"; sourceTree = "<group>"; };
+		2ED295C41B0297610053CD02 /* Check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Check.png; sourceTree = "<group>"; };
+		2ED295C51B0297610053CD02 /* Check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Check@2x.png"; sourceTree = "<group>"; };
+		2ED295C61B0297610053CD02 /* Check@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Check@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +228,8 @@
 		2E4418681B016DA4007611C3 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				2ED295C31B0297610053CD02 /* check */,
+				2ED295BC1B0296BA0053CD02 /* Back */,
 				2E4418691B016DA4007611C3 /* Add */,
 				2E44186D1B016DA4007611C3 /* Close */,
 				2E4418711B016DA4007611C3 /* Edit */,
@@ -415,6 +429,26 @@
 			name = Graphics;
 			sourceTree = "<group>";
 		};
+		2ED295BC1B0296BA0053CD02 /* Back */ = {
+			isa = PBXGroup;
+			children = (
+				2ED295BD1B0296BA0053CD02 /* Back.png */,
+				2ED295BE1B0296BA0053CD02 /* Back@2x.png */,
+				2ED295BF1B0296BA0053CD02 /* Back@3x.png */,
+			);
+			path = Back;
+			sourceTree = "<group>";
+		};
+		2ED295C31B0297610053CD02 /* check */ = {
+			isa = PBXGroup;
+			children = (
+				2ED295C41B0297610053CD02 /* Check.png */,
+				2ED295C51B0297610053CD02 /* Check@2x.png */,
+				2ED295C61B0297610053CD02 /* Check@3x.png */,
+			);
+			path = check;
+			sourceTree = "<group>";
+		};
 		57C7FD77DC4984F0EAF87CB8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -525,10 +559,12 @@
 				2E6E21561AE021D0002E9372 /* PostActionsViewController.xib in Resources */,
 				2E6E21451ADCFB47002E9372 /* logo-120.png in Resources */,
 				2E2220661AE60B11007D2E38 /* logo-80.png in Resources */,
+				2ED295C11B0296BA0053CD02 /* Back@2x.png in Resources */,
 				2E4418901B016DA4007611C3 /* Trash.png in Resources */,
 				2E6E213B1ADCDD23002E9372 /* HashtagTableViewCell.xib in Resources */,
 				2E6E21101ADC53DB002E9372 /* Main.storyboard in Resources */,
 				2E6E212B1ADC647B002E9372 /* InstagramKit.plist in Resources */,
+				2ED295C81B0297610053CD02 /* Check@2x.png in Resources */,
 				2E6E21421ADCFA82002E9372 /* logo.png in Resources */,
 				2E4418821B016DA4007611C3 /* Plus@2x.png in Resources */,
 				2E2220581AE5B984007D2E38 /* BCN.wav in Resources */,
@@ -557,10 +593,14 @@
 				2E4418881B016DA4007611C3 /* Edit@2x.png in Resources */,
 				2ED295BB1B0283910053CD02 /* localytics.plist in Resources */,
 				2E4418851B016DA4007611C3 /* Close@2x.png in Resources */,
+				2ED295C01B0296BA0053CD02 /* Back.png in Resources */,
 				2EB8336B1AFD30420061D95F /* LogInotInstagramView.xib in Resources */,
 				2E4418911B016DA4007611C3 /* Trash@2x.png in Resources */,
 				2E4418861B016DA4007611C3 /* Close@3x.png in Resources */,
+				2ED295C91B0297610053CD02 /* Check@3x.png in Resources */,
 				2E2220601AE5BA44007D2E38 /* TrainStation.wav in Resources */,
+				2ED295C21B0296BA0053CD02 /* Back@3x.png in Resources */,
+				2ED295C71B0297610053CD02 /* Check.png in Resources */,
 				2E2220701AE60CD0007D2E38 /* launchret4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

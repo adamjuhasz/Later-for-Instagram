@@ -276,11 +276,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "453153133.361685"
+            timestampString = "453155915.973699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "821"
-            endingLineNumber = "821"
+            startingLineNumber = "827"
+            endingLineNumber = "827"
             landmarkName = "-edgeSwipe:"
             landmarkType = "5">
          </BreakpointContent>

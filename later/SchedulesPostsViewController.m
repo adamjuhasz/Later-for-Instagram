@@ -43,6 +43,7 @@
     BOOL scrollViewUp;
     UIView *viewSelected;
     UIPanGestureRecognizer *panRecognizerForMinimzedScrollView;
+    UITapGestureRecognizer *tapRecognizerForMinimizedScrollView;
 }
 
 @property UIDynamicAnimator *animator;
@@ -138,7 +139,7 @@
     panRecognizerForMinimzedScrollView.enabled = NO;
     [self.scheduledScroller addGestureRecognizer:panRecognizerForMinimzedScrollView];
 }
-         
+     
 - (CGAffineTransform)transformForAddButtonWithPercent:(CGFloat)percent
 {
     CGAffineTransform transformer = CGAffineTransformIdentity;
@@ -199,7 +200,11 @@
 
 - (void)postWasTapped:(UIGestureRecognizer*)recognizer
 {
-    NSLog(@"tapped");
+    if (scrollViewUp == NO) {
+        [self showScrollview];
+        return;
+    }
+    
     viewSelected = recognizer.view;
     CGRect viewFrame = viewSelected.frame;
     CGRect frameOfView = [self.scheduledScroller convertRect:viewFrame toView:self.view];
@@ -806,10 +811,11 @@
         case UIGestureRecognizerStateBegan:
             [self.view endEditing:YES];
             captionController.view.frame = CGRectMake(xTranslation, 0, captionController.view.frame.size.width, captionController.view.frame.size.height);
+            if (xTranslation < 0)
+                [self moveScrollviewBy:xTranslation withVelocity:xVelocity];
             break;
             
         case UIGestureRecognizerStateEnded:
-            NSLog(@"velocity = %f, translation = %f", xVelocity, xTranslation);
             if (xTranslation > 0 && xVelocity > 0 && recognizer == leftEdgeGesture) {
                 edgeSwipeSameDirection = YES;
             }
@@ -844,8 +850,31 @@
                                             
         default:
             captionController.view.frame = CGRectMake(xTranslation, 0, captionController.view.frame.size.width, captionController.view.frame.size.height);
+            if (xTranslation < 0)
+                [self moveScrollviewBy:xTranslation*-1 withVelocity:xVelocity*-1];
             break;
     }
+}
+
+- (void)moveScrollviewBy:(CGFloat)value withVelocity:(CGFloat)velocity
+{
+    CGFloat newLocation = topLayoutConstantMax - value;
+    if (newLocation > topLayoutConstantMax) {
+        newLocation = topLayoutConstantMax;
+    }
+    if (newLocation < topLayoutConstantMin) {
+        newLocation = topLayoutConstantMin;
+    }
+    
+    POPSpringAnimation *scheduldPostVerticalanimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayoutConstraintConstant];
+    scheduldPostVerticalanimation.springBounciness = 8;
+    scheduldPostVerticalanimation.velocity = @(velocity);
+    scheduldPostVerticalanimation.toValue = @(newLocation);
+    if ([self.topConstraint pop_animationForKey:@"layout"]) {
+        POPSpringAnimation *existingAnimation = [self.topConstraint pop_animationForKey:@"layout"];
+        existingAnimation.toValue = scheduldPostVerticalanimation.toValue;
+    } else
+        [self.topConstraint pop_addAnimation:scheduldPostVerticalanimation forKey:@"layout"];
 }
 
 - (void)panScroll:(UIPanGestureRecognizer*)recognizer
