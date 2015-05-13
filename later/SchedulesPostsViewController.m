@@ -64,6 +64,12 @@
     viewsInScrollView = [NSMutableArray array];
     scheduledPosts = [[PostDBSingleton singleton] allposts];
     
+    if (scheduledPosts.count > 0) {
+        for (UIView *view in self.gestureInstructions) {
+            view.hidden = YES;
+        }
+    }
+    
     initialinsets = UIEdgeInsetsMake(64, 0, 0, 0);
     self.scheduledScroller.contentInset = initialinsets;
     self.scheduledScroller.scrollIndicatorInsets = self.scheduledScroller.contentInset;
@@ -485,10 +491,10 @@
 {
     scheduledPosts = [[PostDBSingleton singleton] allposts];
     
-    if (scheduledPosts.count == 0) {
-        self.pullDownHelperView.hidden = NO;
-    } else {
-        self.pullDownHelperView.hidden = YES;
+    if (scheduledPosts.count > 0) {
+        for (UIView *view in self.gestureInstructions) {
+            view.hidden = YES;
+        }
     }
     
     for (UIView *subview in viewsInScrollView) {
@@ -568,6 +574,10 @@
         self.collectionView.transform = CGAffineTransformMakeScale(scale, scale);
         self.collectionView.alpha = MAX(0.5,alphaPercent);
         //NSLog(@"alphaPercent: %f", alphaPercent);
+        
+        for (UIView *view in self.gestureInstructions) {
+            view.alpha = 1-alphaPercent;
+        }
     }
 }
 
@@ -611,6 +621,10 @@
 
 - (void)hideScrollviewWithVelocity:(CGFloat)velocity
 {
+    for (UIView *view in self.gestureInstructions) {
+        view.alpha = 0;
+    }
+    
     if (velocity == 0) {
         [Localytics tagEvent:@"ShowImageLibrary" attributes:[NSDictionary dictionaryWithObject:@"button" forKey:@"source"]];
     } else {
@@ -864,6 +878,7 @@
                     xVelocity = 500;
                 }
                 animation.duration = ABS((captionController.view.frame.size.width - xTranslation) / xVelocity);
+                
             } else {
                 animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
                 animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];

@@ -13,9 +13,9 @@
 @property IBOutlet UIScrollView *scheduledScroller;
 @property IBOutlet UIView *menuBar;
 @property IBOutlet UICollectionView *collectionView;
-@property IBOutlet UIView *pullDownHelperView;
 @property IBOutlet NSLayoutConstraint *topConstraint;
 @property IBOutlet UIView *addButton;
+@property IBOutletCollection(UIView) NSArray *gestureInstructions;
 
 - (void)popController:(UIViewController*)controller withSuccess:(void (^)(void))success;
 - (void)pushController:(UIViewController*)controller withSuccess:(void (^)(void))success;
