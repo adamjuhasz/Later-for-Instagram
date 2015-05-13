@@ -331,6 +331,7 @@
 {
     switch (pageNumber) {
         case 0:
+            [Localytics tagEvent:@"showHashtags"];
             [self.comments becomeFirstResponder];
             break;
         
@@ -339,6 +340,7 @@
             break;
             
             case 2:
+            [Localytics tagEvent:@"showMap"];
             [self doneEditing:self];
             //set location
             if (self.location) {
