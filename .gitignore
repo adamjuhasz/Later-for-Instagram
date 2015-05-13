@@ -27,9 +27,7 @@ DerivedData
 #Pods/
 
 later/InstagramKit.plist
-
 Pods/InstagramKit/InstagramKit/InstagramKit.plist
-
 later/localytics.plist
-
-later/localytics.plist
+Fabric.framework
+Crashlytics.framework
