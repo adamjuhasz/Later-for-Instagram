@@ -334,11 +334,13 @@
     switch (pageNumber) {
         case 0:
             [Localytics tagEvent:@"showHashtags"];
+            [Localytics tagScreen:@"hashtagSearch"];
             [self.comments becomeFirstResponder];
             break;
         
         case 1:
             [self doneEditing:self];
+            [Localytics tagScreen:@"schedulePost"];
             break;
             
             case 2:
@@ -355,6 +357,7 @@
                 region.span = span;
 
                 [self.locationPickerViewController.mapView setRegion:region animated:YES];
+                [Localytics tagScreen:@"locationSearch"];
             }
             break;
             

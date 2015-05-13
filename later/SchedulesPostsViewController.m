@@ -198,6 +198,7 @@
     layout.itemSize = CGSizeMake((self.view.bounds.size.width - (columns-1)*layout.minimumInteritemSpacing - 1 )/columns, (self.view.bounds.size.width - (columns-1)*layout.minimumInteritemSpacing)/columns);
     
     [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadScrollView) userInfo:nil repeats:YES];
+    [Localytics tagScreen:@"MainScreen"];
 }
 
 - (void)showSelectedPost
@@ -221,7 +222,6 @@
 
 - (void)postWasLongTapped:(UIGestureRecognizer*)recognizer
 {
-    NSLog(@"long tapped");
     scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
     [self sendPostToInstragramWithKey:thePost.key];
 }
@@ -308,6 +308,7 @@
     });
     
     [postDetailView startGrowing];
+    [Localytics tagScreen:@"ScheduledDetail"];
 }
 
 - (void)hideSelectedPost
@@ -346,6 +347,7 @@
     };
     
     [postDetailView startShrinking];
+    [Localytics tagScreen:@"MainScreen"];
 }
 
 - (IBAction)snoozeSelectedPost
@@ -734,6 +736,7 @@
     [self.collectionView.layer pop_addAnimation:collectionViewScaleAnimation forKey:@"scale"];
     
     panRecognizerForMinimzedScrollView.enabled = YES;
+    [Localytics tagScreen:@"PhotoLibrary"];
 }
 
 - (IBAction)showScrollview
@@ -800,6 +803,8 @@
     POPSpringAnimation *collectionAlphaAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewAlpha];
     collectionAlphaAnimation.toValue = @(0.0);
     [self.collectionView pop_addAnimation:collectionAlphaAnimation forKey:@"alpha"];
+    
+    [Localytics tagScreen:@"MainScreen"];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -1013,6 +1018,7 @@
     [controller.view pop_addAnimation:animation forKey:@"frame"];
     
     [Localytics tagEvent:@"selectedPhoto"];
+    [Localytics tagScreen:@"CaptionEditor"];
 }
 
 - (void)popController:(UIViewController *)controller withDirection:(UIRectEdge)direction withSuccess:(void (^)(void))success
@@ -1048,6 +1054,7 @@
     
     [self.view endEditing:YES];
     [controller.view pop_addAnimation:animation forKey:@"frame_out"];
+    [Localytics tagScreen:@"MainScreen"];
 }
 
 - (void)popController:(UIViewController*)controller withSuccess:(void (^)(void))success
