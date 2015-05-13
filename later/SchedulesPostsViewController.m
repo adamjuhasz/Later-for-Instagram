@@ -20,6 +20,7 @@
 #import "PostDisplayView.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Localytics/Localytics.h>
+#import <CoreText/CoreText.h>
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -479,9 +480,29 @@
     NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:currentDate  toDate:dateToBe  options:0];
     //NSLog(@"Break down: %ld sec : %ld min : %ld hours : %ld days : %ld months", [breakdownInfo second], [breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
     
-    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
-    NSDictionary *attrsDictionary =[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-    UIFont *smallFont = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
+    
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:78];
+    UIFont *smallFont = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:40];
+    if (self.view.frame.size.width < 370) {
+        font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:55];
+        smallFont = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
+    }
+    
+    UIFontDescriptor *const existingDescriptor = [font fontDescriptor];
+    NSDictionary *const fontAttributes = @{
+                                           // Here comes that array of dictionaries each containing UIFontFeatureTypeIdentifierKey
+                                           // and UIFontFeatureSelectorIdentifierKey that the reference mentions.
+                                           UIFontDescriptorFeatureSettingsAttribute: @[
+                                                   @{
+                                                       UIFontFeatureTypeIdentifierKey: @(kNumberSpacingType),
+                                                       UIFontFeatureSelectorIdentifierKey: @(kProportionalNumbersSelector)
+                                                       }]
+                                           };
+    
+    UIFontDescriptor *const proportionalDescriptor = [existingDescriptor fontDescriptorByAddingAttributes: fontAttributes];
+    UIFont *const proportionalFont = [UIFont fontWithDescriptor: proportionalDescriptor size: [font pointSize]];
+    
+    NSDictionary *attrsDictionary =[NSDictionary dictionaryWithObject:proportionalFont forKey:NSFontAttributeName];
     NSDictionary *smallAttrsDictionary =[NSDictionary dictionaryWithObject:smallFont forKey:NSFontAttributeName];
     
     NSMutableAttributedString *timelabelText = [[NSMutableAttributedString alloc] initWithString:@"Soon" attributes:attrsDictionary];
@@ -553,7 +574,7 @@
         
         CAGradientLayer *gradient = [CAGradientLayer layer];
         id colorTop = (id)[[UIColor clearColor] CGColor];
-        id colorBottom = (id)[[UIColor colorWithWhite:0.0 alpha:0.9] CGColor];
+        id colorBottom = (id)[[UIColor colorWithWhite:0.0 alpha:0.5] CGColor];
         gradient.colors = @[colorTop, colorBottom];
         NSNumber *stopTop = [NSNumber numberWithFloat:0.2];
         NSNumber *stopBottom = [NSNumber numberWithFloat:0.9];
@@ -561,7 +582,7 @@
         gradient.frame = newImage.bounds;
         [newImage.layer insertSublayer:gradient above:imageView.layer];
         
-        CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (40+5), imageRect.size.width - 5, 40);
+        CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (48+5), imageRect.size.width - 5, 55);
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
         timeLabel.textColor = [UIColor whiteColor];
         timeLabel.attributedText = [self stringForDate:post.postTime];
