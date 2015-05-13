@@ -71,6 +71,7 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hxa-BQ-G4I">
                                             <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
+                                            <inset key="imageEdgeInsets" minX="11" minY="0.0" maxX="0.0" maxY="5"/>
                                             <state key="normal" image="Snooze.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -141,7 +142,7 @@
     <resources>
         <image name="Edit.png" width="43" height="43"/>
         <image name="Instagram.png" width="43" height="44"/>
-        <image name="Snooze.png" width="43" height="43"/>
+        <image name="Snooze.png" width="47" height="43"/>
         <image name="Trash.png" width="40" height="43"/>
     </resources>
 </document>
