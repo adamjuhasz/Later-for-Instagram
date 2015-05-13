@@ -75,6 +75,9 @@
 		2ED295C71B0297610053CD02 /* Check.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295C41B0297610053CD02 /* Check.png */; };
 		2ED295C81B0297610053CD02 /* Check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295C51B0297610053CD02 /* Check@2x.png */; };
 		2ED295C91B0297610053CD02 /* Check@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295C61B0297610053CD02 /* Check@3x.png */; };
+		2ED295CE1B02B1580053CD02 /* Down.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295CB1B02B1580053CD02 /* Down.png */; };
+		2ED295CF1B02B1580053CD02 /* Down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295CC1B02B1580053CD02 /* Down@2x.png */; };
+		2ED295D01B02B1580053CD02 /* Down@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295CD1B02B1580053CD02 /* Down@3x.png */; };
 		B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 280A2CEF160E5E026FC034DD /* libPods-later.a */; };
 /* End PBXBuildFile section */
 
@@ -180,6 +183,9 @@
 		2ED295C41B0297610053CD02 /* Check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Check.png; sourceTree = "<group>"; };
 		2ED295C51B0297610053CD02 /* Check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Check@2x.png"; sourceTree = "<group>"; };
 		2ED295C61B0297610053CD02 /* Check@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Check@3x.png"; sourceTree = "<group>"; };
+		2ED295CB1B02B1580053CD02 /* Down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Down.png; sourceTree = "<group>"; };
+		2ED295CC1B02B1580053CD02 /* Down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Down@2x.png"; sourceTree = "<group>"; };
+		2ED295CD1B02B1580053CD02 /* Down@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Down@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +234,7 @@
 		2E4418681B016DA4007611C3 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				2ED295CA1B02B1580053CD02 /* Down */,
 				2ED295C31B0297610053CD02 /* check */,
 				2ED295BC1B0296BA0053CD02 /* Back */,
 				2E4418691B016DA4007611C3 /* Add */,
@@ -449,6 +456,16 @@
 			path = check;
 			sourceTree = "<group>";
 		};
+		2ED295CA1B02B1580053CD02 /* Down */ = {
+			isa = PBXGroup;
+			children = (
+				2ED295CB1B02B1580053CD02 /* Down.png */,
+				2ED295CC1B02B1580053CD02 /* Down@2x.png */,
+				2ED295CD1B02B1580053CD02 /* Down@3x.png */,
+			);
+			path = Down;
+			sourceTree = "<group>";
+		};
 		57C7FD77DC4984F0EAF87CB8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -558,6 +575,7 @@
 				2E4418971B016F53007611C3 /* Snooze@2x.png in Resources */,
 				2E6E21561AE021D0002E9372 /* PostActionsViewController.xib in Resources */,
 				2E6E21451ADCFB47002E9372 /* logo-120.png in Resources */,
+				2ED295CE1B02B1580053CD02 /* Down.png in Resources */,
 				2E2220661AE60B11007D2E38 /* logo-80.png in Resources */,
 				2ED295C11B0296BA0053CD02 /* Back@2x.png in Resources */,
 				2E4418901B016DA4007611C3 /* Trash.png in Resources */,
@@ -565,6 +583,7 @@
 				2E6E21101ADC53DB002E9372 /* Main.storyboard in Resources */,
 				2E6E212B1ADC647B002E9372 /* InstagramKit.plist in Resources */,
 				2ED295C81B0297610053CD02 /* Check@2x.png in Resources */,
+				2ED295D01B02B1580053CD02 /* Down@3x.png in Resources */,
 				2E6E21421ADCFA82002E9372 /* logo.png in Resources */,
 				2E4418821B016DA4007611C3 /* Plus@2x.png in Resources */,
 				2E2220581AE5B984007D2E38 /* BCN.wav in Resources */,
@@ -583,6 +602,7 @@
 				2E4418891B016DA4007611C3 /* Edit@3x.png in Resources */,
 				2E4418811B016DA4007611C3 /* Plus.png in Resources */,
 				2E4418961B016F53007611C3 /* Snooze.png in Resources */,
+				2ED295CF1B02B1580053CD02 /* Down@2x.png in Resources */,
 				2E44189E1B016FF5007611C3 /* Instagram@3x.png in Resources */,
 				2E3E92F81AE1A7890048B5E8 /* Settings.bundle in Resources */,
 				2E44189D1B016FF5007611C3 /* Instagram@2x.png in Resources */,
