@@ -71,47 +71,49 @@
 {
     CGRect dateRect = self.datePicker.frame;
     
-    BOOL thirdLineOverlapped = NO;
-    for (UIView *view in self.thirdLineArray) {
-        CGRect viewRect = view.frame;
-        thirdLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | thirdLineOverlapped;
-    }
-    
-    for (UIView *view in self.thirdLineArray) {
-        if (thirdLineOverlapped) {
-            view.alpha = 0.0;
-        } else {
-            view.alpha = 1.0;
+    [UIView animateWithDuration:0.2 animations:^{
+        BOOL thirdLineOverlapped = NO;
+        for (UIView *view in self.thirdLineArray) {
+            CGRect viewRect = view.frame;
+            thirdLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | thirdLineOverlapped;
         }
-    }
-    
-    BOOL secondLineOverlapped = NO;
-    for (UIView *view in self.secondLineArray) {
-        CGRect viewRect = view.frame;
-        secondLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | secondLineOverlapped;
-    }
-    
-    for (UIView *view in self.secondLineArray) {
-        if (secondLineOverlapped) {
-            view.alpha = 0.0;
-        } else {
-            view.alpha = 1.0;
+        
+        for (UIView *view in self.thirdLineArray) {
+            if (thirdLineOverlapped) {
+                view.alpha = 0.0;
+            } else {
+                view.alpha = 1.0;
+            }
         }
-    }
-    
-    BOOL firstLineOverlapped = NO;
-    for (UIView *view in self.firstLineArray) {
-        CGRect viewRect = view.frame;
-        firstLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | firstLineOverlapped;
-    }
-    
-    for (UIView *view in self.firstLineArray) {
-        if (firstLineOverlapped) {
-            view.alpha = 0.0;
-        } else {
-            view.alpha = 1.0;
+        
+        BOOL secondLineOverlapped = NO;
+        for (UIView *view in self.secondLineArray) {
+            CGRect viewRect = view.frame;
+            secondLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | secondLineOverlapped;
         }
-    }
+        
+        for (UIView *view in self.secondLineArray) {
+            if (secondLineOverlapped) {
+                view.alpha = 0.0;
+            } else {
+                view.alpha = 1.0;
+            }
+        }
+        
+        BOOL firstLineOverlapped = NO;
+        for (UIView *view in self.firstLineArray) {
+            CGRect viewRect = view.frame;
+            firstLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | firstLineOverlapped;
+        }
+        
+        for (UIView *view in self.firstLineArray) {
+            if (firstLineOverlapped) {
+                view.alpha = 0.0;
+            } else {
+                view.alpha = 1.0;
+            }
+        }
+    }];
 }
 
 @end
