@@ -13,6 +13,9 @@
 
 @property IBOutlet UIDatePicker *datePicker;
 @property IBOutletCollection(UIView) NSArray* specificDatePickers;
+@property IBOutletCollection(UIView) NSArray* firstLineArray;
+@property IBOutletCollection(UIView) NSArray* secondLineArray;
+@property IBOutletCollection(UIView) NSArray* thirdLineArray;
 
 - (NSDate*)currentDateSelected;
 - (void)resetDate;

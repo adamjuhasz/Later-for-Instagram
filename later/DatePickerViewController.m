@@ -18,9 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self resetDate];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetAlpha) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetAlpha) name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -65,13 +62,51 @@
     self.datePicker.date = [NSDate dateWithTimeIntervalSinceNow:60*60];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [self resetAlpha];
+}
+
 - (void)resetAlpha
 {
     CGRect dateRect = self.datePicker.frame;
-    for (UIView *view in self.specificDatePickers) {
+    
+    BOOL thirdLineOverlapped = NO;
+    for (UIView *view in self.thirdLineArray) {
         CGRect viewRect = view.frame;
-        BOOL overlap = CGRectIntersectsRect(dateRect, viewRect);
-        if (overlap) {
+        thirdLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | thirdLineOverlapped;
+    }
+    
+    for (UIView *view in self.thirdLineArray) {
+        if (thirdLineOverlapped) {
+            view.alpha = 0.0;
+        } else {
+            view.alpha = 1.0;
+        }
+    }
+    
+    BOOL secondLineOverlapped = NO;
+    for (UIView *view in self.secondLineArray) {
+        CGRect viewRect = view.frame;
+        secondLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | secondLineOverlapped;
+    }
+    
+    for (UIView *view in self.secondLineArray) {
+        if (secondLineOverlapped) {
+            view.alpha = 0.0;
+        } else {
+            view.alpha = 1.0;
+        }
+    }
+    
+    BOOL firstLineOverlapped = NO;
+    for (UIView *view in self.firstLineArray) {
+        CGRect viewRect = view.frame;
+        firstLineOverlapped = CGRectIntersectsRect(dateRect, viewRect) | firstLineOverlapped;
+    }
+    
+    for (UIView *view in self.firstLineArray) {
+        if (firstLineOverlapped) {
             view.alpha = 0.0;
         } else {
             view.alpha = 1.0;

@@ -476,10 +476,50 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3cu-SF-BhN" userLabel="Center Line bar">
                                 <rect key="frame" x="224" y="1" width="2" height="136"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="2" id="5AX-ur-2Ja"/>
                                 </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q5h-eW-g3n" userLabel="Center Line bar - bottom">
+                                <rect key="frame" x="224" y="90" width="2" height="44"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="2" id="6hr-aQ-pf4"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="2" id="LSI-XH-UFL"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="LSI-XH-UFL"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HzT-1c-DqL" userLabel="Center Line bar - middle">
+                                <rect key="frame" x="224" y="47" width="2" height="44"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="2" id="LnG-bm-Vn7"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="2" id="iJw-nh-YJj"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="iJw-nh-YJj"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OUX-fk-2Ug" userLabel="Center Line bar - top">
+                                <rect key="frame" x="224" y="1" width="2" height="44"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="2" id="Kmn-nL-P9t"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="2" id="nlx-vL-sbF"/>
+                                    <constraint firstAttribute="width" constant="2" id="rel-Y2-r9U"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Kmn-nL-P9t"/>
+                                        <exclude reference="nlx-vL-sbF"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WzF-hw-se7">
                                 <rect key="frame" x="-1" y="139" width="451" height="216"/>
@@ -511,22 +551,30 @@
                             <constraint firstItem="SUB-pb-xfL" firstAttribute="width" secondItem="pT7-nK-fM2" secondAttribute="width" id="5cS-bc-Z4v"/>
                             <constraint firstItem="WzF-hw-se7" firstAttribute="centerX" secondItem="7hD-dJ-zJj" secondAttribute="centerX" id="8f2-z3-b03"/>
                             <constraint firstItem="XZ6-dE-Gbh" firstAttribute="top" secondItem="3cu-SF-BhN" secondAttribute="top" id="9Ht-lp-V73"/>
+                            <constraint firstItem="SUB-pb-xfL" firstAttribute="centerY" secondItem="HzT-1c-DqL" secondAttribute="centerY" id="CrL-wM-JAm"/>
                             <constraint firstItem="RlX-nR-umT" firstAttribute="bottom" secondItem="XZ6-dE-Gbh" secondAttribute="bottom" constant="1" id="FcN-jS-t5z"/>
                             <constraint firstItem="RlX-nR-umT" firstAttribute="width" secondItem="7hD-dJ-zJj" secondAttribute="width" id="HYN-Ai-inp"/>
                             <constraint firstItem="XZ6-dE-Gbh" firstAttribute="width" secondItem="uqs-fu-enw" secondAttribute="width" id="K7f-3w-YYX"/>
                             <constraint firstAttribute="centerX" secondItem="7hD-dJ-zJj" secondAttribute="centerX" id="KMG-t3-zcf"/>
+                            <constraint firstItem="pT7-nK-fM2" firstAttribute="leading" secondItem="OUX-fk-2Ug" secondAttribute="trailing" constant="9" id="Kkh-Sy-cGq"/>
                             <constraint firstItem="r3F-WM-9Tl" firstAttribute="height" secondItem="pT7-nK-fM2" secondAttribute="height" id="MnK-bX-OwK"/>
                             <constraint firstItem="7hD-dJ-zJj" firstAttribute="width" secondItem="8pj-bC-2hV" secondAttribute="width" id="MsD-ut-Pii"/>
                             <constraint firstItem="D64-An-RYV" firstAttribute="bottom" secondItem="uqs-fu-enw" secondAttribute="top" constant="-2" id="NWl-bq-r7h"/>
+                            <constraint firstItem="r3F-WM-9Tl" firstAttribute="leading" secondItem="Q5h-eW-g3n" secondAttribute="trailing" constant="9" id="Nwa-Kh-UYK"/>
                             <constraint firstItem="XZ6-dE-Gbh" firstAttribute="top" secondItem="y4g-Um-IsP" secondAttribute="bottom" constant="1" id="OvB-iP-N3b"/>
                             <constraint firstItem="SUB-pb-xfL" firstAttribute="centerX" secondItem="pT7-nK-fM2" secondAttribute="centerX" id="Pon-Sa-Lwu"/>
+                            <constraint firstItem="OUX-fk-2Ug" firstAttribute="height" secondItem="pT7-nK-fM2" secondAttribute="height" id="QTA-cS-wNX"/>
                             <constraint firstItem="5Sj-UM-ao4" firstAttribute="top" relation="greaterThanOrEqual" secondItem="7hD-dJ-zJj" secondAttribute="bottom" id="Qcd-GY-x6I"/>
                             <constraint firstAttribute="centerX" secondItem="RlX-nR-umT" secondAttribute="centerX" id="UaS-Ow-okE"/>
                             <constraint firstItem="XZ6-dE-Gbh" firstAttribute="height" secondItem="uqs-fu-enw" secondAttribute="height" id="VLW-4F-u4X"/>
                             <constraint firstItem="WzF-hw-se7" firstAttribute="centerY" secondItem="7hD-dJ-zJj" secondAttribute="centerY" id="WTb-kF-Sdb"/>
                             <constraint firstAttribute="trailing" secondItem="pT7-nK-fM2" secondAttribute="trailing" id="YEf-Fx-Y90"/>
+                            <constraint firstItem="OUX-fk-2Ug" firstAttribute="centerY" secondItem="pT7-nK-fM2" secondAttribute="centerY" id="aC1-QK-Qgs"/>
                             <constraint firstItem="5bM-aY-e1i" firstAttribute="height" secondItem="RlX-nR-umT" secondAttribute="height" id="b0a-KM-oM4"/>
+                            <constraint firstItem="r3F-WM-9Tl" firstAttribute="height" secondItem="Q5h-eW-g3n" secondAttribute="height" id="gJ8-HK-dYO"/>
+                            <constraint firstItem="SUB-pb-xfL" firstAttribute="leading" secondItem="HzT-1c-DqL" secondAttribute="trailing" constant="9" id="h7F-31-VOH"/>
                             <constraint firstItem="WzF-hw-se7" firstAttribute="height" secondItem="7hD-dJ-zJj" secondAttribute="height" id="iXj-9F-Q3k"/>
+                            <constraint firstItem="r3F-WM-9Tl" firstAttribute="centerY" secondItem="Q5h-eW-g3n" secondAttribute="centerY" constant="3" id="l2A-XR-sKX"/>
                             <constraint firstItem="D64-An-RYV" firstAttribute="height" secondItem="XZ6-dE-Gbh" secondAttribute="height" id="m1l-Lx-shk"/>
                             <constraint firstItem="7hD-dJ-zJj" firstAttribute="top" secondItem="3cu-SF-BhN" secondAttribute="bottom" priority="750" constant="2" id="myd-u1-6ba"/>
                             <constraint firstItem="pT7-nK-fM2" firstAttribute="width" secondItem="8pj-bC-2hV" secondAttribute="width" multiplier="0.5" constant="-10" id="nox-po-UIc"/>
@@ -544,6 +592,7 @@
                             <constraint firstItem="RlX-nR-umT" firstAttribute="width" secondItem="8pj-bC-2hV" secondAttribute="width" multiplier="0.75" priority="750" id="uSm-VS-GjC"/>
                             <constraint firstItem="D64-An-RYV" firstAttribute="centerX" secondItem="XZ6-dE-Gbh" secondAttribute="centerX" id="y4C-Pu-uT5"/>
                             <constraint firstItem="r3F-WM-9Tl" firstAttribute="width" secondItem="pT7-nK-fM2" secondAttribute="width" id="ycR-xf-Otr"/>
+                            <constraint firstItem="SUB-pb-xfL" firstAttribute="height" secondItem="HzT-1c-DqL" secondAttribute="height" id="ygQ-Ja-ljZ"/>
                             <constraint firstItem="r3F-WM-9Tl" firstAttribute="top" secondItem="SUB-pb-xfL" secondAttribute="bottom" constant="2" id="znx-fl-ivy"/>
                         </constraints>
                         <variation key="default">
@@ -563,6 +612,17 @@
                         <outletCollection property="specificDatePickers" destination="pT7-nK-fM2" id="CtU-af-gS2"/>
                         <outletCollection property="specificDatePickers" destination="SUB-pb-xfL" id="eZb-gK-clk"/>
                         <outletCollection property="specificDatePickers" destination="r3F-WM-9Tl" id="ijI-jf-F9M"/>
+                        <outletCollection property="thirdLineArray" destination="r3F-WM-9Tl" id="Y1m-OO-ysp"/>
+                        <outletCollection property="thirdLineArray" destination="Q5h-eW-g3n" id="rzc-67-9ZK"/>
+                        <outletCollection property="thirdLineArray" destination="uqs-fu-enw" id="uMC-Of-RFV"/>
+                        <outletCollection property="secondLineArray" destination="SUB-pb-xfL" id="aZ2-aT-c2J"/>
+                        <outletCollection property="secondLineArray" destination="HzT-1c-DqL" id="e1t-zI-IMz"/>
+                        <outletCollection property="secondLineArray" destination="D64-An-RYV" id="r05-BM-7cC"/>
+                        <outletCollection property="firstLineArray" destination="pT7-nK-fM2" id="4ta-s8-a37"/>
+                        <outletCollection property="firstLineArray" destination="OUX-fk-2Ug" id="9Gq-fb-PDj"/>
+                        <outletCollection property="firstLineArray" destination="XZ6-dE-Gbh" id="wfM-lG-T6c"/>
+                        <outletCollection property="thirdLineArray" destination="5bM-aY-e1i" id="ffg-Fr-7Q1"/>
+                        <outletCollection property="secondLineArray" destination="RlX-nR-umT" id="WsV-AA-l2c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vyj-uu-DDP" userLabel="First Responder" sceneMemberID="firstResponder"/>

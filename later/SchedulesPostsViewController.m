@@ -14,7 +14,6 @@
 #import "scheduledPostModel.h"
 #import "AppDelegate.h"
 #import <CoreImage/CoreImage.h>
-#import "PostActionsViewController.h"
 #import <pop/POP.h>
 #import "NotificationStrings.h"
 #import <MMTweenAnimation/MMTweenAnimation.h>
