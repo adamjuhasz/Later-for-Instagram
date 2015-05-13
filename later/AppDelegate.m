@@ -13,6 +13,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import <ImageIO/ImageIO.h>
 #import "NotificationStrings.h"
+#import <Localytics/Localytics.h>
 
 @interface AppDelegate ()
 
@@ -34,14 +35,35 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [Fabric with:@[CrashlyticsKit]];
-
+    NSBundle* bundle = [NSBundle mainBundle];
+    NSString* plistPath = [bundle pathForResource:@"localytics" ofType:@"plist"];
+    NSDictionary *localyticsDictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    
+    #ifdef DEBUG
+        [Localytics integrate:[localyticsDictionary objectForKey:@"Debug-Key"]];
+    #else
+        [Fabric with:@[CrashlyticsKit]];
+        [Localytics integrate:[localyticsDictionary objectForKey:@"Key"]];
+    #endif
+    
+    [Localytics setCollectAdvertisingIdentifier:NO];
+    
+    if (application.applicationState != UIApplicationStateBackground)
+    {
+        [Localytics openSession];
+    }
+    
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
         //not called if user selects an action, will call 'handleActionWithIdentifier' with info
         UILocalNotification *swipedNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
         self.notificationPostKey = [swipedNotification.userInfo objectForKey:@"key"];
         self.notificationAction = @"view";
+        [Localytics tagEvent:@"clickedNotification" attributes:[NSDictionary dictionaryWithObject:@"view" forKey:@"action"]];
+    }
+    
+    NSString *accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramAccessToken"];
+    if (accessToken) {
+        [[InstagramEngine sharedEngine] setAccessToken:accessToken];
     }
 
     [self setBadge];
@@ -62,6 +84,11 @@
         NSDictionary *userinfo = [NSDictionary dictionaryWithObject:post forKey:@"post"];
         [[NSNotificationCenter defaultCenter] postNotificationName:kPostToBeSentNotification object:nil userInfo:userinfo];
     }
+    if (identifier) {
+        [Localytics tagEvent:@"clickedNotification" attributes:[NSDictionary dictionaryWithObject:identifier forKey:@"action"]];
+    } else {
+        [Localytics tagEvent:@"clickedNotification"];
+    }
     
     if (completionHandler) {
         completionHandler();
@@ -72,28 +99,29 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [Localytics closeSession];
+    [Localytics upload];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     [[PostDBSingleton singleton] save];
+    [Localytics closeSession];
+    [Localytics upload];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    NSArray *posts = [[PostDBSingleton singleton] allposts];
-    NSInteger pastDuePosts = 0;
-    for (scheduledPostModel *post in posts) {
-        if ([post.postTime compare:[NSDate date]] == NSOrderedAscending) {
-            pastDuePosts++;
-        }
-    }
-    application.applicationIconBadgeNumber = pastDuePosts;
+    [self setBadge];
+    [Localytics openSession];
+    [Localytics upload];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [Localytics openSession];
+    [Localytics upload];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -130,7 +158,6 @@
                 longitude *= -1;
             }
             CLLocation *newlocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-            NSLog(@"location: %@", newlocation);
             newPost.postLocation = newlocation;
         }
         
@@ -144,7 +171,7 @@
         
         NSError *error;
         [[NSFileManager defaultManager] removeItemAtURL:url error:&error];
-        
+        [Localytics tagEvent:@"importPhotoFromAnotherApp"];
     }
     return newPost;
 }
@@ -180,12 +207,17 @@
         BOOL loginSucess = [[InstagramEngine sharedEngine] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     
         if (loginSucess) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"InstagramLoginSuccess" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLaterInstagramLoginSuccess object:nil];
+            [Localytics tagEvent:@"InstagramLoginSuccess"];
         }
         return loginSucess;
     }
     
     return YES;
+}
+
+- (void)application:(UIApplication *)app didReceiveLocalNotification:(UILocalNotification *)notif {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLaterShowPostFromLocalNotification object:nil userInfo:notif.userInfo];
 }
 
 @end

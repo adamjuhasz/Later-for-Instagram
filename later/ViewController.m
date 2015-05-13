@@ -22,14 +22,8 @@
     [super viewDidLoad];
     [PhotoManager sharedManager];
     [InstagramEngine sharedEngine];
-    NSString *accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramAccessToken"];
-    if (accessToken) {
-        [[InstagramEngine sharedEngine] setAccessToken:accessToken];
-    }
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:@"InstagramLoginSuccess" object:nil];
     
     self.progress.trackTintColor = [UIColor clearColor];
     self.progress.progressTintColor = self.view.backgroundColor;
@@ -40,18 +34,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if ([[[InstagramEngine sharedEngine] accessToken] isEqualToString:@""] || [[InstagramEngine sharedEngine] accessToken] == nil) {
-        self.loginButton.alpha = 0.0;
-        self.loginButton.hidden = NO;
-        self.loginButton.userInteractionEnabled = YES;
-        [UIView animateWithDuration:0.3 animations:^{
-            self.loginButton.alpha = 1.0;
-        }];
-        slowPeopleTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loginToInstagram) userInfo:nil repeats:NO];
-    } else {
-        [self performSegueWithIdentifier:@"segue.showScheduled" sender:self];
-    }
-    [self.progress setProgress:1.0 animated:YES initialDelay:0.0 withDuration:5.0];
+    [self performSegueWithIdentifier:@"segue.showScheduled" sender:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,11 +50,6 @@
             [[NSUserDefaults standardUserDefaults] setObject:[[InstagramEngine sharedEngine] accessToken] forKey:@"instagramAccessToken"];
         }
     }];
-}
-
-- (void)loginSuccess
-{
-    [self performSegueWithIdentifier:@"segue.showScheduled" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

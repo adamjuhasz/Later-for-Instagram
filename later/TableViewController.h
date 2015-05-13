@@ -14,7 +14,6 @@
 @required
 - (void)didSelectHashtag:(NSString*)hashtag atIndexPath:(NSIndexPath*)indexPath;
 - (void)searchCompleteForHashtag:(NSString*)hashtag;
-
 @end
 
 @interface TableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>

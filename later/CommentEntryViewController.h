@@ -13,8 +13,9 @@
 #import "scheduledPostModel.h"
 #import <CoreLocation/CoreLocation.h>
 #import "MapEmbeddedViewController.h"
+#import "SchedulesPostsViewController.h"
 
-@interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate, inputsPageDelegate>
+@interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate, inputsPageDelegate, LocationHolderDelegate>
 
 @property IBOutlet UITextView *comments;
 @property IBOutlet UIImageView *photoExample;
@@ -28,10 +29,13 @@
 @property IBOutlet DatePickerViewController *DatePickerViewController;
 @property IBOutlet MapEmbeddedViewController *locationPickerViewController;
 @property IBOutlet NSLayoutConstraint *containerHeightConstraint;
+@property IBOutlet UIPageControl *pageControl;
 
 @property (nonatomic, strong) NSLayoutConstraint *bottomConstraint;
 @property scheduledPostModel* post;
 @property CLLocation *location;
+
+@property SchedulesPostsViewController *delegate;
 
 - (IBAction)goBack;
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath;

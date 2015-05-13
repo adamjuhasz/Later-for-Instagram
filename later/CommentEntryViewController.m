@@ -15,6 +15,8 @@
 #import <AudioToolbox/AudioToolbox.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+#import <Localytics/Localytics.h>
 
 @interface CommentEntryViewController ()
 {
@@ -59,13 +61,12 @@
         [self setPhoto:self.post.postImage];
         self.location = self.post.postEditedLocation;
         self.DatePickerViewController.datePicker.date = self.post.postTime;
+    } else {
+        
     }
     
     //reser table
     [self.tableViewController clearTable];
-    
-    //show keyboard
-    [self.comments becomeFirstResponder];
     
     //set location
     CLLocationCoordinate2D imageLocation = self.location.coordinate;
@@ -76,6 +77,16 @@
     span.longitudeDelta = 0.01;
     region.span = span;
     self.locationPickerViewController.mapView.region = region;
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    [super didMoveToParentViewController:parent];
+    
+    if(parent != nil) {
+        //show keyboard
+        [self.comments becomeFirstResponder];
+    }
 }
 
 - (void)setThumbnail:(UIImage*)aThumbnail
@@ -160,7 +171,7 @@
 
 - (IBAction)goBack
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.delegate popController:self withSuccess:nil];
 }
 
 - (IBAction)schedulePost
@@ -176,12 +187,18 @@
     self.post.postTime = [self.DatePickerViewController.currentDateSelected dateByAddingTimeInterval:10];;
     self.post.postEditedLocation = self.location;
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    NSNumber *timeDifference = [NSNumber numberWithDouble:[self.post.postTime timeIntervalSinceNow]];
+    [userInfo setObject:timeDifference forKey:@"time"];
+    
     if (newPost) {
         [[PostDBSingleton singleton] addPost:self.post];
+        [Localytics tagEvent:@"schedulePost" attributes:userInfo];
     } else {
         //remove and then re-add so if date change we are in the right place in the array
         [[PostDBSingleton singleton] removePost:self.post withDelete:NO];
         [[PostDBSingleton singleton] addPost:self.post];
+        [Localytics tagEvent:@"editPost" attributes:userInfo];
     }
     
     NSCountedSet *masterSet = [NSCountedSet set];
@@ -258,7 +275,11 @@
             NSRange substringRange = {writtenTag.length, difference};
             appendText = [selectedTag substringWithRange:substringRange];
         } else {
-            appendText = [NSString stringWithFormat:@" #%@", selectedTag];
+            if ([self.comments.text characterAtIndex:(self.comments.text.length-1)] == ' ') {
+                appendText = [NSString stringWithFormat:@"#%@", selectedTag];
+            } else {
+                appendText = [NSString stringWithFormat:@" #%@", selectedTag];
+            }
         }
     } else {
         appendText = [NSString stringWithFormat:@"#%@", selectedTag];
@@ -271,15 +292,17 @@
 {
     if ([segue.identifier isEqualToString:@"embed.PageController"]) {
         self.tableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];
-        self.tableViewController.delegate = self;
-        
         self.DatePickerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"DatePickerViewController"];
-        
         self.locationPickerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"locationPickerViewController"];
+        
+        self.tableViewController.delegate = self;
         
         self.inputPageController = segue.destinationViewController;
         self.inputPageController.pages = @[self.tableViewController, self.DatePickerViewController, self.locationPickerViewController];
         self.inputPageController.controllerDelegate = self;
+        
+        self.pageControl.numberOfPages = self.inputPageController.pages.count;
+        self.pageControl.currentPage = MIN((self.pageControl.currentPage-1), 1);
     }
 }
 
@@ -288,10 +311,8 @@
     CGFloat height = (self.view.frame.size.height - self.ContainerView.frame.origin.y);
     //if (height > self.containerHeightConstraint.constant) {
     self.containerHeightConstraint.constant =  height;
-    [self.view layoutIfNeeded];
+    //[self.view layoutIfNeeded];
     //}
-
-    [self.view layoutIfNeeded];
 }
 
 - (void)keyboardDidShow:(NSNotification *)sender
@@ -318,7 +339,7 @@
             break;
             
             case 2:
-            //[self doneEditing:self];
+            [self doneEditing:self];
             //set location
             if (self.location) {
                 CLLocationCoordinate2D imageLocation = self.location.coordinate;
@@ -336,6 +357,7 @@
         default:
             break;
     }
+    self.pageControl.currentPage = pageNumber;
 }
 
 @end

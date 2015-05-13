@@ -25,6 +25,8 @@
     // Do any additional setup after loading the view.
     
     [self.locationTable registerNib:[UINib nibWithNibName:@"HashtagTableViewCell" bundle:nil] forCellReuseIdentifier:@"cell"];
+    foundLocations = [NSMutableArray array];
+    nearbyTags = [NSSet set];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,6 +36,10 @@
 
 - (void)grabTagsForLocation:(InstagramLocation*)location
 {
+    if (![[InstagramEngine sharedEngine] accessToken]) {
+        return;
+    }
+    
     [[InstagramEngine sharedEngine] getMediaAtLocationWithId:location.locationId
                                                  withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
                                                      NSCountedSet *countedSetOfTags = [[NSCountedSet alloc] init];
@@ -77,21 +83,26 @@
 - (void)updateLocations
 {
     timeoutTimer = nil;
+    
+    [self.delegate setLocation:[[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude]];
+    
     CGFloat spanDistance = MIN(5000, ceil(self.mapView.region.span.latitudeDelta * 111131.745 / 2.0));
-    [[InstagramEngine sharedEngine] searchLocationsAtLocation:self.mapView.centerCoordinate distanceInMeters:spanDistance withSuccess:^(NSArray *locations) {
-        foundLocations = [locations mutableCopy];
-        for (int i=0; i<locations.count; i++) {
-            NSDictionary *locationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                locations[i], @"location",
-                                                nil];
-            [foundLocations replaceObjectAtIndex:i withObject:locationDictionary];
-        }
-        [self.locationTable reloadData];
-        if (foundLocations.count > 0) {
-            NSIndexPath *top = [NSIndexPath indexPathForItem:0 inSection:0];
-            [self.locationTable scrollToRowAtIndexPath:top atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        }
-    } failure:nil];
+    if ([[InstagramEngine sharedEngine] accessToken]) {
+        [[InstagramEngine sharedEngine] searchLocationsAtLocation:self.mapView.centerCoordinate distanceInMeters:spanDistance withSuccess:^(NSArray *locations) {
+            foundLocations = [locations mutableCopy];
+            for (int i=0; i<locations.count; i++) {
+                NSDictionary *locationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    locations[i], @"location",
+                                                    nil];
+                [foundLocations replaceObjectAtIndex:i withObject:locationDictionary];
+            }
+            [self.locationTable reloadData];
+            if (foundLocations.count > 0) {
+                NSIndexPath *top = [NSIndexPath indexPathForItem:0 inSection:0];
+                [self.locationTable scrollToRowAtIndexPath:top atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            }
+        } failure:nil];
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated

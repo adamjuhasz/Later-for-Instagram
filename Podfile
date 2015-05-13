@@ -10,6 +10,10 @@ target 'later' do
   pod 'pop',  :git => 'https://github.com/facebook/pop.git'
   pod 'SimpleExif'
   pod 'MMTweenAnimation'
+  pod 'ReactiveCocoa'
+  pod 'FXBlurView'
+  #pod 'POP+MCAnimate', '~> 2.0'
+  pod 'Localytics',  '~> 3.0'
 end
 
 target 'laterTests' do

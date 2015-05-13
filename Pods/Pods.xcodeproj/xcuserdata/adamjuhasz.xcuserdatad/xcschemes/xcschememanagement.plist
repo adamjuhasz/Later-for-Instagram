@@ -14,7 +14,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-later-FXBlurView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-later-InstagramKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-later-Localytics.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -30,6 +40,11 @@
 			<false/>
 		</dict>
 		<key>Pods-later-PhotoManager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-later-ReactiveCocoa.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -52,47 +67,62 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2B59BC84DAF99996B9949342</key>
+		<key>02E507FD3D6154EBE7A7B3BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>34358708EFB6A8F98BAA1B15</key>
+		<key>26D01F6DAEC63FC9383B1F25</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>44AE2AAF343E93DA16D88799</key>
+		<key>398718921C17F7E91CAD9BBD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>781BE1BF1A5DDBDAA35CDDC2</key>
+		<key>39ECF9D21CB5BC0BD4DFFAFE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AE37E64CA0DED4F297793C7E</key>
+		<key>5AF8E901BD1AD9FAC39982F9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B5C1FB4A44290C07A016FB0A</key>
+		<key>80DFE37380D1AB5C89D6A037</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E320FB08043C4847B34765CA</key>
+		<key>969546688B325F79ACC6B93A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E6B61DCB826127DBAD3BE688</key>
+		<key>B7A8DB211FE24EDF6117E520</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E8D8FDDEF2D7A585091B23B5</key>
+		<key>C89D00513CAF44AADFF0502D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DD0EE5937D8E8BB7FBA11C42</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC415F196EFC9008A7E3560F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3FC78A3368ABB292919704A</key>
 		<dict>
 			<key>primary</key>
 			<true/>

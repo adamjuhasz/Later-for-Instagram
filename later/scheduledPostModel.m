@@ -10,11 +10,13 @@
 #import <SimpleExif/ExifContainer.h>
 #import <SimpleExif/UIImage+Exif.h>
 #import <ImageIO/ImageIO.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface scheduledPostModel ()
 {
     UIImage *_postImage;
     CLLocation *_postLocation;
+    CLLocation *_postEditedLocation;
 }
 @end
 
@@ -26,6 +28,12 @@
     if (self) {
         NSString *randomFilename = [[[NSUUID UUID] UUIDString] stringByAppendingString:@".igo"];
         self.key = randomFilename;
+        RAC(self, postEditedLocation) = RACObserve(self, postLocation);
+        [[[RACSignal merge:@[RACObserve(self, postEditedLocation), RACObserve(self, postImage)]]
+                  throttle:0.5]
+             subscribeNext:^(id x) {
+            [self saveImage];
+        }];
     }
     return self;
 }
@@ -37,39 +45,28 @@
     return [documentsDirectory stringByAppendingPathComponent:self.key];
 }
 
-- (void)setPostLocation:(CLLocation *)postLocation
-{
-    _postLocation = postLocation;
-    self.postEditedLocation = postLocation;
-}
-
-- (CLLocation*)postLocation
-{
-    return _postLocation;
-}
-
 - (void)saveImage
 {
-    NSError *error;
-    //[UIImageJPEGRepresentation(_postImage, 1.0) writeToFile:self.postImageLocation options:0 error:&error];
-    
-    ExifContainer *exif = [[ExifContainer alloc] init];
-    if (self.postEditedLocation) {
-        [exif addLocation:self.postEditedLocation];
-    }
-    NSData *imageData = [_postImage addExif:exif];
-    [imageData writeToFile:self.postImageLocation options:0 error:&error];
-    
-    if (error) {
-        NSLog(@"Error saving file: %@", error);
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSError *error;
+        //[UIImageJPEGRepresentation(_postImage, 1.0) writeToFile:self.postImageLocation options:0 error:&error];
+        
+        ExifContainer *exif = [[ExifContainer alloc] init];
+        if (self.postEditedLocation) {
+            [exif addLocation:self.postEditedLocation];
+        }
+        NSData *imageData = [_postImage addExif:exif];
+        [imageData writeToFile:self.postImageLocation options:0 error:&error];
+        
+        if (error) {
+            NSLog(@"Error saving file: %@", error);
+        }
+    });
 }
 
 - (void)setPostImage:(UIImage *)thePostImage
 {
     _postImage = thePostImage;
-    
-    //[self saveImage];
 }
 
 - (UIImage*)postImage
@@ -108,7 +105,6 @@
     [aCoder encodeObject:self.postCaption forKey:@"postCaption"];
     [aCoder encodeObject:_postLocation forKey:@"postLocation"];
     [aCoder encodeObject:_postEditedLocation forKey:@"postEditedLocation"];
-    [self saveImage];
 }
 
 @end

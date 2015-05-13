@@ -62,6 +62,14 @@
         arrayOfPosts = [NSKeyedUnarchiver unarchiveObjectWithFile:[self filepath]];
         if (arrayOfPosts == nil) {
             arrayOfPosts = [NSMutableArray array];
+        } else {
+            for (int i=0; i<arrayOfPosts.count; i++) {
+                scheduledPostModel *post = [arrayOfPosts objectAtIndex:i];
+                if (post.postImage == nil) {
+                    [arrayOfPosts removeObjectAtIndex:i];
+                    i--;
+                }
+            }
         }
     }
     return self;

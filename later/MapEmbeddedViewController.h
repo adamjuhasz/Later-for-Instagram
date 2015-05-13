@@ -9,9 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
+@protocol LocationHolderDelegate <NSObject>
+@required
+- (void)setLocation:(CLLocation*)location;
+
+@end
+
 @interface MapEmbeddedViewController : UIViewController <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property IBOutlet MKMapView *mapView;
 @property IBOutlet UITableView *locationTable;
+@property id <LocationHolderDelegate> delegate;
 
 @end
