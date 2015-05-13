@@ -62,8 +62,6 @@
 		2E6E214A1ADD85D5002E9372 /* PhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21491ADD85D5002E9372 /* PhotoTableViewCell.m */; };
 		2E6E214E1ADECAE4002E9372 /* scheduledPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E214D1ADECAE4002E9372 /* scheduledPostModel.m */; };
 		2E6E21511ADED280002E9372 /* PostDBSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21501ADED280002E9372 /* PostDBSingleton.m */; };
-		2E6E21551AE021D0002E9372 /* PostActionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E21531AE021D0002E9372 /* PostActionsViewController.m */; };
-		2E6E21561AE021D0002E9372 /* PostActionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */; };
 		2E6E215B1AE05877002E9372 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E215A1AE05877002E9372 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2EB8336B1AFD30420061D95F /* LogInotInstagramView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8336A1AFD30420061D95F /* LogInotInstagramView.xib */; };
 		2EB8336E1AFD306D0061D95F /* LogInotInstagramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8336D1AFD306D0061D95F /* LogInotInstagramView.m */; };
@@ -173,9 +171,6 @@
 		2E6E214D1ADECAE4002E9372 /* scheduledPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = scheduledPostModel.m; sourceTree = "<group>"; };
 		2E6E214F1ADED280002E9372 /* PostDBSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDBSingleton.h; sourceTree = "<group>"; };
 		2E6E21501ADED280002E9372 /* PostDBSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDBSingleton.m; sourceTree = "<group>"; };
-		2E6E21521AE021D0002E9372 /* PostActionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostActionsViewController.h; sourceTree = "<group>"; };
-		2E6E21531AE021D0002E9372 /* PostActionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostActionsViewController.m; sourceTree = "<group>"; };
-		2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostActionsViewController.xib; sourceTree = "<group>"; };
 		2E6E215A1AE05877002E9372 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		2EB8336A1AFD30420061D95F /* LogInotInstagramView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInotInstagramView.xib; sourceTree = "<group>"; };
 		2EB8336C1AFD306D0061D95F /* LogInotInstagramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInotInstagramView.h; sourceTree = "<group>"; };
@@ -429,9 +424,6 @@
 				2E6E212D1ADC81C2002E9372 /* SchedulesPostsViewController.m */,
 				2E6E21481ADD85D5002E9372 /* PhotoTableViewCell.h */,
 				2E6E21491ADD85D5002E9372 /* PhotoTableViewCell.m */,
-				2E6E21521AE021D0002E9372 /* PostActionsViewController.h */,
-				2E6E21531AE021D0002E9372 /* PostActionsViewController.m */,
-				2E6E21541AE021D0002E9372 /* PostActionsViewController.xib */,
 				2E0BF0F11AF8092100C5F7BF /* PostDisplayView.h */,
 				2E0BF0F21AF8092100C5F7BF /* PostDisplayView.m */,
 				2E0BF0F41AF8093D00C5F7BF /* PostDisplayView.xib */,
@@ -605,7 +597,6 @@
 			files = (
 				2E4418971B016F53007611C3 /* Snooze@2x.png in Resources */,
 				2EC620851B03B985002FD8FF /* Save@2x.png in Resources */,
-				2E6E21561AE021D0002E9372 /* PostActionsViewController.xib in Resources */,
 				2EC6207E1B03B632002FD8FF /* Pin@2x.png in Resources */,
 				2E6E21451ADCFB47002E9372 /* logo-120.png in Resources */,
 				2ED295CE1B02B1580053CD02 /* Down.png in Resources */,
@@ -743,7 +734,6 @@
 				2E6E21071ADC53DB002E9372 /* main.m in Sources */,
 				2E0BF0F31AF8092100C5F7BF /* PostDisplayView.m in Sources */,
 				2E25D60B1AE42E1100774220 /* TableViewController.m in Sources */,
-				2E6E21551AE021D0002E9372 /* PostActionsViewController.m in Sources */,
 				2E6E21361ADCBB90002E9372 /* CommentEntryViewController.m in Sources */,
 				2E25D60E1AE4A9B200774220 /* DatePickerViewController.m in Sources */,
 				2E6E21391ADCC5C4002E9372 /* HashtagTableViewCell.m in Sources */,
