@@ -11,4 +11,6 @@
 
 #define kPostToBeSentNotification @"NotificationSendPost"
 #define kLaterShowPostFromLocalNotification @"NotificationShowPostFromNotification"
+#define kLaterInstagramLoginSuccess @"InstagramLoginSuccess"
+
 #endif

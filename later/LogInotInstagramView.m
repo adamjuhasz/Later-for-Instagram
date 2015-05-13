@@ -8,6 +8,8 @@
 
 #import "LogInotInstagramView.h"
 #import <InstagramKit/InstagramKit.h>
+#import "NotificationStrings.h"
+#import <Localytics/Localytics.h>
 
 @implementation LogInotInstagramView
 
@@ -16,6 +18,7 @@
     if ([[InstagramEngine sharedEngine] accessToken]) {
         self.hidden = YES;
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:kLaterInstagramLoginSuccess object:nil];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -43,6 +46,9 @@
             [[NSUserDefaults standardUserDefaults] setObject:[[InstagramEngine sharedEngine] accessToken] forKey:@"instagramAccessToken"];
         }
     }];
+- (void)loginSuccess
+{
+    self.hidden = YES;
 }
 
 @end

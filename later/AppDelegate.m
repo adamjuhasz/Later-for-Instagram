@@ -152,7 +152,6 @@
                 longitude *= -1;
             }
             CLLocation *newlocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-            NSLog(@"location: %@", newlocation);
             newPost.postLocation = newlocation;
         }
         
@@ -202,7 +201,7 @@
         BOOL loginSucess = [[InstagramEngine sharedEngine] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     
         if (loginSucess) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"InstagramLoginSuccess" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLaterInstagramLoginSuccess object:nil];
         }
         return loginSucess;
     }
