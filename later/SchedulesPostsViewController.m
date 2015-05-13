@@ -150,7 +150,7 @@
 - (CGAffineTransform)transformForAddButtonWithPercent:(CGFloat)percent
 {
     CGAffineTransform transformer = CGAffineTransformIdentity;
-    transformer = CGAffineTransformTranslate(transformer, -1 * (self.view.frame.size.width - 32 - 22) * percent, 0);
+    transformer = CGAffineTransformTranslate(transformer, -1 * (self.view.frame.size.width - self.addButton.frame.size.width/2.0 - 8) * percent, 0);
     transformer = CGAffineTransformRotate(transformer, DEGREES_TO_RADIANS(-45*percent));
     return transformer;
 }
@@ -734,13 +734,14 @@
     scrollViewUp = YES;
     
     //---- Scroll View ---
-    POPBasicAnimation *scheduledViewLayoutAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayoutConstraintConstant];
-    scheduledViewLayoutAnimation.toValue = @(topLayoutConstantMin);
+    POPSpringAnimation *scheduldPostVerticalanimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayoutConstraintConstant];
+    scheduldPostVerticalanimation.springBounciness = 8;
+    scheduldPostVerticalanimation.toValue = @(topLayoutConstantMin);
     if ([self.topConstraint pop_animationForKey:@"layout"]) {
         POPSpringAnimation *existingAnimation = [self.topConstraint pop_animationForKey:@"layout"];
-        existingAnimation.toValue = scheduledViewLayoutAnimation.toValue;
+        existingAnimation.toValue = scheduldPostVerticalanimation.toValue;
     } else
-        [self.topConstraint pop_addAnimation:scheduledViewLayoutAnimation forKey:@"layout"];
+        [self.topConstraint pop_addAnimation:scheduldPostVerticalanimation forKey:@"layout"];
     
     POPBasicAnimation *scheduledContentOffsetAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
     scheduledContentOffsetAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(0, -64)];

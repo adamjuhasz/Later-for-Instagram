@@ -154,7 +154,7 @@
                                             <constraint firstAttribute="width" constant="44" id="24D-oK-Crg"/>
                                             <constraint firstAttribute="height" constant="44" id="f4S-zT-uBV"/>
                                         </constraints>
-                                        <inset key="imageEdgeInsets" minX="7" minY="7" maxX="7" maxY="7"/>
+                                        <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                         <state key="normal" image="Plus.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -249,13 +249,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKd-hx-BQe">
-                                        <rect key="frame" x="268" y="17" width="44" height="44"/>
+                                        <rect key="frame" x="276" y="17" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="X2X-zO-OLZ"/>
                                             <constraint firstAttribute="width" constant="44" id="Y9G-wC-Vba"/>
                                         </constraints>
-                                        <inset key="imageEdgeInsets" minX="12" minY="10" maxX="0.0" maxY="10"/>
-                                        <state key="normal" image="Check.png">
+                                        <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" image="Save.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -264,13 +264,12 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1j-cV-uuI">
-                                        <rect key="frame" x="8" y="17" width="44" height="44"/>
+                                        <rect key="frame" x="0.0" y="17" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="44" id="YcP-9D-zxz"/>
                                             <constraint firstAttribute="height" constant="44" id="vig-XN-svO"/>
                                         </constraints>
-                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="34" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="7" maxX="0.0" maxY="7"/>
+                                        <inset key="imageEdgeInsets" minX="8" minY="8" maxX="25" maxY="8"/>
                                         <state key="normal" image="Back.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -279,15 +278,15 @@
                                             <action selector="goBack" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="hRr-0o-eIj"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" alpha="0.0" contentMode="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZA-XF-5kP">
-                                        <rect key="frame" x="268" y="17" width="44" height="44"/>
+                                    <button opaque="NO" alpha="0.0" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZA-XF-5kP">
+                                        <rect key="frame" x="276" y="17" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="44" id="GnR-yp-udB"/>
                                             <constraint firstAttribute="height" constant="44" id="uOc-qC-6xk"/>
                                         </constraints>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="7" maxX="0.0" maxY="7"/>
-                                        <state key="normal" title="Done">
+                                        <inset key="imageEdgeInsets" minX="8" minY="9" maxX="8" maxY="8"/>
+                                        <state key="normal" image="Check.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -301,11 +300,11 @@
                                     <constraint firstAttribute="bottom" secondItem="Q1j-cV-uuI" secondAttribute="bottom" constant="3" id="81P-Sc-mjE"/>
                                     <constraint firstItem="cZA-XF-5kP" firstAttribute="top" secondItem="A7w-XY-nWZ" secondAttribute="top" constant="26" id="E7d-2f-ClT"/>
                                     <constraint firstAttribute="bottom" secondItem="SKd-hx-BQe" secondAttribute="bottom" constant="3" id="U7C-Nt-q41"/>
-                                    <constraint firstAttribute="trailing" secondItem="SKd-hx-BQe" secondAttribute="trailing" constant="8" id="YSx-Df-HlS"/>
+                                    <constraint firstAttribute="trailing" secondItem="SKd-hx-BQe" secondAttribute="trailing" id="YSx-Df-HlS"/>
                                     <constraint firstAttribute="height" constant="64" id="lKA-ef-tKq"/>
                                     <constraint firstAttribute="bottom" secondItem="cZA-XF-5kP" secondAttribute="bottom" constant="3" id="mxU-tv-pBW"/>
-                                    <constraint firstItem="Q1j-cV-uuI" firstAttribute="leading" secondItem="A7w-XY-nWZ" secondAttribute="leading" constant="8" id="wri-M3-KSr"/>
-                                    <constraint firstAttribute="trailing" secondItem="cZA-XF-5kP" secondAttribute="trailing" constant="8" id="xqk-64-y3g"/>
+                                    <constraint firstItem="Q1j-cV-uuI" firstAttribute="leading" secondItem="A7w-XY-nWZ" secondAttribute="leading" id="wri-M3-KSr"/>
+                                    <constraint firstAttribute="trailing" secondItem="cZA-XF-5kP" secondAttribute="trailing" id="xqk-64-y3g"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -379,6 +378,7 @@
                             <outletCollection property="gestureRecognizers" destination="Mbe-g6-TqV" appends="YES" id="CTM-eP-CnG"/>
                         </connections>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="ContainerView" destination="Nmz-A5-ogK" id="IV5-mg-q2Q"/>
@@ -669,7 +669,7 @@
                                     <outlet property="delegate" destination="8Ui-eZ-74V" id="U5Q-NJ-IyZ"/>
                                 </connections>
                             </mapView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location.png" translatesAutoresizingMaskIntoConstraints="NO" id="JXL-cg-DWT">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pin.png" translatesAutoresizingMaskIntoConstraints="NO" id="JXL-cg-DWT">
                                 <rect key="frame" x="170" y="71" width="111" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="GuX-Qk-RPm"/>
@@ -764,10 +764,11 @@
     </scenes>
     <resources>
         <image name="Back.png" width="18" height="35"/>
-        <image name="Check.png" width="43" height="27"/>
+        <image name="Check.png" width="40" height="27"/>
         <image name="Down.png" width="40" height="16"/>
+        <image name="Pin.png" width="35" height="52"/>
         <image name="Plus.png" width="35" height="35"/>
-        <image name="location.png" width="128" height="128"/>
+        <image name="Save.png" width="34" height="34"/>
         <image name="logo.png" width="1024" height="1024"/>
     </resources>
 </document>

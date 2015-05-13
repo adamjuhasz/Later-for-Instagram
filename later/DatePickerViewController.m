@@ -7,6 +7,7 @@
 //
 
 #import "DatePickerViewController.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface DatePickerViewController ()
 
@@ -16,8 +17,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self resetDate];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetAlpha) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetAlpha) name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -60,6 +63,20 @@
 {
     self.datePicker.minimumDate = [NSDate date];
     self.datePicker.date = [NSDate dateWithTimeIntervalSinceNow:60*60];
+}
+
+- (void)resetAlpha
+{
+    CGRect dateRect = self.datePicker.frame;
+    for (UIView *view in self.specificDatePickers) {
+        CGRect viewRect = view.frame;
+        BOOL overlap = CGRectIntersectsRect(dateRect, viewRect);
+        if (overlap) {
+            view.alpha = 0.0;
+        } else {
+            view.alpha = 1.0;
+        }
+    }
 }
 
 @end
