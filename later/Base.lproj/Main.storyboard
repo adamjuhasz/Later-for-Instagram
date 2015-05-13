@@ -71,12 +71,12 @@
                     <connections>
                         <outlet property="loginButton" destination="ghg-uE-8sP" id="THZ-KT-Uni"/>
                         <outlet property="progress" destination="2A9-kh-k8P" id="RsC-T9-UNa"/>
-                        <segue destination="koD-Pf-wLA" kind="presentation" identifier="segue.showScheduled" modalTransitionStyle="crossDissolve" id="XPf-Kr-ANp"/>
+                        <segue destination="RgP-eD-urK" kind="show" identifier="segue.showScheduled" id="cFG-k4-Mmn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-312.5" y="95.5"/>
+            <point key="canvasLocation" x="319.5" y="95.5"/>
         </scene>
         <!--Schedules Posts View Controller-->
         <scene sceneID="E9r-LO-ANH">
@@ -148,8 +148,12 @@
                             <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eqh-CT-4a4">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="right" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mqU-cl-IQK">
-                                        <rect key="frame" x="323" y="17" width="44" height="44"/>
+                                    <button opaque="NO" contentMode="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mqU-cl-IQK">
+                                        <rect key="frame" x="331" y="20" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="24D-oK-Crg"/>
+                                            <constraint firstAttribute="height" constant="44" id="f4S-zT-uBV"/>
+                                        </constraints>
                                         <inset key="imageEdgeInsets" minX="7" minY="7" maxX="7" maxY="7"/>
                                         <state key="normal" image="Plus.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -161,23 +165,46 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.38823530080000002" green="0.6784313917" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="right" secondItem="mqU-cl-IQK" secondAttribute="right" id="d7E-Av-qdS"/>
                                     <constraint firstAttribute="height" constant="64" id="fMQ-jA-LWu"/>
+                                    <constraint firstAttribute="bottom" secondItem="mqU-cl-IQK" secondAttribute="bottom" id="y7A-du-QmH"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pull down to do select a photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u3L-Js-HN5">
+                                <rect key="frame" x="-1" y="323" width="376" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Td8-vN-ngd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Down.png" translatesAutoresizingMaskIntoConstraints="NO" id="nVD-tK-66o">
+                                <rect key="frame" x="165" y="347" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="4Ty-Yf-0vZ"/>
+                                    <constraint firstAttribute="height" constant="44" id="mCT-ka-ffO"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="ltV-Ss-H1x" secondAttribute="centerY" id="5dv-f4-Juv"/>
                             <constraint firstAttribute="height" secondItem="Hrq-hU-IM6" secondAttribute="height" id="Anf-Q1-stO"/>
+                            <constraint firstAttribute="centerY" secondItem="u3L-Js-HN5" secondAttribute="centerY" id="BII-cz-afR"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="width" secondItem="8ho-xC-d1H" secondAttribute="width" id="DbX-83-Eod"/>
                             <constraint firstAttribute="centerX" secondItem="ltV-Ss-H1x" secondAttribute="centerX" id="E3H-ai-u2u"/>
                             <constraint firstAttribute="width" secondItem="eqh-CT-4a4" secondAttribute="width" id="IJa-p3-2da"/>
                             <constraint firstAttribute="width" secondItem="Hrq-hU-IM6" secondAttribute="width" id="LEx-sw-wOl"/>
+                            <constraint firstItem="u3L-Js-HN5" firstAttribute="centerX" secondItem="nVD-tK-66o" secondAttribute="centerX" id="LwD-jX-PEY"/>
+                            <constraint firstItem="u3L-Js-HN5" firstAttribute="width" secondItem="8ho-xC-d1H" secondAttribute="width" id="O3M-i6-1cN"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="ZYm-Qg-z4F"/>
                             <constraint firstAttribute="centerY" secondItem="Hrq-hU-IM6" secondAttribute="centerY" id="Zkk-03-oMk"/>
+                            <constraint firstAttribute="centerX" secondItem="u3L-Js-HN5" secondAttribute="centerX" constant="0.5" id="dT8-vB-ffO"/>
                             <constraint firstAttribute="centerX" secondItem="eqh-CT-4a4" secondAttribute="centerX" id="inm-zZ-w8A"/>
                             <constraint firstAttribute="centerX" secondItem="Hrq-hU-IM6" secondAttribute="centerX" id="k60-kw-Ygz"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="height" secondItem="8ho-xC-d1H" secondAttribute="height" id="mVz-bX-Lxo"/>
+                            <constraint firstItem="nVD-tK-66o" firstAttribute="top" secondItem="u3L-Js-HN5" secondAttribute="bottom" constant="3" id="s7h-hb-xmm"/>
                             <constraint firstItem="Ymz-tk-UOP" firstAttribute="top" secondItem="ltV-Ss-H1x" secondAttribute="bottom" id="uuT-cB-hPV"/>
                             <constraint firstItem="eqh-CT-4a4" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="w4o-x0-no1"/>
                         </constraints>
@@ -198,7 +225,8 @@
                         <outlet property="menuBar" destination="eqh-CT-4a4" id="R0q-rl-mVB"/>
                         <outlet property="scheduledScroller" destination="ltV-Ss-H1x" id="aEE-VD-Exo"/>
                         <outlet property="topConstraint" destination="ZYm-Qg-z4F" id="sop-ao-5xS"/>
-                        <segue destination="Z6d-KB-Dgc" kind="show" identifier="show.caption" id="riB-XQ-bEb"/>
+                        <outletCollection property="gestureInstructions" destination="u3L-Js-HN5" id="QrG-Kh-0Fz"/>
+                        <outletCollection property="gestureInstructions" destination="nVD-tK-66o" id="a86-h2-fN5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GsM-6l-sI4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -370,7 +398,7 @@
                 </screenEdgePanGestureRecognizer>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jkX-DY-3yf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1277.5" y="141.5"/>
+            <point key="canvasLocation" x="1231" y="2"/>
         </scene>
         <!--Caption Inputs Page View Controller-->
         <scene sceneID="afY-bR-M6i">
@@ -378,7 +406,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="q4S-CS-RwX" customClass="CaptionInputsPageViewController" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sDB-iY-avy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1836" y="-54"/>
+            <point key="canvasLocation" x="1638" y="49"/>
         </scene>
         <!--Date Picker View Controller-->
         <scene sceneID="BVh-TC-ncV">
@@ -539,7 +567,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vyj-uu-DDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1798.5" y="328"/>
+            <point key="canvasLocation" x="2172" y="-362"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="Dho-lB-sUS">
@@ -618,7 +646,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SDa-hc-Atv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2781" y="330"/>
+            <point key="canvasLocation" x="2172" y="514"/>
         </scene>
         <!--Map Embedded View Controller-->
         <scene sceneID="rdC-sC-KZm">
@@ -731,28 +759,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xgs-h5-BhE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2296" y="330"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="f7O-75-rqP">
-            <objects>
-                <navigationController id="koD-Pf-wLA" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" hidden="YES" contentMode="scaleToFill" id="krD-J5-Sk3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="RgP-eD-urK" kind="relationship" relationship="rootViewController" id="X8z-yy-1Qe"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2nJ-ST-1AO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="241.5" y="95.5"/>
+            <point key="canvasLocation" x="2172" y="80"/>
         </scene>
     </scenes>
     <resources>
         <image name="Back.png" width="18" height="35"/>
         <image name="Check.png" width="43" height="27"/>
+        <image name="Down.png" width="40" height="16"/>
         <image name="Plus.png" width="35" height="35"/>
         <image name="location.png" width="128" height="128"/>
         <image name="logo.png" width="1024" height="1024"/>
