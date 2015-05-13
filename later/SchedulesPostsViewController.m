@@ -234,6 +234,7 @@
 - (void)postWasTapped:(UIGestureRecognizer*)recognizer
 {
     if (scrollViewUp == NO) {
+        [Localytics tagEvent:@"showScrollviewByTappingWhileMinimized"];
         [self showScrollview];
         return;
     }
@@ -438,8 +439,11 @@
     
     [[PostDBSingleton singleton] removePost:postThatIsBeingPosted withDelete:YES];
     postThatIsBeingPosted = nil;
-    
-    [Localytics tagEvent:@"SentPostToAnotherApp" attributes:[NSDictionary dictionaryWithObject:application forKey:@"application"]];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    if (application) {
+        [dict setObject:application forKey:@"application"];
+    }
+    [Localytics tagEvent:@"SentPostToAnotherApp" attributes:dict];
 }
 
 - (void)photosUpdated
@@ -873,8 +877,10 @@
             if ((ABS(xTranslation) > self.view.frame.size.width/2.0 || ABS(xVelocity) > 50 ) && edgeSwipeSameDirection)  {
                 if (xTranslation > 0) {
                     animation.toValue = [NSValue valueWithCGRect:CGRectMake(captionController.view.frame.size.width, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
+                    [Localytics tagEvent:@"closeEditWithSwipeFromLeftEdge"];
                 } else {
                     animation.toValue = [NSValue valueWithCGRect:CGRectMake(-1*captionController.view.frame.size.width, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
+                    [Localytics tagEvent:@"closeEditWithSwipeFromRightEdge"];
                 }
                 animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
                 animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
@@ -988,6 +994,8 @@
     [self.view addGestureRecognizer:rightEdgeGesture];
     
     [controller.view pop_addAnimation:animation forKey:@"frame"];
+    
+    [Localytics tagEvent:@"selectedPhoto"];
 }
 
 - (void)popController:(UIViewController *)controller withDirection:(UIRectEdge)direction withSuccess:(void (^)(void))success

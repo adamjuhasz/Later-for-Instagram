@@ -46,6 +46,9 @@
             [[NSUserDefaults standardUserDefaults] setObject:[[InstagramEngine sharedEngine] accessToken] forKey:@"instagramAccessToken"];
         }
     }];
+    [Localytics tagEvent:@"InstagramLoginAttempt"];
+}
+
 - (void)loginSuccess
 {
     self.hidden = YES;

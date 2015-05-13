@@ -58,6 +58,7 @@
         UILocalNotification *swipedNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
         self.notificationPostKey = [swipedNotification.userInfo objectForKey:@"key"];
         self.notificationAction = @"view";
+        [Localytics tagEvent:@"clickedNotification" attributes:[NSDictionary dictionaryWithObject:@"view" forKey:@"action"]];
     }
     
     NSString *accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramAccessToken"];
@@ -82,6 +83,11 @@
         
         NSDictionary *userinfo = [NSDictionary dictionaryWithObject:post forKey:@"post"];
         [[NSNotificationCenter defaultCenter] postNotificationName:kPostToBeSentNotification object:nil userInfo:userinfo];
+    }
+    if (identifier) {
+        [Localytics tagEvent:@"clickedNotification" attributes:[NSDictionary dictionaryWithObject:identifier forKey:@"action"]];
+    } else {
+        [Localytics tagEvent:@"clickedNotification"];
     }
     
     if (completionHandler) {
@@ -165,7 +171,7 @@
         
         NSError *error;
         [[NSFileManager defaultManager] removeItemAtURL:url error:&error];
-        
+        [Localytics tagEvent:@"importPhotoFromAnotherApp"];
     }
     return newPost;
 }
@@ -202,6 +208,7 @@
     
         if (loginSucess) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kLaterInstagramLoginSuccess object:nil];
+            [Localytics tagEvent:@"InstagramLoginSuccess"];
         }
         return loginSucess;
     }

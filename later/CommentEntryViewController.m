@@ -16,6 +16,7 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <Localytics/Localytics.h>
 
 @interface CommentEntryViewController ()
 {
@@ -60,6 +61,8 @@
         [self setPhoto:self.post.postImage];
         self.location = self.post.postEditedLocation;
         self.DatePickerViewController.datePicker.date = self.post.postTime;
+    } else {
+        
     }
     
     //reser table
@@ -184,12 +187,18 @@
     self.post.postTime = [self.DatePickerViewController.currentDateSelected dateByAddingTimeInterval:10];;
     self.post.postEditedLocation = self.location;
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    NSNumber *timeDifference = [NSNumber numberWithDouble:[self.post.postTime timeIntervalSinceNow]];
+    [userInfo setObject:timeDifference forKey:@"time"];
+    
     if (newPost) {
         [[PostDBSingleton singleton] addPost:self.post];
+        [Localytics tagEvent:@"schedulePost" attributes:userInfo];
     } else {
         //remove and then re-add so if date change we are in the right place in the array
         [[PostDBSingleton singleton] removePost:self.post withDelete:NO];
         [[PostDBSingleton singleton] addPost:self.post];
+        [Localytics tagEvent:@"editPost" attributes:userInfo];
     }
     
     NSCountedSet *masterSet = [NSCountedSet set];
