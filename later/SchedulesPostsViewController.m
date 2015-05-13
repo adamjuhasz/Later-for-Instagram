@@ -115,27 +115,7 @@
         CGFloat percent = (value - topLayoutConstantMin) / (topLayoutConstantMax - topLayoutConstantMin);
         
         self.addButton.transform = [self transformForAddButtonWithPercent:percent];
-        
-        //self.scheduledScroller.alpha = (1-percent)*0.5+0.5;
-        }];
-    
-    /*
-    [RACObserve(captionController, view.frame) subscribeNext:^(NSValue *frameVale){
-        CGRect frame = [frameVale CGRectValue];
-        CGFloat percent = 1 - (self.view.frame.size.width - ABS(frame.origin.x)) / (self.view.frame.size.width);
-        NSLog(@"%f %@", percent, frameVale);
-        //self.collectionView.transform = CGAffineTransformMakeScale(percent, percent);
     }];
-    */
-    
-    /*
-    [RACObserve(self, scheduledScroller.contentOffset) subscribeNext:^(id layoutConstant) {
-        CGPoint value = [(NSValue*)layoutConstant CGPointValue];
-        CGFloat percent = (value.y - -64) / (150 - -64) * -1;
-        //NSLog(@"offset percent: %f", percent);
-        //self.addButton.transform = [self transformForAddButtonWithPercent:percent];
-    }];
-    */
     
     scrollViewUp = YES;
     
@@ -417,11 +397,14 @@
 
 - (void)sendPostToInstragramWithKey:(NSString*)postKey
 {
-    NSArray *allposts = [[PostDBSingleton singleton] allposts];
-    selectedPost = nil;
-    for (scheduledPostModel *post in allposts) {
-        if ([postKey isEqualToString:post.key]) {
-            selectedPost = post;
+    if ([selectedPost.key isEqualToString:postKey] == NO) {
+        //find the correct post then
+        NSArray *allposts = [[PostDBSingleton singleton] allposts];
+        selectedPost = nil;
+        for (scheduledPostModel *post in allposts) {
+            if ([postKey isEqualToString:post.key]) {
+                selectedPost = post;
+            }
         }
     }
     
@@ -433,7 +416,7 @@
             document.annotation = [NSDictionary dictionaryWithObject:selectedPost.postCaption forKey:@"InstagramCaption"];
         }
         
-        BOOL success = [document presentOpenInMenuFromRect:CGRectMake(1, 1, 1, 1) inView:self.navigationController.view animated:YES];
+        BOOL success = [document presentOpenInMenuFromRect:CGRectMake(1, 1, 1, 1) inView:self.view animated:YES];
         if (success) {
             postThatIsBeingPosted = selectedPost;
         }
@@ -481,11 +464,11 @@
     //NSLog(@"Break down: %ld sec : %ld min : %ld hours : %ld days : %ld months", [breakdownInfo second], [breakdownInfo minute], [breakdownInfo hour], [breakdownInfo day], [breakdownInfo month]);
     
     
-    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:78];
-    UIFont *smallFont = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:40];
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:68];
+    UIFont *smallFont = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     if (self.view.frame.size.width < 370) {
-        font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:55];
-        smallFont = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
+        font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:55];
+        smallFont = [UIFont fontWithName:@"HelveticaNeue-Thin" size:30];
     }
     
     UIFontDescriptor *const existingDescriptor = [font fontDescriptor];
@@ -582,7 +565,7 @@
         gradient.frame = newImage.bounds;
         [newImage.layer insertSublayer:gradient above:imageView.layer];
         
-        CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (48+5), imageRect.size.width - 5, 55);
+        CGRect timeLabelRect = CGRectMake(5, mainRect.size.height - (55+5), imageRect.size.width - 5, 55);
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
         timeLabel.textColor = [UIColor whiteColor];
         timeLabel.attributedText = [self stringForDate:post.postTime];

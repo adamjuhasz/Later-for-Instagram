@@ -22,7 +22,7 @@
 {
     gradient = [CAGradientLayer layer];
     id colorTop = (id)[[UIColor clearColor] CGColor];
-    id colorBottom = (id)[[UIColor colorWithWhite:0.0 alpha:0.9] CGColor];
+    id colorBottom = (id)[[UIColor colorWithWhite:0.0 alpha:0.5] CGColor];
     gradient.colors = @[colorTop, colorBottom];
     NSNumber *stopTop = [NSNumber numberWithFloat:0.2];
     NSNumber *stopBottom = [NSNumber numberWithFloat:0.9];

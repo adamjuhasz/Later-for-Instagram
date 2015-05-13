@@ -84,7 +84,8 @@
 {
     timeoutTimer = nil;
     
-    [self.delegate setLocation:[[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude]];
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
+    [self.delegate setLocation:location];
     
     CGFloat spanDistance = MIN(5000, ceil(self.mapView.region.span.latitudeDelta * 111131.745 / 2.0));
     if ([[InstagramEngine sharedEngine] accessToken]) {

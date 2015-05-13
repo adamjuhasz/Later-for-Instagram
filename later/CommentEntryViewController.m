@@ -298,6 +298,7 @@
         self.locationPickerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"locationPickerViewController"];
         
         self.tableViewController.delegate = self;
+        self.locationPickerViewController.delegate = self;
         
         self.inputPageController = segue.destinationViewController;
         self.inputPageController.pages = @[self.tableViewController, self.DatePickerViewController, self.locationPickerViewController];

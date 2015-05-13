@@ -28,12 +28,6 @@
     if (self) {
         NSString *randomFilename = [[[NSUUID UUID] UUIDString] stringByAppendingString:@".igo"];
         self.key = randomFilename;
-        RAC(self, postEditedLocation) = RACObserve(self, postLocation);
-        [[[RACSignal merge:@[RACObserve(self, postEditedLocation), RACObserve(self, postImage)]]
-                  throttle:0.5]
-             subscribeNext:^(id x) {
-            [self saveImage];
-        }];
     }
     return self;
 }
@@ -80,6 +74,29 @@
         _postImage = [UIImage imageWithData:imageData];
     }
     return _postImage;
+}
+
+- (void)setPostLocation:(CLLocation *)postLocation
+{
+    _postLocation = [postLocation copy];
+    _postEditedLocation = [postLocation copy];
+    [self saveImage];
+}
+
+- (CLLocation*)postLocation
+{
+    return _postLocation;
+}
+
+- (void)setPostEditedLocation:(CLLocation *)postEditedLocation
+{
+    _postEditedLocation = postEditedLocation;
+    [self saveImage];
+}
+
+- (CLLocation*)postEditedLocation
+{
+    return _postEditedLocation;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder

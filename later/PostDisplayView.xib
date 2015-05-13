@@ -28,6 +28,9 @@
                                             <state key="normal" image="Instagram.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="snooze:" destination="iN0-l3-epB" eventType="touchUpInside" id="2IU-am-Htm"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Instagram" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhr-8K-jp0">
                                             <rect key="frame" x="0.0" y="83" width="110" height="21"/>
@@ -75,9 +78,6 @@
                                             <state key="normal" image="Snooze.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="snooze:" destination="iN0-l3-epB" eventType="touchUpInside" id="Gkb-tv-HNd"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Snooze" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-hy-flX">
                                             <rect key="frame" x="0.0" y="83" width="110" height="21"/>
