@@ -242,10 +242,24 @@
     viewSelected = recognizer.view;
     CGRect viewFrame = viewSelected.frame;
     CGRect frameOfView = [self.scheduledScroller convertRect:viewFrame toView:self.view];
+    UIEdgeInsets inset = self.scheduledScroller.contentInset;
+
     scheduledPostModel *thePost = scheduledPosts[recognizer.view.tag];
-    
     selectedPost = thePost;
-    [self showSelectedPostWithImage:selectedPost.postImage from:frameOfView];
+    
+    if (frameOfView.origin.y < inset.top) {
+        CGFloat diff = inset.top - frameOfView.origin.y;
+        POPBasicAnimation *moveDownAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
+        moveDownAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.scheduledScroller.contentOffset.x, self.scheduledScroller.contentOffset.y - diff)];
+        moveDownAnimation.duration = 0.1;
+        moveDownAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            CGRect frameOfView = [self.scheduledScroller convertRect:viewFrame toView:self.view];
+            [self showSelectedPostWithImage:selectedPost.postImage from:frameOfView];
+        };
+        [self.scheduledScroller pop_addAnimation:moveDownAnimation forKey:@"contentOffset"];
+    } else {
+        [self showSelectedPostWithImage:selectedPost.postImage from:frameOfView];
+    }
 }
 
 - (void)showSelectedPostWithImage:(UIImage*)image from:(CGRect)rect
