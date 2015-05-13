@@ -302,7 +302,7 @@
         self.inputPageController.controllerDelegate = self;
         
         self.pageControl.numberOfPages = self.inputPageController.pages.count;
-        self.pageControl.currentPage = MIN((self.pageControl.currentPage-1), 1);
+        self.pageControl.currentPage = MIN((self.pageControl.numberOfPages-1), 1);
     }
 }
 
