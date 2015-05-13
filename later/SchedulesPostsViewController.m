@@ -291,8 +291,12 @@
     scaleAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(returnImageRect.size.width / self.view.frame.size.width ,  returnImageRect.size.width / self.view.frame.size.width)];
     scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
     
-    postDetailView.hidden = NO;
-    viewSelected.hidden = YES;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //do this on next frame so animations can prep the scaling and centering (there is no pop)
+        postDetailView.hidden = NO;
+        viewSelected.hidden = YES;
+    });
     
     [postDetailView startGrowing];
 }
