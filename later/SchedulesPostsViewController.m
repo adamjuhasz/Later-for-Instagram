@@ -251,6 +251,9 @@
 {
     returnImageRect = rect;
     
+    if (selectedPostShroud != nil) {
+        [selectedPostShroud removeFromSuperview];
+    }
     selectedPostShroud = [[UIView alloc] initWithFrame:self.view.bounds];
     selectedPostShroud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
     selectedPostShroud.alpha = 0.0;
@@ -261,7 +264,6 @@
     
     postDetailView.image.image = image;
     postDetailView.alpha = 1.0;
-    postDetailView.hidden = NO;
     
     POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
     if (alphaAnimation == nil) {
@@ -288,6 +290,7 @@
     scaleAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(returnImageRect.size.width / self.view.frame.size.width ,  returnImageRect.size.width / self.view.frame.size.width)];
     scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
     
+    postDetailView.hidden = NO;
     viewSelected.hidden = YES;
     
     [postDetailView startGrowing];
@@ -325,6 +328,7 @@
      alphaAnimation.toValue = [NSNumber numberWithFloat:0.0];
      alphaAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
          [selectedPostShroud removeFromSuperview];
+         selectedPostShroud = nil;
     };
     
     [postDetailView startShrinking];
@@ -408,7 +412,9 @@
         document = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:selectedPost.postImageLocation isDirectory:NO]];
         document.UTI = @"com.instagram.exclusivegram";
         document.delegate = self;
-        document.annotation = [NSDictionary dictionaryWithObject:selectedPost.postCaption forKey:@"InstagramCaption"];
+        if (selectedPost.postCaption) {
+            document.annotation = [NSDictionary dictionaryWithObject:selectedPost.postCaption forKey:@"InstagramCaption"];
+        }
         
         BOOL success = [document presentOpenInMenuFromRect:CGRectMake(1, 1, 1, 1) inView:self.navigationController.view animated:YES];
         if (success) {
