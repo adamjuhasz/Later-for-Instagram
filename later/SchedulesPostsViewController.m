@@ -109,9 +109,6 @@
     postDetailView.blurView.frame = postDetailView.image.frame;
     postDetailView.buttonHolderView.center = postDetailView.image.center;
     
-    topLayoutConstantMin = -20;
-    topLayoutConstantMax = self.view.bounds.size.height - (64);
-    
     [RACObserve(self, topConstraint.constant) subscribeNext:^(NSNumber *layoutConstant) {
         CGFloat value = [layoutConstant floatValue];
         CGFloat percent = (value - topLayoutConstantMin) / (topLayoutConstantMax - topLayoutConstantMin);
@@ -162,14 +159,13 @@
         [self showScrollview];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    topLayoutConstantMin = -20;
+    topLayoutConstantMax = self.view.bounds.size.height - (64);
+    
     [self reloadScrollView];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -892,7 +888,7 @@
                 edgeSwipeSameDirection = YES;
                 [captionController schedulePost];
             }
-            if ((ABS(xTranslation) > self.view.frame.size.width/2.0 || ABS(xVelocity) > 50 ) && edgeSwipeSameDirection)  {
+            if ((ABS(xTranslation) > self.view.frame.size.width/2.0 || (ABS(xVelocity) > 50 && (ABS(xTranslation) > self.view.frame.size.width/3.0))) && edgeSwipeSameDirection)  {
                 if (xTranslation > 0) {
                     animation.toValue = [NSValue valueWithCGRect:CGRectMake(captionController.view.frame.size.width, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
                     [Localytics tagEvent:@"closeEditWithSwipeFromLeftEdge"];
