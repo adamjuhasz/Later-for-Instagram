@@ -886,15 +886,19 @@
             }
             if (xTranslation < 0 && xVelocity < 0 && recognizer == rightEdgeGesture) {
                 edgeSwipeSameDirection = YES;
-                [captionController schedulePost];
             }
-            if ((ABS(xTranslation) > self.view.frame.size.width/2.0 || (ABS(xVelocity) > 50 && (ABS(xTranslation) > self.view.frame.size.width/3.0))) && edgeSwipeSameDirection)  {
+            BOOL xTranslationOverHalf = ABS(xTranslation) > self.view.frame.size.width/2.0;
+            BOOL xVelocityOverThreshold = ABS(xVelocity) > 50;
+            BOOL xTranslationOverThird = ABS(xTranslation) > self.view.frame.size.width/3.0;
+            BOOL xVelocityOverThresholdWithRequiredTranslation = xVelocityOverThreshold && xTranslationOverThird;
+            if ((xTranslationOverHalf || xVelocityOverThresholdWithRequiredTranslation) && edgeSwipeSameDirection)  {
                 if (xTranslation > 0) {
                     animation.toValue = [NSValue valueWithCGRect:CGRectMake(captionController.view.frame.size.width, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
                     [Localytics tagEvent:@"closeEditWithSwipeFromLeftEdge"];
                 } else {
                     animation.toValue = [NSValue valueWithCGRect:CGRectMake(-1*captionController.view.frame.size.width, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];
                     [Localytics tagEvent:@"closeEditWithSwipeFromRightEdge"];
+                    [captionController schedulePost];
                 }
                 animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
                 animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
@@ -904,7 +908,6 @@
                     xVelocity = 500;
                 }
                 animation.duration = ABS((captionController.view.frame.size.width - xTranslation) / xVelocity);
-                
             } else {
                 animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
                 animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, captionController.view.frame.size.width, captionController.view.frame.size.height)];

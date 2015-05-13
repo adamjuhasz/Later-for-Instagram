@@ -60,7 +60,9 @@
         [self setThumbnail:self.post.postImage];
         [self setPhoto:self.post.postImage];
         self.location = self.post.postEditedLocation;
-        self.DatePickerViewController.datePicker.date = self.post.postTime;
+        if ([self.post.postTime timeIntervalSinceNow] > 0) {
+            self.DatePickerViewController.datePicker.date = self.post.postTime;
+        }
     } else {
         
     }
