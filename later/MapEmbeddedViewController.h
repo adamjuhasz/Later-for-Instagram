@@ -17,8 +17,12 @@
 
 @interface MapEmbeddedViewController : UIViewController <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property IBOutlet UIView *resetButton;
 @property IBOutlet MKMapView *mapView;
 @property IBOutlet UITableView *locationTable;
 @property id <LocationHolderDelegate> delegate;
+@property CLLocation *initialLocation;
+
+- (IBAction)resetLocation:(id)sender;
 
 @end

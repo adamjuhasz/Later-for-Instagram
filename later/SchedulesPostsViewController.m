@@ -82,7 +82,7 @@
     [self.collectionView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(photosUpdated) name:@"PhotoManagerLoaded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostWasAdded) name:kPostDBUpatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostWasAdded:) name:kPostDBUpatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editPostNotificatiom:) name:@"postToBeEdited" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifiedSendPost:) name:kPostToBeSentNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifiedShowPost:) name:kLaterShowPostFromLocalNotification object:nil];
@@ -853,10 +853,14 @@
                                           completionBlock:^(UIImage *image, CLLocation *location) {
                                               [captionController setPhoto:image];
                                               captionController.location = location;
+                                              captionController.initialLocation = location;
+                                              captionController.locationPickerViewController.initialLocation = location;
                                           }];
             
         });
     }];
+    
+    [Localytics tagEvent:@"selectedPhoto"];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -1015,7 +1019,6 @@
     
     [controller.view pop_addAnimation:animation forKey:@"frame"];
     
-    [Localytics tagEvent:@"selectedPhoto"];
     [Localytics tagScreen:@"CaptionEditor"];
 }
 
@@ -1039,9 +1042,13 @@
             break;
     }
     
-    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    animation.duration = 0.4;
+    POPBasicAnimation *animation = [controller.view pop_animationForKey:@"frame"];
+    if (animation == nil) {
+        animation =  [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+        animation.duration = 0.2;
+        [controller.view pop_addAnimation:animation forKey:@"frame"];
+    }
     animation.toValue = [NSValue valueWithCGRect:exitFrame];
     animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
         [self removeController:controller];
@@ -1051,7 +1058,6 @@
     };
     
     [self.view endEditing:YES];
-    [controller.view pop_addAnimation:animation forKey:@"frame_out"];
     [Localytics tagScreen:@"MainScreen"];
 }
 
@@ -1070,11 +1076,15 @@
     [self.view removeGestureRecognizer:rightEdgeGesture];
 }
 
-- (void)newPostWasAdded
+- (void)newPostWasAdded:(NSNotification*)notification
 {
     [self reloadScrollView];
     [self showScrollview];
-    [self popController:captionController withDirection:UIRectEdgeLeft withSuccess:nil];
+    
+    if (notification.userInfo) {
+        //means this is a added post notification
+        [self popController:captionController withDirection:UIRectEdgeLeft withSuccess:nil];
+    }
 }
 
 - (void)editPostNotificatiom:(NSNotification*)notification

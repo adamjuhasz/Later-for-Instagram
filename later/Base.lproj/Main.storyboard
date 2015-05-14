@@ -779,6 +779,50 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VMB-oO-8Uf" customClass="FXBlurView">
+                                <rect key="frame" x="382" y="154" width="57" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIk-wx-Rr2">
+                                        <rect key="frame" x="0.0" y="1" width="57" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="2pc-Lt-9bN"/>
+                                            <constraint firstAttribute="width" constant="46" id="aoq-sB-QU4"/>
+                                        </constraints>
+                                        <state key="normal" title="Reset">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="2pc-Lt-9bN"/>
+                                                <exclude reference="aoq-sB-QU4"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="resetLocation:" destination="8Ui-eZ-74V" eventType="touchUpInside" id="gB0-wN-CeP"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" secondItem="uIk-wx-Rr2" secondAttribute="height" id="9LO-Wh-paY"/>
+                                    <constraint firstAttribute="height" constant="40" id="Xlc-jY-j8Y"/>
+                                    <constraint firstAttribute="centerX" secondItem="uIk-wx-Rr2" secondAttribute="centerX" constant="0.5" id="d1j-r5-XhL"/>
+                                    <constraint firstAttribute="width" secondItem="uIk-wx-Rr2" secondAttribute="width" id="jDS-oh-AcQ"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="o2b-iO-R97"/>
+                                    <constraint firstAttribute="centerY" secondItem="uIk-wx-Rr2" secondAttribute="centerY" constant="-0.5" id="owS-nD-WoP"/>
+                                    <constraint firstAttribute="width" constant="57" id="rxH-3a-Swh"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="o2b-iO-R97"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -794,11 +838,13 @@
                             <constraint firstItem="zu7-fC-MdP" firstAttribute="centerY" secondItem="lL6-lT-WxQ" secondAttribute="centerY" id="dAA-zD-QH5"/>
                             <constraint firstAttribute="width" secondItem="zu7-fC-MdP" secondAttribute="width" id="kna-VR-PWk"/>
                             <constraint firstItem="zu7-fC-MdP" firstAttribute="height" secondItem="lL6-lT-WxQ" secondAttribute="height" id="lGb-qm-YIo"/>
+                            <constraint firstItem="A8g-y8-0bq" firstAttribute="bottom" secondItem="VMB-oO-8Uf" secondAttribute="bottom" constant="6" id="lGp-7Q-UlS"/>
                             <constraint firstItem="lL6-lT-WxQ" firstAttribute="width" secondItem="0k7-f7-AUG" secondAttribute="width" id="lSj-13-115"/>
                             <constraint firstItem="JXL-cg-DWT" firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="thn-tR-izh"/>
                             <constraint firstAttribute="centerX" secondItem="zu7-fC-MdP" secondAttribute="centerX" id="vN2-IZ-r7x"/>
                             <constraint firstItem="zu7-fC-MdP" firstAttribute="width" secondItem="lL6-lT-WxQ" secondAttribute="width" id="vvS-5e-gW5"/>
                             <constraint firstAttribute="centerX" secondItem="lL6-lT-WxQ" secondAttribute="centerX" id="y1M-Ui-pfl"/>
+                            <constraint firstItem="A8g-y8-0bq" firstAttribute="trailing" secondItem="VMB-oO-8Uf" secondAttribute="trailing" constant="11" id="yfk-Ak-48C"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -815,6 +861,7 @@
                     <connections>
                         <outlet property="locationTable" destination="lL6-lT-WxQ" id="TvD-kb-pva"/>
                         <outlet property="mapView" destination="A8g-y8-0bq" id="R2C-ZJ-wd7"/>
+                        <outlet property="resetButton" destination="VMB-oO-8Uf" id="egv-M1-0Lh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xgs-h5-BhE" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -34,6 +34,7 @@
 @property (nonatomic, strong) NSLayoutConstraint *bottomConstraint;
 @property scheduledPostModel* post;
 @property CLLocation *location;
+@property CLLocation *initialLocation;
 
 @property SchedulesPostsViewController *delegate;
 

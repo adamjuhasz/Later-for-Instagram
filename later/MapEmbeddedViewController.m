@@ -16,6 +16,7 @@
     NSMutableArray *foundLocations;
     NSSet *nearbyTags;
     NSInteger protectionTag;
+    CLLocation *_initialLocation;
 }
 @end
 
@@ -29,6 +30,10 @@
     foundLocations = [NSMutableArray array];
     nearbyTags = [NSSet set];
     protectionTag = 0;
+    
+    if (self.initialLocation) {
+        self.resetButton.hidden = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -147,7 +152,7 @@
     } else if ([dict objectForKey:@"hashtag"]) {
         NSString *hashtag = [dict objectForKey:@"hashtag"];
         cell.tagName.text = [NSString stringWithFormat:@"  #%@", hashtag];
-        cell.tagCount.text = [NSString stringWithFormat:@"%.0f%% use it", [[dict objectForKey:@"percentUsingHashtag"] floatValue]];
+        cell.tagCount.text = [NSString stringWithFormat:@"%.0f%% used it", [[dict objectForKey:@"percentUsingHashtag"] floatValue]];
     }
 
     return cell;
@@ -163,6 +168,26 @@
     } else if ([dict objectForKey:@"hashtag"]) {
         NSString *hashtag = [dict objectForKey:@"hashtag"];
         [self.delegate didSelectHashtag:hashtag atIndexPath:indexPath];
+    }
+}
+
+- (void) setInitialLocation:(CLLocation *)initialLocation
+{
+    _initialLocation = initialLocation;
+    if (initialLocation) {
+        self.resetButton.hidden = NO;
+    }
+}
+
+- (CLLocation*)initialLocation
+{
+    return _initialLocation;
+}
+
+- (IBAction)resetLocation:(id)sender
+{
+    if (self.initialLocation) {
+        [self.mapView setCenterCoordinate:self.initialLocation.coordinate animated:YES];
     }
 }
 

@@ -64,6 +64,9 @@
             self.DatePickerViewController.initialDate = self.post.postTime;
             [self.DatePickerViewController resetDate];
         }
+        if (self.post.postLocation) {
+            self.locationPickerViewController.initialLocation = self.post.postLocation;
+        }
     } else {
         
     }
@@ -79,7 +82,9 @@
     span.latitudeDelta = 0.01;
     span.longitudeDelta = 0.01;
     region.span = span;
-    self.locationPickerViewController.mapView.region = region;
+    [self.locationPickerViewController.mapView setRegion:region animated:YES];
+    
+    self.pageControl.currentPage = MIN((self.pageControl.numberOfPages-1), 1);
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
@@ -167,6 +172,14 @@
     return hashtags[hashtags.count-1];
 }
 
+- (NSString*)grabLastWordFrom:(NSString*)text {
+    NSArray *split = [text componentsSeparatedByString:@" "];
+    if (split.count > 0) {
+        return [split objectAtIndex:split.count-1];
+    }
+    return nil;
+}
+
 - (IBAction)doneEditing:(id)sender
 {
     [self.comments resignFirstResponder];
@@ -183,6 +196,9 @@
     if (self.post == nil) {
         self.post = [[scheduledPostModel alloc] init];
         self.post.postImage = fullImage;
+        if (self.initialLocation) {
+            self.post.postLocation = self.initialLocation;
+        }
         newPost = YES;
     }
     
@@ -252,8 +268,8 @@
     
     NSString *comment = [textView.text stringByReplacingCharactersInRange:range withString:text];
     NSString *hashtag = [self grabLastHashtagFrom:comment];
-
-    if (hashtag.length > 4) {
+    
+    if (hashtag.length > 4 && [[self grabLastWordFrom:textView.text] isEqualToString:hashtag]) {
         [self.tableViewController searchForTag:hashtag];
     } else if (hashtag == nil && range.length == 0) {
         [self.tableViewController clearTable];
@@ -274,9 +290,13 @@
     if (writtenTag != nil) {
         NSRange subRange = [selectedTag rangeOfString:writtenTag];
         if (subRange.length > 0) {
-            int difference = (int)selectedTag.length - (int)subRange.length;
-            NSRange substringRange = {writtenTag.length, difference};
-            appendText = [selectedTag substringWithRange:substringRange];
+            if ([self.comments.text characterAtIndex:self.comments.text.length-1] == ' ') {
+                 appendText = [NSString stringWithFormat:@"#%@", selectedTag];
+            } else {
+                int difference = (int)selectedTag.length - (int)subRange.length;
+                NSRange substringRange = {writtenTag.length, difference};
+                appendText = [selectedTag substringWithRange:substringRange];
+            }
         } else {
             if ([self.comments.text characterAtIndex:(self.comments.text.length-1)] == ' ') {
                 appendText = [NSString stringWithFormat:@"#%@", selectedTag];
@@ -303,6 +323,9 @@
         
         if (self.post) {
             self.DatePickerViewController.initialDate = self.post.postTime;
+            if (self.post.postLocation) {
+                self.locationPickerViewController.initialLocation = self.post.postLocation;
+            }
         }
         
         self.inputPageController = segue.destinationViewController;
