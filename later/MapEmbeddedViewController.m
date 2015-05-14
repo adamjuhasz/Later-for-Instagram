@@ -15,6 +15,7 @@
     NSTimer *timeoutTimer;
     NSMutableArray *foundLocations;
     NSSet *nearbyTags;
+    NSInteger protectionTag;
 }
 @end
 
@@ -27,6 +28,7 @@
     [self.locationTable registerNib:[UINib nibWithNibName:@"HashtagTableViewCell" bundle:nil] forCellReuseIdentifier:@"cell"];
     foundLocations = [NSMutableArray array];
     nearbyTags = [NSSet set];
+    protectionTag = 0;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,9 +41,14 @@
     if (![[InstagramEngine sharedEngine] accessToken]) {
         return;
     }
+    NSInteger protection = protectionTag;
     
     [[InstagramEngine sharedEngine] getMediaAtLocationWithId:location.locationId
                                                  withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
+                                                     if (protection != protectionTag) {
+                                                         return;
+                                                     }
+                                                     
                                                      NSCountedSet *countedSetOfTags = [[NSCountedSet alloc] init];
                                                      for (InstagramMedia *specificPost in media) {
                                                          if (specificPost.tags && specificPost.tags.count > 0) {
@@ -68,10 +75,10 @@
                                                      for (int i=0; i<MIN(5,sortedTagsByCount.count); i++) {
                                                          NSInteger tagUsageCount = [countedSetOfTags countForObject:sortedTagsByCount[i]];
                                                          float percentUsingHashtag = (float)tagUsageCount * 100.0 / media.count;
-                                                         NSLog(@"%@ - %@ (%.0f)", location.name, sortedTagsByCount[i], percentUsingHashtag);
                                                          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                                sortedTagsByCount[i], @"hashtag",
                                                                                [NSNumber numberWithInteger:tagUsageCount], @"count",
+                                                                               [NSNumber numberWithFloat:percentUsingHashtag], @"percentUsingHashtag",
                                                                                nil];
                                                          [foundLocations insertObject:dict atIndex:index+i+1];
                                                      }
@@ -83,6 +90,8 @@
 - (void)updateLocations
 {
     timeoutTimer = nil;
+    protectionTag++;
+    NSInteger protection = protectionTag;
     
     CLLocation *location = [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
     [self.delegate setLocation:location];
@@ -90,6 +99,10 @@
     CGFloat spanDistance = MIN(5000, ceil(self.mapView.region.span.latitudeDelta * 111131.745 / 2.0));
     if ([[InstagramEngine sharedEngine] accessToken]) {
         [[InstagramEngine sharedEngine] searchLocationsAtLocation:self.mapView.centerCoordinate distanceInMeters:spanDistance withSuccess:^(NSArray *locations) {
+            if (protection != protectionTag) {
+                return;
+            }
+            
             foundLocations = [locations mutableCopy];
             for (int i=0; i<locations.count; i++) {
                 NSDictionary *locationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -134,6 +147,7 @@
     } else if ([dict objectForKey:@"hashtag"]) {
         NSString *hashtag = [dict objectForKey:@"hashtag"];
         cell.tagName.text = [NSString stringWithFormat:@"  #%@", hashtag];
+        cell.tagCount.text = [NSString stringWithFormat:@"%.0f%% use it", [[dict objectForKey:@"percentUsingHashtag"] floatValue]];
     }
 
     return cell;
@@ -146,6 +160,9 @@
     if ([dict objectForKey:@"location"]) {
         InstagramLocation *location = [dict objectForKey:@"location"];
         [self grabTagsForLocation:location];
+    } else if ([dict objectForKey:@"hashtag"]) {
+        NSString *hashtag = [dict objectForKey:@"hashtag"];
+        [self.delegate didSelectHashtag:hashtag atIndexPath:indexPath];
     }
 }
 

@@ -12,7 +12,7 @@
 @protocol LocationHolderDelegate <NSObject>
 @required
 - (void)setLocation:(CLLocation*)location;
-
+- (void)didSelectHashtag:(NSString*)hashtag atIndexPath:(NSIndexPath*)indexPath;
 @end
 
 @interface MapEmbeddedViewController : UIViewController <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>

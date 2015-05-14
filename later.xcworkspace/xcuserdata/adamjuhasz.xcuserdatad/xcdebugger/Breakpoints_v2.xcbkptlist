@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/MapEmbeddedViewController.m"
-            timestampString = "453244220.076551"
+            timestampString = "453318583.179891"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "-updateLocations"
             landmarkType = "5">
          </BreakpointContent>
