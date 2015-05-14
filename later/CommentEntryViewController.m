@@ -61,7 +61,8 @@
         [self setPhoto:self.post.postImage];
         self.location = self.post.postEditedLocation;
         if ([self.post.postTime timeIntervalSinceNow] > 0) {
-            self.DatePickerViewController.datePicker.date = self.post.postTime;
+            self.DatePickerViewController.initialDate = self.post.postTime;
+            [self.DatePickerViewController resetDate];
         }
     } else {
         
@@ -299,6 +300,10 @@
         
         self.tableViewController.delegate = self;
         self.locationPickerViewController.delegate = self;
+        
+        if (self.post) {
+            self.DatePickerViewController.initialDate = self.post.postTime;
+        }
         
         self.inputPageController = segue.destinationViewController;
         self.inputPageController.pages = @[self.tableViewController, self.DatePickerViewController, self.locationPickerViewController];

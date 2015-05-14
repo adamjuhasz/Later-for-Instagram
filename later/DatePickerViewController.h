@@ -17,6 +17,8 @@
 @property IBOutletCollection(UIView) NSArray* secondLineArray;
 @property IBOutletCollection(UIView) NSArray* thirdLineArray;
 
+@property NSDate* initialDate;
+
 - (NSDate*)currentDateSelected;
 - (void)resetDate;
 

@@ -17,6 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self resetDate];
 }
 
@@ -59,7 +60,11 @@
 - (void)resetDate
 {
     self.datePicker.minimumDate = [NSDate date];
-    self.datePicker.date = [NSDate dateWithTimeIntervalSinceNow:60*60];
+    if (self.initialDate && [self.initialDate timeIntervalSinceNow] > 0) {
+        self.datePicker.date = self.initialDate;
+    } else {
+        self.datePicker.date = [NSDate dateWithTimeIntervalSinceNow:60*60];
+    }
 }
 
 - (void)viewDidLayoutSubviews
