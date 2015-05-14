@@ -34,6 +34,7 @@
     scheduledPostModel *postThatIsBeingPosted;
     scheduledPostModel *selectedPost;
     UIView* selectedPostShroud;
+    UIView* pushedControllerShroud;
     PostDisplayView *postDetailView;
     UIScreenEdgePanGestureRecognizer *leftEdgeGesture, *rightEdgeGesture;
     UIEdgeInsets initialinsets;
@@ -899,7 +900,7 @@
         case UIGestureRecognizerStateBegan:
             [self.view endEditing:YES];
             captionController.view.frame = CGRectMake(xTranslation, 0, captionController.view.frame.size.width, captionController.view.frame.size.height);
-            if (xTranslation < 0)
+            if (xTranslation < 0 && scrollViewUp == NO)
                 [self moveScrollviewBy:xTranslation withVelocity:xVelocity];
             break;
             
@@ -944,7 +945,7 @@
                                             
         default:
             captionController.view.frame = CGRectMake(xTranslation, 0, captionController.view.frame.size.width, captionController.view.frame.size.height);
-            if (xTranslation < 0)
+            if (xTranslation < 0 && scrollViewUp == NO)
                 [self moveScrollviewBy:xTranslation*-1 withVelocity:xVelocity*-1];
             break;
     }
@@ -1008,6 +1009,21 @@
     
     [self addChildViewController:controller];
     [self.view addSubview:controller.view];
+    
+    if (pushedControllerShroud != nil) {
+        [pushedControllerShroud removeFromSuperview];
+    }
+    pushedControllerShroud = [[UIView alloc] initWithFrame:self.view.bounds];
+    pushedControllerShroud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
+    pushedControllerShroud.alpha = 0.0;
+
+    [self.view insertSubview:pushedControllerShroud belowSubview:controller.view];
+    
+    [RACObserve(captionController, view.frame) subscribeNext:^(NSValue *frame) {
+        CGRect viewsFrame = [frame CGRectValue];
+        CGFloat percentMoved = 1- ABS(viewsFrame.origin.x)/controller.view.frame.size.width;
+        pushedControllerShroud.alpha = percentMoved;
+    }];
     
     POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
@@ -1087,6 +1103,7 @@
     [controller willMoveToParentViewController:nil];
     [controller.view removeFromSuperview];
     [controller removeFromParentViewController];
+    [pushedControllerShroud removeFromSuperview];
     
     [self.view removeGestureRecognizer:leftEdgeGesture];
     [self.view removeGestureRecognizer:rightEdgeGesture];
