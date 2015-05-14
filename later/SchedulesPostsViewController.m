@@ -56,11 +56,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([[PhotoManager sharedManager] authorized] == NO) {
-
-    }
-    
-    // Do any additional setup after loading the view.
     viewsInScrollView = [NSMutableArray array];
     scheduledPosts = [[PostDBSingleton singleton] allposts];
     
@@ -73,6 +68,8 @@
     initialinsets = UIEdgeInsetsMake(64, 0, 0, 0);
     self.scheduledScroller.contentInset = initialinsets;
     self.scheduledScroller.scrollIndicatorInsets = self.scheduledScroller.contentInset;
+    self.scheduledScroller.clipsToBounds = YES;
+    scrollViewUp = YES;
     
     shroud = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scheduledScroller.bounds.size.width, self.scheduledScroller.bounds.size.height)];
     shroud.backgroundColor = [UIColor blackColor];
@@ -110,15 +107,6 @@
     postDetailView.blurView.frame = postDetailView.image.frame;
     postDetailView.buttonHolderView.center = postDetailView.image.center;
     
-    [RACObserve(self, topConstraint.constant) subscribeNext:^(NSNumber *layoutConstant) {
-        CGFloat value = [layoutConstant floatValue];
-        CGFloat percent = (value - topLayoutConstantMin) / (topLayoutConstantMax - topLayoutConstantMin);
-        
-        self.addButton.transform = [self transformForAddButtonWithPercent:percent];
-    }];
-    
-    scrollViewUp = YES;
-    
     panRecognizerForMinimzedScrollView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScroll:)];
     panRecognizerForMinimzedScrollView.enabled = NO;
     [self.scheduledScroller addGestureRecognizer:panRecognizerForMinimzedScrollView];
@@ -146,6 +134,13 @@
     
     topLayoutConstantMin = -20;
     topLayoutConstantMax = self.view.bounds.size.height - (64);
+    
+    [RACObserve(self, topConstraint.constant) subscribeNext:^(NSNumber *layoutConstant) {
+        CGFloat value = [layoutConstant floatValue];
+        CGFloat percent = (value - topLayoutConstantMin) / (topLayoutConstantMax - topLayoutConstantMin);
+        
+        self.addButton.transform = [self transformForAddButtonWithPercent:percent];
+    }];
     
     [self reloadScrollView];
     
@@ -664,7 +659,7 @@
     [self authorizePhotos];
     scrollViewUp = NO;
     
-    self.scheduledScroller.clipsToBounds = YES;
+    panRecognizerForMinimzedScrollView.enabled = YES;
     
     //---- Scroll View ---
 
@@ -739,7 +734,6 @@
     collectionViewScaleAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(-1 * velocity, -1 * velocity)];
     [self.collectionView.layer pop_addAnimation:collectionViewScaleAnimation forKey:@"scale"];
     
-    panRecognizerForMinimzedScrollView.enabled = YES;
     [Localytics tagScreen:@"PhotoLibrary"];
 }
 
