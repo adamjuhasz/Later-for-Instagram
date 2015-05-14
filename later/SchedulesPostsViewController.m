@@ -44,6 +44,7 @@
     UIView *viewSelected;
     UIPanGestureRecognizer *panRecognizerForMinimzedScrollView;
     UITapGestureRecognizer *tapRecognizerForMinimizedScrollView;
+    BOOL firstScheduledPostLoad;
 }
 
 @property UIDynamicAnimator *animator;
@@ -58,6 +59,7 @@
     
     viewsInScrollView = [NSMutableArray array];
     scheduledPosts = [[PostDBSingleton singleton] allposts];
+    firstScheduledPostLoad = YES;
     
     if (scheduledPosts.count > 0) {
         for (UIView *view in self.gestureInstructions) {
@@ -522,6 +524,9 @@
     }
     
     for (UIView *subview in viewsInScrollView) {
+        if ([subview pop_animationForKey:@"popin"]) {
+            return;
+        }
         [subview removeFromSuperview];
     }
     [viewsInScrollView removeAllObjects];
@@ -575,12 +580,21 @@
         
         [self.scheduledScroller insertSubview:newImage aboveSubview:shroud];
         [viewsInScrollView addObject:newImage];
+        
+        if (firstScheduledPostLoad) {
+            POPSpringAnimation *popinAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+            popinAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
+            popinAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
+            popinAnimation.beginTime = CACurrentMediaTime()+  i*0.1;
+            //[newImage pop_addAnimation:popinAnimation forKey:@"popin"];
+        }
     }
     
     self.scheduledScroller.contentSize = CGSizeMake(self.scheduledScroller.bounds.size.width,
                                                     MAX(currrentFrame.origin.y + currrentFrame.size.height,
                                                         0));
     shroud.frame = CGRectMake(0, 0, self.scheduledScroller.contentSize.width, self.scheduledScroller.contentSize.height + self.scheduledScroller.bounds.size.height);
+    firstScheduledPostLoad = NO;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

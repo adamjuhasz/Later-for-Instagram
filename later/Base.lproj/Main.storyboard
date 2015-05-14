@@ -71,7 +71,7 @@
                     <connections>
                         <outlet property="loginButton" destination="ghg-uE-8sP" id="THZ-KT-Uni"/>
                         <outlet property="progress" destination="2A9-kh-k8P" id="RsC-T9-UNa"/>
-                        <segue destination="RgP-eD-urK" kind="show" identifier="segue.showScheduled" id="cFG-k4-Mmn"/>
+                        <segue destination="RgP-eD-urK" kind="presentation" identifier="segue.showScheduled" modalTransitionStyle="crossDissolve" id="cFG-k4-Mmn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
