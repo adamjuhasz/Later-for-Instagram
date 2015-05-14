@@ -170,20 +170,11 @@
                                     <constraint firstAttribute="bottom" secondItem="mqU-cl-IQK" secondAttribute="bottom" id="y7A-du-QmH"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pull down to do select a photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u3L-Js-HN5">
-                                <rect key="frame" x="-1" y="323" width="376" height="21"/>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PullDown.png" translatesAutoresizingMaskIntoConstraints="NO" id="fsa-se-KVg">
+                                <rect key="frame" x="67" y="270" width="240" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="Td8-vN-ngd"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Down.png" translatesAutoresizingMaskIntoConstraints="NO" id="nVD-tK-66o">
-                                <rect key="frame" x="165" y="347" width="44" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="4Ty-Yf-0vZ"/>
-                                    <constraint firstAttribute="height" constant="44" id="mCT-ka-ffO"/>
+                                    <constraint firstAttribute="height" constant="128" id="9D7-Uq-J5G"/>
+                                    <constraint firstAttribute="width" constant="240" id="s0X-k3-EXk"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -191,20 +182,17 @@
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="ltV-Ss-H1x" secondAttribute="centerY" id="5dv-f4-Juv"/>
                             <constraint firstAttribute="height" secondItem="Hrq-hU-IM6" secondAttribute="height" id="Anf-Q1-stO"/>
-                            <constraint firstAttribute="centerY" secondItem="u3L-Js-HN5" secondAttribute="centerY" id="BII-cz-afR"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="width" secondItem="8ho-xC-d1H" secondAttribute="width" id="DbX-83-Eod"/>
                             <constraint firstAttribute="centerX" secondItem="ltV-Ss-H1x" secondAttribute="centerX" id="E3H-ai-u2u"/>
                             <constraint firstAttribute="width" secondItem="eqh-CT-4a4" secondAttribute="width" id="IJa-p3-2da"/>
                             <constraint firstAttribute="width" secondItem="Hrq-hU-IM6" secondAttribute="width" id="LEx-sw-wOl"/>
-                            <constraint firstItem="u3L-Js-HN5" firstAttribute="centerX" secondItem="nVD-tK-66o" secondAttribute="centerX" id="LwD-jX-PEY"/>
-                            <constraint firstItem="u3L-Js-HN5" firstAttribute="width" secondItem="8ho-xC-d1H" secondAttribute="width" id="O3M-i6-1cN"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="ZYm-Qg-z4F"/>
                             <constraint firstAttribute="centerY" secondItem="Hrq-hU-IM6" secondAttribute="centerY" id="Zkk-03-oMk"/>
-                            <constraint firstAttribute="centerX" secondItem="u3L-Js-HN5" secondAttribute="centerX" constant="0.5" id="dT8-vB-ffO"/>
                             <constraint firstAttribute="centerX" secondItem="eqh-CT-4a4" secondAttribute="centerX" id="inm-zZ-w8A"/>
                             <constraint firstAttribute="centerX" secondItem="Hrq-hU-IM6" secondAttribute="centerX" id="k60-kw-Ygz"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="height" secondItem="8ho-xC-d1H" secondAttribute="height" id="mVz-bX-Lxo"/>
-                            <constraint firstItem="nVD-tK-66o" firstAttribute="top" secondItem="u3L-Js-HN5" secondAttribute="bottom" constant="3" id="s7h-hb-xmm"/>
+                            <constraint firstAttribute="centerX" secondItem="fsa-se-KVg" secondAttribute="centerX" constant="0.5" id="nRW-1s-uXk"/>
+                            <constraint firstAttribute="centerY" secondItem="fsa-se-KVg" secondAttribute="centerY" constant="-0.5" id="tPN-ex-HjC"/>
                             <constraint firstItem="Ymz-tk-UOP" firstAttribute="top" secondItem="ltV-Ss-H1x" secondAttribute="bottom" id="uuT-cB-hPV"/>
                             <constraint firstItem="eqh-CT-4a4" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="w4o-x0-no1"/>
                         </constraints>
@@ -225,8 +213,7 @@
                         <outlet property="menuBar" destination="eqh-CT-4a4" id="R0q-rl-mVB"/>
                         <outlet property="scheduledScroller" destination="ltV-Ss-H1x" id="aEE-VD-Exo"/>
                         <outlet property="topConstraint" destination="ZYm-Qg-z4F" id="sop-ao-5xS"/>
-                        <outletCollection property="gestureInstructions" destination="u3L-Js-HN5" id="QrG-Kh-0Fz"/>
-                        <outletCollection property="gestureInstructions" destination="nVD-tK-66o" id="a86-h2-fN5"/>
+                        <outletCollection property="gestureInstructions" destination="fsa-se-KVg" id="5sZ-ps-dwa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GsM-6l-sI4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -425,19 +412,19 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="1YW-EE-XvT"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" tag="168" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next Week" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D64-An-RYV">
                                 <rect key="frame" x="0.0" y="47" width="215" height="44"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" tag="720" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next Month" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqs-fu-enw">
                                 <rect key="frame" x="0.0" y="93" width="215" height="44"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -454,19 +441,19 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="NYd-F2-iaI"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" tag="336" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 Weeks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SUB-pb-xfL">
                                 <rect key="frame" x="235" y="47" width="215" height="44"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sometime" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3F-WM-9Tl">
                                 <rect key="frame" x="235" y="93" width="215" height="44"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -872,9 +859,9 @@
     <resources>
         <image name="Back.png" width="18" height="35"/>
         <image name="Check.png" width="40" height="27"/>
-        <image name="Down.png" width="40" height="16"/>
         <image name="Pin.png" width="35" height="52"/>
         <image name="Plus.png" width="35" height="35"/>
+        <image name="PullDown.png" width="48" height="58"/>
         <image name="Save.png" width="34" height="34"/>
         <image name="logo.png" width="1024" height="1024"/>
     </resources>

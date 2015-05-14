@@ -517,9 +517,11 @@
 {
     scheduledPosts = [[PostDBSingleton singleton] allposts];
     
-    if (scheduledPosts.count > 0) {
-        for (UIView *view in self.gestureInstructions) {
+    for (UIView *view in self.gestureInstructions) {
+        if (scheduledPosts.count > 0) {
             view.hidden = YES;
+        } else {
+            view.hidden = NO;
         }
     }
     

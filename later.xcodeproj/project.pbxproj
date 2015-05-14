@@ -71,6 +71,9 @@
 		2EC620841B03B985002FD8FF /* Save.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC620811B03B985002FD8FF /* Save.png */; };
 		2EC620851B03B985002FD8FF /* Save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC620821B03B985002FD8FF /* Save@2x.png */; };
 		2EC620861B03B985002FD8FF /* Save@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC620831B03B985002FD8FF /* Save@3x.png */; };
+		2EC6208B1B053201002FD8FF /* PullDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC620881B053201002FD8FF /* PullDown.png */; };
+		2EC6208C1B053201002FD8FF /* PullDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC620891B053201002FD8FF /* PullDown@2x.png */; };
+		2EC6208D1B053201002FD8FF /* PullDown@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC6208A1B053201002FD8FF /* PullDown@3x.png */; };
 		2ED295BB1B0283910053CD02 /* localytics.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295BA1B0283910053CD02 /* localytics.plist */; };
 		2ED295C01B0296BA0053CD02 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295BD1B0296BA0053CD02 /* Back.png */; };
 		2ED295C11B0296BA0053CD02 /* Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295BE1B0296BA0053CD02 /* Back@2x.png */; };
@@ -181,6 +184,9 @@
 		2EC620811B03B985002FD8FF /* Save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Save.png; sourceTree = "<group>"; };
 		2EC620821B03B985002FD8FF /* Save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Save@2x.png"; sourceTree = "<group>"; };
 		2EC620831B03B985002FD8FF /* Save@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Save@3x.png"; sourceTree = "<group>"; };
+		2EC620881B053201002FD8FF /* PullDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PullDown.png; sourceTree = "<group>"; };
+		2EC620891B053201002FD8FF /* PullDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PullDown@2x.png"; sourceTree = "<group>"; };
+		2EC6208A1B053201002FD8FF /* PullDown@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PullDown@3x.png"; sourceTree = "<group>"; };
 		2ED295BA1B0283910053CD02 /* localytics.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = localytics.plist; sourceTree = "<group>"; };
 		2ED295BD1B0296BA0053CD02 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
 		2ED295BE1B0296BA0053CD02 /* Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@2x.png"; sourceTree = "<group>"; };
@@ -239,6 +245,7 @@
 		2E4418681B016DA4007611C3 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				2EC620871B053201002FD8FF /* Pull Down */,
 				2EC620801B03B985002FD8FF /* Save */,
 				2EC620791B03B632002FD8FF /* Pin */,
 				2ED295CA1B02B1580053CD02 /* Down */,
@@ -459,6 +466,16 @@
 			path = Save;
 			sourceTree = "<group>";
 		};
+		2EC620871B053201002FD8FF /* Pull Down */ = {
+			isa = PBXGroup;
+			children = (
+				2EC620881B053201002FD8FF /* PullDown.png */,
+				2EC620891B053201002FD8FF /* PullDown@2x.png */,
+				2EC6208A1B053201002FD8FF /* PullDown@3x.png */,
+			);
+			path = "Pull Down";
+			sourceTree = "<group>";
+		};
 		2ED295BC1B0296BA0053CD02 /* Back */ = {
 			isa = PBXGroup;
 			children = (
@@ -595,6 +612,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EC6208B1B053201002FD8FF /* PullDown.png in Resources */,
 				2E4418971B016F53007611C3 /* Snooze@2x.png in Resources */,
 				2EC620851B03B985002FD8FF /* Save@2x.png in Resources */,
 				2EC6207E1B03B632002FD8FF /* Pin@2x.png in Resources */,
@@ -627,8 +645,10 @@
 				2E4418811B016DA4007611C3 /* Plus.png in Resources */,
 				2E4418961B016F53007611C3 /* Snooze.png in Resources */,
 				2ED295CF1B02B1580053CD02 /* Down@2x.png in Resources */,
+				2EC6208C1B053201002FD8FF /* PullDown@2x.png in Resources */,
 				2E44189E1B016FF5007611C3 /* Instagram@3x.png in Resources */,
 				2E3E92F81AE1A7890048B5E8 /* Settings.bundle in Resources */,
+				2EC6208D1B053201002FD8FF /* PullDown@3x.png in Resources */,
 				2EC6207F1B03B632002FD8FF /* Pin@3x.png in Resources */,
 				2E44189D1B016FF5007611C3 /* Instagram@2x.png in Resources */,
 				2E22206A1AE60B69007D2E38 /* logo-87.png in Resources */,

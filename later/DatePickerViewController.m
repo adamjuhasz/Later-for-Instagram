@@ -29,6 +29,10 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(specificDatePicked:)];
         [specificDatw addGestureRecognizer:tap];
     }
+    
+    for (int i=0; i<47; i++) {
+        arc4random_uniform(30 - 1 + 1);
+    }
 }
 
 - (void)specificDatePicked:(UIGestureRecognizer*)tapped
