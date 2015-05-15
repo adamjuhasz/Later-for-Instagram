@@ -85,6 +85,9 @@
     [self.locationPickerViewController.mapView setRegion:region animated:YES];
     
     self.pageControl.currentPage = MIN((self.pageControl.numberOfPages-1), 1);
+    
+    [self.doneButton animateToType:buttonDownloadType];
+    [self.backButton animateToType:buttonBackType];
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
@@ -94,6 +97,22 @@
     if(parent != nil) {
         //show keyboard
         [self.comments becomeFirstResponder];
+    }
+}
+
+- (IBAction)doneButtonTapped:(id)sender
+{
+    switch (self.doneButton.currentButtonType) {
+        case buttonOkType:
+            [self doneEditing:sender];
+            break;
+            
+        case buttonDownloadType:
+            [self schedulePost];
+            break;
+            
+        default:
+            break;
     }
 }
 
@@ -230,41 +249,16 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    //if (self.view.frame.size.height == 480) {   //iphone 4
-        if (self.doneButton.alpha == 0.0) {
-            self.doneButton.hidden = NO;
-            self.postButton.hidden = NO;
-            
-            [UIView animateWithDuration:0.3 animations:^{
-                self.doneButton.alpha = 1.0;
-                self.postButton.alpha = 0.0;
-            }];
-        }
-    //}
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    self.doneButton.hidden = NO;
-    self.postButton.hidden = NO;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.doneButton.alpha = 0.0;
-        self.postButton.alpha = 1.0;
-    }];
+    [self.doneButton animateToType:buttonDownloadType];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if (self.doneButton.alpha == 0.0) {
-        self.doneButton.hidden = NO;
-        self.postButton.hidden = NO;
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            self.doneButton.alpha = 1.0;
-            self.postButton.alpha = 0.0;
-        }];
-    }
+    [self.doneButton animateToType:buttonOkType];
     
     NSString *comment = [textView.text stringByReplacingCharactersInRange:range withString:text];
     NSString *hashtag = [self grabLastHashtagFrom:comment];

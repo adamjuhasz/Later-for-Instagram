@@ -14,14 +14,15 @@
 #import <CoreLocation/CoreLocation.h>
 #import "MapEmbeddedViewController.h"
 #import "SchedulesPostsViewController.h"
+#import <VBFPopFlatButton/VBFPopFlatButton.h>
 
 @interface CommentEntryViewController : UIViewController <UITextViewDelegate, TableViewControllerDelegate, inputsPageDelegate, LocationHolderDelegate>
 
 @property IBOutlet UITextView *comments;
 @property IBOutlet UIImageView *photoExample;
 
-@property IBOutlet UIButton *doneButton;
-@property IBOutlet UIButton *postButton;
+@property IBOutlet VBFPopFlatButton *backButton;
+@property IBOutlet VBFPopFlatButton *doneButton;
 
 @property IBOutlet UIView *ContainerView;
 @property IBOutlet CaptionInputsPageViewController *inputPageController;

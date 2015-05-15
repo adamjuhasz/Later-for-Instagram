@@ -245,23 +245,29 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A7w-XY-nWZ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKd-hx-BQe">
-                                        <rect key="frame" x="276" y="17" width="44" height="44"/>
+                                    <button opaque="NO" contentMode="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKd-hx-BQe" customClass="VBFPopFlatButton">
+                                        <rect key="frame" x="286" y="28" width="24" height="24"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="X2X-zO-OLZ"/>
-                                            <constraint firstAttribute="width" constant="44" id="Y9G-wC-Vba"/>
+                                            <constraint firstAttribute="height" constant="23" id="X2X-zO-OLZ"/>
+                                            <constraint firstAttribute="width" constant="24" id="Y9G-wC-Vba"/>
+                                            <constraint firstAttribute="width" secondItem="SKd-hx-BQe" secondAttribute="height" multiplier="1:1" id="g7j-8j-A0k"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                        <state key="normal" image="Save.png">
+                                        <state key="normal">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="X2X-zO-OLZ"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
-                                            <action selector="schedulePost" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="WeE-BJ-Wbd"/>
+                                            <action selector="doneButtonTapped:" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="L3k-bD-lhD"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1j-cV-uuI" customClass="VBFPopFlatButton">
-                                        <rect key="frame" x="0.0" y="28" width="33" height="33"/>
+                                        <rect key="frame" x="8" y="23" width="33" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="33" id="YcP-9D-zxz"/>
                                             <constraint firstAttribute="height" constant="33" id="vig-XN-svO"/>
@@ -275,37 +281,19 @@
                                             <action selector="goBack" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="hRr-0o-eIj"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" alpha="0.0" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZA-XF-5kP" customClass="VBFPopFlatButton">
-                                        <rect key="frame" x="276" y="17" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="GnR-yp-udB"/>
-                                            <constraint firstAttribute="height" constant="44" id="uOc-qC-6xk"/>
-                                        </constraints>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <inset key="imageEdgeInsets" minX="8" minY="9" maxX="8" maxY="8"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="doneEditing:" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="F6m-u6-9uT"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.38823530080000002" green="0.6784313917" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Q1j-cV-uuI" secondAttribute="bottom" constant="3" id="81P-Sc-mjE"/>
-                                    <constraint firstItem="cZA-XF-5kP" firstAttribute="top" secondItem="A7w-XY-nWZ" secondAttribute="top" constant="26" id="E7d-2f-ClT"/>
-                                    <constraint firstAttribute="bottom" secondItem="SKd-hx-BQe" secondAttribute="bottom" constant="3" id="U7C-Nt-q41"/>
-                                    <constraint firstAttribute="trailing" secondItem="SKd-hx-BQe" secondAttribute="trailing" id="YSx-Df-HlS"/>
+                                    <constraint firstAttribute="bottom" secondItem="Q1j-cV-uuI" secondAttribute="bottom" constant="8" id="81P-Sc-mjE"/>
+                                    <constraint firstAttribute="bottom" secondItem="SKd-hx-BQe" secondAttribute="bottom" constant="12" id="U7C-Nt-q41"/>
+                                    <constraint firstAttribute="trailing" secondItem="SKd-hx-BQe" secondAttribute="trailing" constant="10" id="YSx-Df-HlS"/>
+                                    <constraint firstAttribute="centerY" secondItem="SKd-hx-BQe" secondAttribute="centerY" constant="-20" id="abb-SY-lN8"/>
                                     <constraint firstAttribute="height" constant="64" id="lKA-ef-tKq"/>
-                                    <constraint firstAttribute="bottom" secondItem="cZA-XF-5kP" secondAttribute="bottom" constant="3" id="mxU-tv-pBW"/>
-                                    <constraint firstItem="Q1j-cV-uuI" firstAttribute="leading" secondItem="A7w-XY-nWZ" secondAttribute="leading" id="wri-M3-KSr"/>
-                                    <constraint firstAttribute="trailing" secondItem="cZA-XF-5kP" secondAttribute="trailing" id="xqk-64-y3g"/>
+                                    <constraint firstItem="Q1j-cV-uuI" firstAttribute="leading" secondItem="A7w-XY-nWZ" secondAttribute="leading" constant="8" id="wri-M3-KSr"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="E7d-2f-ClT"/>
+                                        <exclude reference="abb-SY-lN8"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -379,12 +367,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="ContainerView" destination="Nmz-A5-ogK" id="IV5-mg-q2Q"/>
+                        <outlet property="backButton" destination="Q1j-cV-uuI" id="fmB-lY-2BU"/>
                         <outlet property="comments" destination="EoK-cM-iMa" id="T5c-T1-BMr"/>
                         <outlet property="containerHeightConstraint" destination="foo-8c-hfF" id="MyO-2V-2Zh"/>
-                        <outlet property="doneButton" destination="cZA-XF-5kP" id="GrV-wc-7FY"/>
+                        <outlet property="doneButton" destination="SKd-hx-BQe" id="wMF-TH-JJa"/>
                         <outlet property="pageControl" destination="yut-RI-ONy" id="rS2-5I-zEp"/>
                         <outlet property="photoExample" destination="xUp-2a-DXo" id="koR-Nd-1EZ"/>
-                        <outlet property="postButton" destination="SKd-hx-BQe" id="4Bn-2j-pwV"/>
                     </connections>
                 </viewController>
                 <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="Mbe-g6-TqV">
@@ -869,7 +857,6 @@
     <resources>
         <image name="Pin.png" width="35" height="52"/>
         <image name="PullDown" width="50" height="59"/>
-        <image name="Save.png" width="34" height="34"/>
         <image name="logo.png" width="1024" height="1024"/>
     </resources>
 </document>
