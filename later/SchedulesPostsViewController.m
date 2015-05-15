@@ -21,6 +21,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Localytics/Localytics.h>
 #import <CoreText/CoreText.h>
+#import "NSTimer+Blocks.h"
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -113,6 +114,11 @@
     panRecognizerForMinimzedScrollView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScroll:)];
     panRecognizerForMinimzedScrollView.enabled = NO;
     [self.scheduledScroller addGestureRecognizer:panRecognizerForMinimzedScrollView];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressOnPhotoLibrary:)];
+    longPress.allowableMovement = 4000;
+    [self.collectionView addGestureRecognizer:longPress];
+    
 }
      
 - (CGAffineTransform)transformForAddButtonWithPercent:(CGFloat)percent
@@ -121,6 +127,86 @@
     transformer = CGAffineTransformTranslate(transformer, -1 * (self.view.frame.size.width - self.addButton.frame.size.width/2.0 - 8) * percent, 0);
     transformer = CGAffineTransformRotate(transformer, DEGREES_TO_RADIANS(-45*percent));
     return transformer;
+}
+
+- (void)longPressOnPhotoLibrary:(UILongPressGestureRecognizer*)recognizer
+{
+    static CGRect frameInMasterView;
+    static NSTimer *fullResolutionTimer;
+    UICollectionView *collectionView = (UICollectionView*)recognizer.view;
+    CGPoint pointOfFinger = [recognizer locationInView:recognizer.view];
+    NSIndexPath *indexPath = [collectionView indexPathForItemAtPoint:pointOfFinger];
+    if (indexPath != nil) {
+        UIView *cell = [collectionView cellForItemAtIndexPath:indexPath];
+        frameInMasterView = [self.view convertRect:cell.frame fromView:collectionView];
+        NSInteger index = [indexPath indexAtPosition:1];
+        [[PhotoManager sharedManager] getThumbnailFor:[[PhotoManager sharedManager] cameraRollAlbumName] atIndex:index completionBlock:^(UIImage *image) {
+            if (self.collectionViewEnlargedImage.hidden == YES) {
+                POPSpringAnimation *frameAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewFrame];
+                frameAnimation.fromValue = [NSValue valueWithCGRect:frameInMasterView];
+                CGRect centeredFrame;
+                centeredFrame.size = CGSizeMake(CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame));
+                centeredFrame.origin = CGPointMake(0, CGRectGetMidY(self.view.frame)-centeredFrame.size.height/2.0);
+                frameAnimation.toValue = [NSValue valueWithCGRect:centeredFrame];
+                CGPoint cellTrueOrigin = CGPointMake(cell.frame.origin.x, cell.frame.origin.y - collectionView.contentOffset.y);
+                if (cellTrueOrigin.y < collectionView.contentInset.top) {
+                    CGFloat diff = collectionView.contentInset.top - cellTrueOrigin.y;
+                    POPBasicAnimation *moveDownAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPScrollViewContentOffset];
+                    moveDownAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - diff)];
+                    moveDownAnimation.duration = 0.1;
+                    moveDownAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+                        frameInMasterView = [self.view convertRect:cell.frame fromView:collectionView];
+                        frameAnimation.fromValue = [NSValue valueWithCGRect:frameInMasterView];
+                        [self.collectionViewEnlargedImage pop_addAnimation:frameAnimation forKey:@"frame"];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            //do this on next frame so animations can prep the scaling and centering (there is no pop)
+                            self.collectionViewEnlargedImage.hidden = NO;
+                        });
+                    };
+                    [collectionView pop_addAnimation:moveDownAnimation forKey:@"contentOffset"];
+                } else {
+                    [self.collectionViewEnlargedImage pop_addAnimation:frameAnimation forKey:@"frame"];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //do this on next frame so animations can prep the scaling and centering (there is no pop)
+                        self.collectionViewEnlargedImage.hidden = NO;
+                    });
+                }
+            }
+            self.collectionViewEnlargedImage.image = image;
+            [fullResolutionTimer invalidate];
+            fullResolutionTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 block:^{
+                [[PhotoManager sharedManager] fullsizeImageIn:[[PhotoManager sharedManager] cameraRollAlbumName]
+                                                      atIndex:index
+                                              completionBlock:^(UIImage *image, CLLocation *location) {
+                                                  self.collectionViewEnlargedImage.image = image;
+                                              }];
+            } repeats:NO];
+        }];
+    }
+    
+    POPSpringAnimation *frameAnimation = [self.collectionViewEnlargedImage pop_animationForKey:@"frame"];
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateEnded:
+        {
+            if (frameAnimation == nil) {
+                frameAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewFrame];
+                [self.collectionViewEnlargedImage pop_addAnimation:frameAnimation forKey:@"frame"];
+            }
+            frameAnimation.toValue = [NSValue valueWithCGRect:frameInMasterView];
+            frameAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+                self.collectionViewEnlargedImage.hidden = YES;
+            };
+            [fullResolutionTimer invalidate];
+            fullResolutionTimer = nil;
+            break;
+        }
+            
+        {
+        default:
+            break;
+        }
+            
+    }
 }
 
 - (IBAction)crossTapped

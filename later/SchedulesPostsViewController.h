@@ -16,6 +16,7 @@
 @property IBOutlet NSLayoutConstraint *topConstraint;
 @property IBOutlet UIView *addButton;
 @property IBOutletCollection(UIView) NSArray *gestureInstructions;
+@property IBOutlet UIImageView *collectionViewEnlargedImage;
 
 - (void)popController:(UIViewController*)controller withSuccess:(void (^)(void))success;
 - (void)pushController:(UIViewController*)controller withSuccess:(void (^)(void))success;
