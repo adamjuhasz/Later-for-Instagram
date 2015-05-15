@@ -264,6 +264,8 @@
     
     [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(reloadScrollView) userInfo:nil repeats:YES];
     [Localytics tagScreen:@"MainScreen"];
+    
+    [self.addButton animateToType:buttonAddType];
 }
 
 - (void)showSelectedPost

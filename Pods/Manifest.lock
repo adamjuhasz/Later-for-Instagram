@@ -37,17 +37,20 @@ PODS:
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
   - SimpleExif (0.0.1)
+  - VBFPopFlatButton (0.0.6):
+    - pop
 
 DEPENDENCIES:
   - DACircularProgress
   - FXBlurView
   - InstagramKit (from `../InstagramKit`)
-  - Localytics (~> 3.0)
+  - Localytics
   - MMTweenAnimation
   - PhotoManager (from `../PhotoManager`)
   - pop (from `https://github.com/facebook/pop.git`)
   - ReactiveCocoa
   - SimpleExif
+  - VBFPopFlatButton
 
 EXTERNAL SOURCES:
   InstagramKit:
@@ -73,5 +76,6 @@ SPEC CHECKSUMS:
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   SimpleExif: 61ba6dce666641dc4b925d9d26a2694e68ebbf4b
+  VBFPopFlatButton: 782344da63f104c279a857d806e065117a7e1196
 
 COCOAPODS: 0.36.4

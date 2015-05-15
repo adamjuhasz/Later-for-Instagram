@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <VBFPopFlatButton/VBFPopFlatButton.h>
 
 @interface SchedulesPostsViewController : UIViewController <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIDocumentInteractionControllerDelegate, UIGestureRecognizerDelegate>
 
@@ -14,7 +15,7 @@
 @property IBOutlet UIView *menuBar;
 @property IBOutlet UICollectionView *collectionView;
 @property IBOutlet NSLayoutConstraint *topConstraint;
-@property IBOutlet UIView *addButton;
+@property IBOutlet VBFPopFlatButton *addButton;
 @property IBOutletCollection(UIView) NSArray *gestureInstructions;
 @property IBOutlet UIImageView *collectionViewEnlargedImage;
 
