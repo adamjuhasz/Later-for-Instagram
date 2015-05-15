@@ -739,7 +739,7 @@
                                     <outlet property="delegate" destination="8Ui-eZ-74V" id="58h-LX-p7g"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zu7-fC-MdP" customClass="LogInotInstagramView">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zu7-fC-MdP" customClass="LogInotInstagramView">
                                 <rect key="frame" x="0.0" y="202" width="450" height="158"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QfI-il-Ltq">

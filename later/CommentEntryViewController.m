@@ -262,6 +262,9 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
+    if (self.pageControl.currentPage == 2) {
+        [self.inputPageController swithToPage:0];
+    }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
