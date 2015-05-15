@@ -268,8 +268,8 @@
     
     NSString *comment = [textView.text stringByReplacingCharactersInRange:range withString:text];
     NSString *hashtag = [self grabLastHashtagFrom:comment];
-    
-    if (hashtag.length > 4 && [[self grabLastWordFrom:textView.text] isEqualToString:hashtag]) {
+    NSString *lastWord = [self grabLastWordFrom:comment];
+    if (hashtag.length > 4 && [lastWord isEqualToString:[NSString stringWithFormat:@"#%@", hashtag]]) {
         [self.tableViewController searchForTag:hashtag];
     } else if (hashtag == nil && range.length == 0) {
         [self.tableViewController clearTable];
