@@ -145,31 +145,26 @@
                                     <outlet property="delegate" destination="RgP-eD-urK" id="ccF-Vy-SMC"/>
                                 </connections>
                             </scrollView>
-                            <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eqh-CT-4a4">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mqU-cl-IQK" customClass="VBFPopFlatButton">
-                                        <rect key="frame" x="334" y="23" width="33" height="33"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="33" id="24D-oK-Crg"/>
-                                            <constraint firstAttribute="height" constant="33" id="f4S-zT-uBV"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                        <state key="normal">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="crossTapped" destination="RgP-eD-urK" eventType="touchUpInside" id="JFz-hv-hCu"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.38823530080000002" green="0.6784313917" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button opaque="NO" contentMode="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mqU-cl-IQK" customClass="VBFPopFlatButton">
+                                <rect key="frame" x="322" y="614" width="33" height="33"/>
                                 <constraints>
-                                    <constraint firstAttribute="right" secondItem="mqU-cl-IQK" secondAttribute="right" constant="8" id="d7E-Av-qdS"/>
-                                    <constraint firstAttribute="height" constant="64" id="fMQ-jA-LWu"/>
-                                    <constraint firstAttribute="bottom" secondItem="mqU-cl-IQK" secondAttribute="bottom" constant="8" id="y7A-du-QmH"/>
+                                    <constraint firstAttribute="width" constant="33" id="24D-oK-Crg"/>
+                                    <constraint firstAttribute="height" constant="33" id="f4S-zT-uBV"/>
+                                    <constraint firstAttribute="width" secondItem="mqU-cl-IQK" secondAttribute="height" multiplier="1:1" id="p2I-vQ-SDC"/>
                                 </constraints>
-                            </view>
+                                <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="f4S-zT-uBV"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="crossTapped" destination="RgP-eD-urK" eventType="touchUpInside" id="JFz-hv-hCu"/>
+                                </connections>
+                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PullDown" translatesAutoresizingMaskIntoConstraints="NO" id="fsa-se-KVg">
                                 <rect key="frame" x="67" y="270" width="240" height="128"/>
                                 <constraints>
@@ -183,27 +178,36 @@
                                     <constraint firstAttribute="width" secondItem="cvu-uk-ROv" secondAttribute="height" multiplier="1:1" id="K8C-Pq-vPA"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dQl-UC-AWH">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                <color key="backgroundColor" red="0.38823530080000002" green="0.6784313917" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Leu-Zy-B41"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="cvu-uk-ROv" secondAttribute="centerY" id="2L0-ty-FK3"/>
+                            <constraint firstAttribute="right" secondItem="mqU-cl-IQK" secondAttribute="right" constant="20" id="2V9-YL-hw8"/>
                             <constraint firstAttribute="centerX" secondItem="cvu-uk-ROv" secondAttribute="centerX" id="2oQ-TW-vgI"/>
                             <constraint firstAttribute="centerY" secondItem="ltV-Ss-H1x" secondAttribute="centerY" id="5dv-f4-Juv"/>
                             <constraint firstAttribute="height" secondItem="Hrq-hU-IM6" secondAttribute="height" id="Anf-Q1-stO"/>
+                            <constraint firstAttribute="centerX" secondItem="dQl-UC-AWH" secondAttribute="centerX" id="C6a-BS-Cbn"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="width" secondItem="8ho-xC-d1H" secondAttribute="width" id="DbX-83-Eod"/>
                             <constraint firstAttribute="centerX" secondItem="ltV-Ss-H1x" secondAttribute="centerX" id="E3H-ai-u2u"/>
-                            <constraint firstAttribute="width" secondItem="eqh-CT-4a4" secondAttribute="width" id="IJa-p3-2da"/>
+                            <constraint firstAttribute="width" secondItem="dQl-UC-AWH" secondAttribute="width" id="EiE-Wq-fgH"/>
                             <constraint firstAttribute="width" secondItem="Hrq-hU-IM6" secondAttribute="width" id="LEx-sw-wOl"/>
+                            <constraint firstItem="Ymz-tk-UOP" firstAttribute="top" secondItem="mqU-cl-IQK" secondAttribute="bottom" constant="20" id="Smx-Z8-HlT"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="ZYm-Qg-z4F"/>
                             <constraint firstAttribute="centerY" secondItem="Hrq-hU-IM6" secondAttribute="centerY" id="Zkk-03-oMk"/>
-                            <constraint firstAttribute="centerX" secondItem="eqh-CT-4a4" secondAttribute="centerX" id="inm-zZ-w8A"/>
                             <constraint firstAttribute="centerX" secondItem="Hrq-hU-IM6" secondAttribute="centerX" id="k60-kw-Ygz"/>
                             <constraint firstItem="ltV-Ss-H1x" firstAttribute="height" secondItem="8ho-xC-d1H" secondAttribute="height" id="mVz-bX-Lxo"/>
                             <constraint firstAttribute="centerX" secondItem="fsa-se-KVg" secondAttribute="centerX" constant="0.5" id="nRW-1s-uXk"/>
                             <constraint firstAttribute="width" secondItem="cvu-uk-ROv" secondAttribute="width" id="qET-AU-x92"/>
                             <constraint firstAttribute="centerY" secondItem="fsa-se-KVg" secondAttribute="centerY" constant="-0.5" id="tPN-ex-HjC"/>
+                            <constraint firstItem="dQl-UC-AWH" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="u4a-3D-boY"/>
                             <constraint firstItem="Ymz-tk-UOP" firstAttribute="top" secondItem="ltV-Ss-H1x" secondAttribute="bottom" id="uuT-cB-hPV"/>
-                            <constraint firstItem="eqh-CT-4a4" firstAttribute="top" secondItem="TPe-SI-d4b" secondAttribute="bottom" constant="-20" id="w4o-x0-no1"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -220,7 +224,7 @@
                         <outlet property="addButton" destination="mqU-cl-IQK" id="Kjx-he-ndh"/>
                         <outlet property="collectionView" destination="Hrq-hU-IM6" id="ZTY-7R-FcC"/>
                         <outlet property="collectionViewEnlargedImage" destination="cvu-uk-ROv" id="c9c-eP-Bgz"/>
-                        <outlet property="menuBar" destination="eqh-CT-4a4" id="R0q-rl-mVB"/>
+                        <outlet property="menuBar" destination="dQl-UC-AWH" id="BvH-8X-KDD"/>
                         <outlet property="scheduledScroller" destination="ltV-Ss-H1x" id="aEE-VD-Exo"/>
                         <outlet property="topConstraint" destination="ZYm-Qg-z4F" id="sop-ao-5xS"/>
                         <outletCollection property="gestureInstructions" destination="fsa-se-KVg" id="5sZ-ps-dwa"/>
@@ -263,6 +267,9 @@
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <action selector="buttonPressed:" destination="Z6d-KB-Dgc" eventType="touchDown" id="nst-Q0-AEK"/>
+                                            <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="Mwc-Qm-cPm"/>
+                                            <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchUpOutside" id="cbO-4S-ZDr"/>
                                             <action selector="doneButtonTapped:" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="L3k-bD-lhD"/>
                                         </connections>
                                     </button>
@@ -278,6 +285,9 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
+                                            <action selector="buttonPressed:" destination="Z6d-KB-Dgc" eventType="touchDown" id="pNX-CQ-f4e"/>
+                                            <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="1Yn-jf-kcy"/>
+                                            <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchUpOutside" id="EPB-YH-dSC"/>
                                             <action selector="goBack" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="hRr-0o-eIj"/>
                                         </connections>
                                     </button>

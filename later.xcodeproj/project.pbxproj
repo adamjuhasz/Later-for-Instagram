@@ -63,6 +63,8 @@
 		2EB8336B1AFD30420061D95F /* LogInotInstagramView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8336A1AFD30420061D95F /* LogInotInstagramView.xib */; };
 		2EB8336E1AFD306D0061D95F /* LogInotInstagramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8336D1AFD306D0061D95F /* LogInotInstagramView.m */; };
 		2EC620901B05B761002FD8FF /* NSTimer+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6208F1B05B761002FD8FF /* NSTimer+Blocks.m */; };
+		2EC620931B067546002FD8FF /* ScheduledPostImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC620921B067546002FD8FF /* ScheduledPostImageView.m */; };
+		2EC620951B067575002FD8FF /* ScheduledPostImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC620941B067575002FD8FF /* ScheduledPostImageView.xib */; };
 		2ED295BB1B0283910053CD02 /* localytics.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ED295BA1B0283910053CD02 /* localytics.plist */; };
 		B3B515076FDC9057E4D733FF /* libPods-later.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 280A2CEF160E5E026FC034DD /* libPods-later.a */; };
 /* End PBXBuildFile section */
@@ -157,6 +159,9 @@
 		2EB8336D1AFD306D0061D95F /* LogInotInstagramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInotInstagramView.m; sourceTree = "<group>"; };
 		2EC6208E1B05B761002FD8FF /* NSTimer+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Blocks.h"; sourceTree = "<group>"; };
 		2EC6208F1B05B761002FD8FF /* NSTimer+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Blocks.m"; sourceTree = "<group>"; };
+		2EC620911B067546002FD8FF /* ScheduledPostImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduledPostImageView.h; sourceTree = "<group>"; };
+		2EC620921B067546002FD8FF /* ScheduledPostImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduledPostImageView.m; sourceTree = "<group>"; };
+		2EC620941B067575002FD8FF /* ScheduledPostImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduledPostImageView.xib; sourceTree = "<group>"; };
 		2ED295BA1B0283910053CD02 /* localytics.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = localytics.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -380,6 +385,9 @@
 				2E0BF0F11AF8092100C5F7BF /* PostDisplayView.h */,
 				2E0BF0F21AF8092100C5F7BF /* PostDisplayView.m */,
 				2E0BF0F41AF8093D00C5F7BF /* PostDisplayView.xib */,
+				2EC620911B067546002FD8FF /* ScheduledPostImageView.h */,
+				2EC620921B067546002FD8FF /* ScheduledPostImageView.m */,
+				2EC620941B067575002FD8FF /* ScheduledPostImageView.xib */,
 			);
 			name = "Image Display";
 			sourceTree = "<group>";
@@ -525,6 +533,7 @@
 				2E4418891B016DA4007611C3 /* Edit@3x.png in Resources */,
 				2E4418961B016F53007611C3 /* Snooze.png in Resources */,
 				2E44189E1B016FF5007611C3 /* Instagram@3x.png in Resources */,
+				2EC620951B067575002FD8FF /* ScheduledPostImageView.xib in Resources */,
 				2E3E92F81AE1A7890048B5E8 /* Settings.bundle in Resources */,
 				2E44189D1B016FF5007611C3 /* Instagram@2x.png in Resources */,
 				2E22206A1AE60B69007D2E38 /* logo-87.png in Resources */,
@@ -620,6 +629,7 @@
 				2E6E21511ADED280002E9372 /* PostDBSingleton.m in Sources */,
 				2E6E210A1ADC53DB002E9372 /* AppDelegate.m in Sources */,
 				2E25D6081AE42C2800774220 /* CaptionInputsPageViewController.m in Sources */,
+				2EC620931B067546002FD8FF /* ScheduledPostImageView.m in Sources */,
 				2E6E214A1ADD85D5002E9372 /* PhotoTableViewCell.m in Sources */,
 				2EC620901B05B761002FD8FF /* NSTimer+Blocks.m in Sources */,
 				2E6E21071ADC53DB002E9372 /* main.m in Sources */,

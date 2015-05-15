@@ -17,6 +17,19 @@
 #include <sys/sysctl.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Localytics/Localytics.h>
+#import <pop/POP.h>
+
+@implementation VBFPopFlatButton (bigHit)
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    CGSize buttonSize = self.frame.size;
+    CGFloat widthToAdd = (44-buttonSize.width > 0) ? 44-buttonSize.width : 0;
+    CGFloat heightToAdd = (44-buttonSize.height > 0) ? 44-buttonSize.height : 0;
+    CGRect largerFrame = CGRectMake(0-(widthToAdd/2), 0-(heightToAdd/2), buttonSize.width+widthToAdd, buttonSize.height+heightToAdd);
+    return (CGRectContainsPoint(largerFrame, point)) ? self : nil;
+}
+
+@end
 
 @interface CommentEntryViewController ()
 {
@@ -388,6 +401,27 @@
             break;
     }
     self.pageControl.currentPage = pageNumber;
+}
+
+- (POPSpringAnimation*)getScaleAnimationFor:(id)view
+{
+    POPSpringAnimation *animation = [view pop_animationForKey:@"scale"];
+    if (animation == nil) {
+        animation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        animation.springBounciness = 20;
+        [view pop_addAnimation:animation forKey:@"scale"];
+    }
+    return animation;
+}
+
+- (IBAction)buttonPressed:(id)sender
+{
+    [self getScaleAnimationFor:sender].toValue = [NSValue valueWithCGPoint:CGPointMake(0.5, 0.5)];
+}
+
+- (IBAction)buttonReleased:(id)sender
+{
+     [self getScaleAnimationFor:sender].toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
 }
 
 @end
