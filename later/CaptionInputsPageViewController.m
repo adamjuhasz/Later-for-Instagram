@@ -41,6 +41,7 @@
         direction = UIPageViewControllerNavigationDirectionReverse;
     }
     [self setViewControllers:@[self.pages[pageNumber]] direction:direction animated:YES completion:nil];
+    [self.controllerDelegate inputPageChangeToPageNumber:pageNumber];
 }
 
 #pragma mark - Page View Controller Data Source
