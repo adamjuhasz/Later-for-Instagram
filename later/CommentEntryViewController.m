@@ -278,6 +278,7 @@
     NSString *lastWord = [self grabLastWordFrom:comment];
     if (hashtag.length > 4 && [lastWord isEqualToString:[NSString stringWithFormat:@"#%@", hashtag]]) {
         [self.tableViewController searchForTag:hashtag];
+        [self.inputPageController swithToPage:0];
     } else if (hashtag == nil && range.length == 0) {
         [self.tableViewController clearTable];
     }
