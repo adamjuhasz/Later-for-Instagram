@@ -1093,10 +1093,11 @@
 - (void)pushController:(UIViewController*)controller withSuccess:(void (^)(void))success
 {
     CGRect initialFrame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    controller.view.frame = initialFrame;
     
     [self addChildViewController:controller];
     [self.view addSubview:controller.view];
+
+    controller.view.frame = initialFrame;
     
     if (pushedControllerShroud != nil) {
         [pushedControllerShroud removeFromSuperview];
@@ -1119,10 +1120,12 @@
     animation.duration = 0.4;
     animation.toValue = [NSValue valueWithCGRect:self.view.bounds];
     animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-        [captionController didMoveToParentViewController:self];
-        if(success) {
-            success();
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [captionController didMoveToParentViewController:self];
+            if(success) {
+                success();
+            }
+        });
     };
     
     leftEdgeGesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(edgeSwipe:)];
