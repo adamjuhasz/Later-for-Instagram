@@ -77,6 +77,7 @@
 
 - (void)save
 {
+    [self resetNotifications];
     [NSKeyedArchiver archiveRootObject:arrayOfPosts toFile:[self filepath]];
     NSLog(@"save done");
 }
@@ -155,8 +156,6 @@
         [saveTimer invalidate];
     }
     saveTimer = [NSTimer scheduledTimerWithTimeInterval:SaveTimerTime target:self selector:@selector(save) userInfo:nil repeats:NO];
-    
-    [self resetNotifications];
 }
 
 - (void)removePost:(scheduledPostModel *)post withDelete:(BOOL)deleteAlso
@@ -174,8 +173,6 @@
     saveTimer = [NSTimer scheduledTimerWithTimeInterval:SaveTimerTime target:self selector:@selector(save) userInfo:nil repeats:NO];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kPostDBUpatedNotification object:self userInfo:nil];
-    
-    [self resetNotifications];
 }
 
 - (NSArray*)allposts

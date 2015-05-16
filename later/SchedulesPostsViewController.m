@@ -433,10 +433,10 @@
 
 - (IBAction)snoozeSelectedPost
 {
-    [[PostDBSingleton singleton] snoozePost:selectedPost];
     [self hideSelectedPost];
     [self reloadScrollView];
     
+    [[PostDBSingleton singleton] snoozePost:selectedPost];
     [Localytics tagEvent:@"SnoozeSelectedPost"];
 }
 

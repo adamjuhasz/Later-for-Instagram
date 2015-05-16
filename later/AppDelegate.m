@@ -223,7 +223,9 @@
 }
 
 - (void)application:(UIApplication *)app didReceiveLocalNotification:(UILocalNotification *)notif {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kLaterShowPostFromLocalNotification object:nil userInfo:notif.userInfo];
+    if (app.applicationState == UIApplicationStateInactive) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLaterShowPostFromLocalNotification object:nil userInfo:notif.userInfo];
+    }
 }
 
 @end
