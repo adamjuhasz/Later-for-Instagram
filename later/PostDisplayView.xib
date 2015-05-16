@@ -25,7 +25,7 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KDh-GR-Ogy">
                                             <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
-                                            <state key="normal" image="Instagram.png">
+                                            <state key="normal" image="Instagram">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -51,7 +51,7 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eJ-98-lZV">
                                             <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
-                                            <state key="normal" image="Edit.png">
+                                            <state key="normal" image="Edit">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
@@ -75,7 +75,7 @@
                                         <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hxa-BQ-G4I">
                                             <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
                                             <inset key="imageEdgeInsets" minX="11" minY="0.0" maxX="0.0" maxY="5"/>
-                                            <state key="normal" image="Snooze.png">
+                                            <state key="normal" image="Snooze">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
@@ -98,7 +98,7 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kG5-Om-60Q">
                                             <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
-                                            <state key="normal" image="Trash.png">
+                                            <state key="normal" image="Trash">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
@@ -140,9 +140,9 @@
         </view>
     </objects>
     <resources>
-        <image name="Edit.png" width="43" height="43"/>
-        <image name="Instagram.png" width="43" height="44"/>
-        <image name="Snooze.png" width="47" height="43"/>
-        <image name="Trash.png" width="40" height="43"/>
+        <image name="Edit" width="43" height="43"/>
+        <image name="Instagram" width="43" height="44"/>
+        <image name="Snooze" width="47" height="43"/>
+        <image name="Trash" width="40" height="43"/>
     </resources>
 </document>

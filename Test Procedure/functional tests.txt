@@ -1,0 +1,10 @@
+Notification tests
+- Click on notiifcation (should open app and show post with 4 buttons)
+-- Run test while app is in backgoround
+-- Run test while app is terminated
+- Snooze from notification (should NOT open app but snooze post, check by opening app)
+-- Run test while app is in backgoround
+-- Run test while app is terminated
+- Send from notification
+-- Run test while app is in backgoround
+-- Run test while app is terminated

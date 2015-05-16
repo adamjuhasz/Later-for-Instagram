@@ -34,7 +34,7 @@
                                     <action selector="loginToInstagram" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Nxi-Lp-bne"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="rGe-wM-ODw">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="rGe-wM-ODw">
                                 <rect key="frame" x="67" y="214" width="240" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="cp5-xk-nTR"/>
@@ -736,7 +736,7 @@
                                     <outlet property="delegate" destination="8Ui-eZ-74V" id="U5Q-NJ-IyZ"/>
                                 </connections>
                             </mapView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pin.png" translatesAutoresizingMaskIntoConstraints="NO" id="JXL-cg-DWT">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pin" translatesAutoresizingMaskIntoConstraints="NO" id="JXL-cg-DWT">
                                 <rect key="frame" x="170" y="71" width="111" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="GuX-Qk-RPm"/>
@@ -878,8 +878,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Pin.png" width="35" height="52"/>
+        <image name="Pin" width="35" height="52"/>
         <image name="PullDown" width="50" height="59"/>
-        <image name="logo.png" width="1024" height="1024"/>
+        <image name="logo" width="1024" height="1024"/>
     </resources>
 </document>
