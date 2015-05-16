@@ -682,15 +682,27 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="aMa-0i-6va" secondAttribute="centerX" id="1TZ-rI-8HS"/>
                             <constraint firstItem="aMa-0i-6va" firstAttribute="height" secondItem="k8Z-io-wdl" secondAttribute="height" id="3NN-5C-fXl"/>
+                            <constraint firstAttribute="centerY" secondItem="aMa-0i-6va" secondAttribute="centerY" id="3uM-1C-I8T"/>
                             <constraint firstAttribute="centerX" secondItem="k8Z-io-wdl" secondAttribute="centerX" id="6zx-bA-Wt7"/>
+                            <constraint firstAttribute="height" secondItem="aMa-0i-6va" secondAttribute="height" id="8MI-xJ-sQL"/>
                             <constraint firstAttribute="centerY" secondItem="k8Z-io-wdl" secondAttribute="centerY" id="OEy-jT-H7K"/>
                             <constraint firstItem="aMa-0i-6va" firstAttribute="centerY" secondItem="k8Z-io-wdl" secondAttribute="centerY" id="VcV-ci-uao"/>
                             <constraint firstItem="k8Z-io-wdl" firstAttribute="height" secondItem="uqt-9P-JTW" secondAttribute="height" id="aNo-jK-In1"/>
                             <constraint firstItem="aMa-0i-6va" firstAttribute="width" secondItem="k8Z-io-wdl" secondAttribute="width" id="b3x-Si-3MK"/>
                             <constraint firstItem="k8Z-io-wdl" firstAttribute="width" secondItem="uqt-9P-JTW" secondAttribute="width" id="hNn-yj-cV1"/>
+                            <constraint firstAttribute="width" secondItem="aMa-0i-6va" secondAttribute="width" id="xXx-9P-kbu"/>
                             <constraint firstItem="aMa-0i-6va" firstAttribute="centerX" secondItem="k8Z-io-wdl" secondAttribute="centerX" id="yue-HQ-klf"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="3NN-5C-fXl"/>
+                                <exclude reference="VcV-ci-uao"/>
+                                <exclude reference="b3x-Si-3MK"/>
+                                <exclude reference="yue-HQ-klf"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

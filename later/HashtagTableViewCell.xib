@@ -34,7 +34,6 @@
                 <constraint firstItem="pH1-OT-cXl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="9bI-3b-U1O"/>
                 <constraint firstItem="qLe-Dx-vZA" firstAttribute="leading" secondItem="pH1-OT-cXl" secondAttribute="trailing" constant="24" id="Anf-LG-y4j"/>
                 <constraint firstItem="qLe-Dx-vZA" firstAttribute="centerY" secondItem="pH1-OT-cXl" secondAttribute="centerY" constant="1" id="Rzc-tt-0vp"/>
-                <constraint firstAttribute="bottom" secondItem="pH1-OT-cXl" secondAttribute="bottom" constant="154" id="VBF-ne-Vvu"/>
                 <constraint firstItem="pH1-OT-cXl" firstAttribute="bottom" secondItem="qLe-Dx-vZA" secondAttribute="bottom" id="gUW-GY-VfR"/>
                 <constraint firstItem="qLe-Dx-vZA" firstAttribute="height" secondItem="pH1-OT-cXl" secondAttribute="height" id="hb9-ZM-iYv"/>
                 <constraint firstAttribute="trailing" secondItem="qLe-Dx-vZA" secondAttribute="trailing" constant="10" id="nMZ-5m-s7e"/>
@@ -46,7 +45,6 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
-                    <exclude reference="VBF-ne-Vvu"/>
                     <exclude reference="xh6-Ed-cZk"/>
                     <exclude reference="Rzc-tt-0vp"/>
                     <exclude reference="nMZ-5m-s7e"/>

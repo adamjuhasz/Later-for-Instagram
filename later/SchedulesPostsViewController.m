@@ -37,6 +37,7 @@
     scheduledPostModel *selectedPost;
     UIView* selectedPostShroud;
     UIView* pushedControllerShroud;
+    UIView *minimizedSchedulePostPanView;
     PostDisplayView *postDetailView;
     UIScreenEdgePanGestureRecognizer *leftEdgeGesture, *rightEdgeGesture;
     UIEdgeInsets initialinsets;
@@ -112,16 +113,28 @@
     postDetailView.blurView.frame = postDetailView.image.frame;
     postDetailView.buttonHolderView.center = postDetailView.image.center;
     
-    panRecognizerForMinimzedScrollView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScroll:)];
-    panRecognizerForMinimzedScrollView.enabled = NO;
-    [self.scheduledScroller addGestureRecognizer:panRecognizerForMinimzedScrollView];
-    
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressOnPhotoLibrary:)];
     longPress.allowableMovement = 4000;
     [self.collectionView addGestureRecognizer:longPress];
     
     self.addButton.currentButtonStyle = buttonRoundedStyle;
     self.addButton.roundBackgroundColor = [UIColor colorWithRed:99/255.0 green:173/255.0 blue:255/255.0 alpha:1.0];
+    
+    minimizedSchedulePostPanView = [[UIView alloc] initWithFrame:self.view.bounds];
+    [self.view insertSubview:minimizedSchedulePostPanView aboveSubview:self.scheduledScroller];
+    minimizedSchedulePostPanView.userInteractionEnabled = NO;
+    
+    panRecognizerForMinimzedScrollView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScroll:)];
+    [minimizedSchedulePostPanView addGestureRecognizer:panRecognizerForMinimzedScrollView];
+    
+    tapRecognizerForMinimizedScrollView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showScrollview)];
+    [minimizedSchedulePostPanView addGestureRecognizer:tapRecognizerForMinimizedScrollView];
+    
+    /*[RACObserve(self.topConstraint, constant) subscribeNext:^(NSNumber *number) {
+        CGRect frame = minimizedSchedulePostPanView.frame;
+        frame.origin.y = [number floatValue];
+        minimizedSchedulePostPanView.frame = frame;
+    }];*/
 }
      
 - (CGAffineTransform)transformForAddButtonWithPercent:(CGFloat)percent
@@ -226,6 +239,11 @@
     
     topLayoutConstantMin = -20;
     topLayoutConstantMax = self.view.bounds.size.height - (64);
+    
+    CGRect minimizedFrame = minimizedSchedulePostPanView.frame;
+    minimizedFrame.origin.y = topLayoutConstantMax;
+    minimizedFrame.size.height = self.view.bounds.size.height - topLayoutConstantMax;
+    minimizedSchedulePostPanView.frame = minimizedFrame;
     
     [self reloadScrollView];
     
@@ -666,18 +684,11 @@
     for (UIView *view in self.gestureInstructions) {
         view.alpha = 0;
     }
-    
-    if (velocity == 0) {
-        [Localytics tagEvent:@"ShowImageLibrary" attributes:[NSDictionary dictionaryWithObject:@"button" forKey:@"source"]];
-    } else {
-        NSDictionary *dict = [NSDictionary dictionaryWithObjects:@[@"gesture", [NSNumber numberWithFloat:velocity]] forKeys:@[@"source", @"velocity"]];
-        [Localytics tagEvent:@"ShowImageLibrary" attributes:dict];
-    }
 
     [self authorizePhotos];
     scrollViewUp = NO;
     
-    panRecognizerForMinimzedScrollView.enabled = YES;
+    minimizedSchedulePostPanView.userInteractionEnabled = YES;
     
     //---- Scroll View ---
 
@@ -753,12 +764,20 @@
         inset.velocity = [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(velocity, 0, 0, 0)];
         [self.collectionView pop_addAnimation:inset forKey:@"inset"];
     }
+    
+    if (velocity == 0) {
+        [Localytics tagEvent:@"ShowImageLibrary" attributes:[NSDictionary dictionaryWithObject:@"button" forKey:@"source"]];
+    } else {
+        NSDictionary *dict = [NSDictionary dictionaryWithObjects:@[@"gesture", [NSNumber numberWithFloat:velocity]] forKeys:@[@"source", @"velocity"]];
+        [Localytics tagEvent:@"ShowImageLibrary" attributes:dict];
+    }
     [Localytics tagScreen:@"PhotoLibrary"];
 }
 
 - (IBAction)showScrollview
 {
-    panRecognizerForMinimzedScrollView.enabled = NO;
+    minimizedSchedulePostPanView.userInteractionEnabled = NO;
+    
     [self.addButton animateToType:buttonAddType];
     
     scrollViewUp = YES;
