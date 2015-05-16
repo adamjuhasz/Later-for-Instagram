@@ -58,7 +58,10 @@
     //reset caption
     self.comments.text = @"";
     
-    self.photoExample.image = thumbnail;
+    self.photoExample.image = nil;
+    [self.locationPickerViewController setLocation:nil];
+    [self.tableViewController clearTable];
+    self.location = nil;
     
     //reset
     [self.DatePickerViewController resetDate];
@@ -87,15 +90,8 @@
     //reser table
     [self.tableViewController clearTable];
     
-    //set location
-    CLLocationCoordinate2D imageLocation = self.location.coordinate;
-    MKCoordinateRegion region;
-    region.center = imageLocation;
-    MKCoordinateSpan span;
-    span.latitudeDelta = 0.01;
-    span.longitudeDelta = 0.01;
-    region.span = span;
-    [self.locationPickerViewController.mapView setRegion:region animated:YES];
+    //set location    
+    [self.locationPickerViewController setLocation:self.location];
     
     self.pageControl.currentPage = MIN((self.pageControl.numberOfPages-1), 1);
     
@@ -398,15 +394,7 @@
             [self doneEditing:self];
             //set location
             if (self.location) {
-                CLLocationCoordinate2D imageLocation = self.location.coordinate;
-                MKCoordinateRegion region;
-                region.center = imageLocation;
-                MKCoordinateSpan span;
-                span.latitudeDelta = 0.1;
-                span.longitudeDelta = 0.1;
-                region.span = span;
-
-                [self.locationPickerViewController.mapView setRegion:region animated:YES];
+                //[self.locationPickerViewController setLocation:self.location];
                 [Localytics tagScreen:@"locationSearch"];
             }
             break;

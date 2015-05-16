@@ -9,6 +9,7 @@
 #import "MapEmbeddedViewController.h"
 #import <InstagramKit/InstagramKit.h>
 #import "HashtagTableViewCell.h"
+#import <pop/POP.h>
 
 @interface MapEmbeddedViewController ()
 {
@@ -17,6 +18,7 @@
     NSSet *nearbyTags;
     NSInteger protectionTag;
     CLLocation *_initialLocation;
+    CLLocation *currentLocation;
 }
 @end
 
@@ -34,6 +36,8 @@
     if (self.initialLocation) {
         self.resetButton.hidden = NO;
     }
+    
+    [self setLocation:currentLocation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -189,6 +193,48 @@
     if (self.initialLocation) {
         [self.mapView setCenterCoordinate:self.initialLocation.coordinate animated:YES];
     }
+}
+
+- (void)setLocation:(CLLocation*)location
+{
+    currentLocation = location;
+    
+    if (location == nil) {
+        self.warningView.hidden = NO;
+        POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        animation.toValue = @(1.0);
+        [self.warningView pop_addAnimation:animation forKey:@"alpha"];
+    } else {
+        self.warningView.hidden = YES;
+        
+        CLLocationCoordinate2D imageLocation = location.coordinate;
+        MKCoordinateRegion region;
+        region.center = imageLocation;
+        MKCoordinateSpan span;
+        span.latitudeDelta = 0.01;
+        span.longitudeDelta = 0.01;
+        region.span = span;
+        [self.mapView setRegion:region animated:YES];
+    }
+}
+
+- (IBAction)clearWarning:(id)sender
+{
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+    animation.toValue = @(0.0);
+    animation.completionBlock = ^(POPAnimation *anim, BOOL finished){
+        self.warningView.hidden = YES;
+    };
+    [self.warningView pop_addAnimation:animation forKey:@"alpha"];
+    
+    CLLocationCoordinate2D imageLocation = CLLocationCoordinate2DMake(39.833333, -98.583333);
+    MKCoordinateRegion region;
+    region.center = imageLocation;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 39;
+    span.longitudeDelta = 39;
+    region.span = span;
+    [self.mapView setRegion:region animated:YES];
 }
 
 @end

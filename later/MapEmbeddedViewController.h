@@ -22,7 +22,9 @@
 @property IBOutlet UITableView *locationTable;
 @property id <LocationHolderDelegate> delegate;
 @property CLLocation *initialLocation;
+@property IBOutlet UIView *warningView;
 
 - (IBAction)resetLocation:(id)sender;
+- (void)setLocation:(CLLocation*)location;
 
 @end

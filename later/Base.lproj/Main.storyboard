@@ -792,7 +792,7 @@
                                 <rect key="frame" x="382" y="154" width="57" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIk-wx-Rr2">
-                                        <rect key="frame" x="0.0" y="1" width="57" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="57" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="2pc-Lt-9bN"/>
                                             <constraint firstAttribute="width" constant="46" id="aoq-sB-QU4"/>
@@ -833,23 +833,67 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pqT-a2-RqL">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="360"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="No location in photo, would you like to pick one?" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nGU-s5-LOn">
+                                        <rect key="frame" x="0.0" y="126" width="450" height="39"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="450" id="3Rw-uR-HlW"/>
+                                            <constraint firstAttribute="height" constant="39" id="O7g-0A-d4T"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b7W-cA-yn2">
+                                        <rect key="frame" x="158" y="165" width="134" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="Zqc-rZ-RNw"/>
+                                            <constraint firstAttribute="width" constant="134" id="bFh-2v-Ptu"/>
+                                        </constraints>
+                                        <state key="normal" title="Browse Map">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="b7W-cA-yn2" secondAttribute="centerY" id="SdM-av-Y6f"/>
+                                    <constraint firstItem="b7W-cA-yn2" firstAttribute="centerX" secondItem="nGU-s5-LOn" secondAttribute="centerX" id="bYo-Fo-jPd"/>
+                                    <constraint firstAttribute="centerX" secondItem="b7W-cA-yn2" secondAttribute="centerX" id="glB-jO-3Sg"/>
+                                    <constraint firstItem="b7W-cA-yn2" firstAttribute="top" secondItem="nGU-s5-LOn" secondAttribute="bottom" id="zyB-uw-ABm"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="tSo-Re-JpT" appends="YES" id="1wA-HH-ZgI"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="width" secondItem="pqT-a2-RqL" secondAttribute="width" id="3bg-lZ-a6K"/>
                             <constraint firstAttribute="height" secondItem="zu7-fC-MdP" secondAttribute="height" id="5UF-UA-gdw"/>
+                            <constraint firstAttribute="centerX" secondItem="pqT-a2-RqL" secondAttribute="centerX" id="67u-du-jx8"/>
                             <constraint firstItem="5TQ-b5-ssH" firstAttribute="top" secondItem="lL6-lT-WxQ" secondAttribute="bottom" id="BwN-BN-xQw"/>
                             <constraint firstItem="JXL-cg-DWT" firstAttribute="centerY" secondItem="A8g-y8-0bq" secondAttribute="centerY" constant="-15" id="C8F-A0-rMg"/>
                             <constraint firstItem="lL6-lT-WxQ" firstAttribute="top" secondItem="A8g-y8-0bq" secondAttribute="bottom" constant="2" id="EYF-jM-lmc"/>
                             <constraint firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="Hni-FC-Tkn"/>
                             <constraint firstItem="zu7-fC-MdP" firstAttribute="centerX" secondItem="lL6-lT-WxQ" secondAttribute="centerX" id="J0X-L6-ooD"/>
+                            <constraint firstAttribute="height" secondItem="pqT-a2-RqL" secondAttribute="height" id="KvR-ZE-ZFq"/>
                             <constraint firstAttribute="centerY" secondItem="zu7-fC-MdP" secondAttribute="centerY" id="QM5-mw-Pef"/>
+                            <constraint firstAttribute="centerY" secondItem="pqT-a2-RqL" secondAttribute="centerY" id="RK4-4G-6G5"/>
                             <constraint firstItem="A8g-y8-0bq" firstAttribute="top" secondItem="xcd-RD-mjK" secondAttribute="bottom" id="RlF-F1-MaF"/>
+                            <constraint firstItem="A8g-y8-0bq" firstAttribute="centerX" secondItem="pqT-a2-RqL" secondAttribute="centerX" id="TGY-Js-dhA"/>
                             <constraint firstAttribute="width" secondItem="A8g-y8-0bq" secondAttribute="width" id="X37-qn-ALl"/>
+                            <constraint firstItem="A8g-y8-0bq" firstAttribute="height" secondItem="pqT-a2-RqL" secondAttribute="height" id="agf-mv-jL3"/>
                             <constraint firstItem="zu7-fC-MdP" firstAttribute="centerY" secondItem="lL6-lT-WxQ" secondAttribute="centerY" id="dAA-zD-QH5"/>
+                            <constraint firstItem="A8g-y8-0bq" firstAttribute="width" secondItem="pqT-a2-RqL" secondAttribute="width" id="e1W-iw-Nsy"/>
                             <constraint firstAttribute="width" secondItem="zu7-fC-MdP" secondAttribute="width" id="kna-VR-PWk"/>
                             <constraint firstItem="zu7-fC-MdP" firstAttribute="height" secondItem="lL6-lT-WxQ" secondAttribute="height" id="lGb-qm-YIo"/>
                             <constraint firstItem="A8g-y8-0bq" firstAttribute="bottom" secondItem="VMB-oO-8Uf" secondAttribute="bottom" constant="6" id="lGp-7Q-UlS"/>
                             <constraint firstItem="lL6-lT-WxQ" firstAttribute="width" secondItem="0k7-f7-AUG" secondAttribute="width" id="lSj-13-115"/>
+                            <constraint firstItem="A8g-y8-0bq" firstAttribute="centerY" secondItem="pqT-a2-RqL" secondAttribute="centerY" id="pkg-hB-RsT"/>
                             <constraint firstItem="JXL-cg-DWT" firstAttribute="centerX" secondItem="A8g-y8-0bq" secondAttribute="centerX" id="thn-tR-izh"/>
                             <constraint firstAttribute="centerX" secondItem="zu7-fC-MdP" secondAttribute="centerX" id="vN2-IZ-r7x"/>
                             <constraint firstItem="zu7-fC-MdP" firstAttribute="width" secondItem="lL6-lT-WxQ" secondAttribute="width" id="vvS-5e-gW5"/>
@@ -858,6 +902,10 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="TGY-Js-dhA"/>
+                                <exclude reference="agf-mv-jL3"/>
+                                <exclude reference="e1W-iw-Nsy"/>
+                                <exclude reference="pkg-hB-RsT"/>
                                 <exclude reference="5UF-UA-gdw"/>
                                 <exclude reference="QM5-mw-Pef"/>
                                 <exclude reference="kna-VR-PWk"/>
@@ -872,11 +920,34 @@
                         <outlet property="locationTable" destination="lL6-lT-WxQ" id="TvD-kb-pva"/>
                         <outlet property="mapView" destination="A8g-y8-0bq" id="R2C-ZJ-wd7"/>
                         <outlet property="resetButton" destination="VMB-oO-8Uf" id="egv-M1-0Lh"/>
+                        <outlet property="warningView" destination="pqT-a2-RqL" id="bqQ-XN-6Yk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xgs-h5-BhE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="tSo-Re-JpT">
+                    <connections>
+                        <action selector="clearWarning:" destination="8Ui-eZ-74V" id="kka-7M-nan"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2172" y="80"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="bCY-aQ-YwG">
+            <objects>
+                <viewController id="t3y-Qe-rO6" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aXz-eD-fKz"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ge6-EG-UVq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="spe-IF-Jim">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uip-oX-dtQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
