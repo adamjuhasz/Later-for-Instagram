@@ -645,7 +645,7 @@
         return;
     }
     
-    if ((velocity.y < -1.0 && scrollView.contentOffset.y < -100) || (scrollView.contentOffset.y < -150)) {
+    if ((velocity.y < -1.0 && scrollView.contentOffset.y < -100) || (scrollView.contentOffset.y < -150 && velocity.y <= 0)) {
         *targetContentOffset = CGPointZero;
         self.topConstraint.constant = scrollView.contentOffset.y * -1;
         [self.scheduledScroller layoutIfNeeded];

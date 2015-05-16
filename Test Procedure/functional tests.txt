@@ -8,3 +8,13 @@ Notification tests
 - Send from notification
 -- Run test while app is in backgoround
 -- Run test while app is terminated
+
+Scheduled Posts
+- Click + button (post screen should slide down)
+- Click x button (post should slide up)
+- While posts are minimized click on minimized frame (post should slide up)
+- Pull down on posts but end with swipe up (posts should slide back up)
+- Swipe down quickly on posts (post should slide down)
+- Click on post (shold show post with 4 buttons starting from preview frame, while also hiding preview)
+- Click on shroud (should close post to preview frame)
+-
