@@ -70,7 +70,11 @@ Post Display View
 ◻︎ Click post (post should pop up out of thumbnails frame, thumbnail should not be visible)
 ◻︎ Click shroud (post should return to thumbnails frame)
 ◻︎ Click snooze button (post should return to new location of frame)
-◻︎ Edit
-◻︎ Delete
+◻︎ Click delete, close & terminate app, re open app (post should be deleted)
+
+Send to Instagram
+◻︎ Caption correct
+◻︎ Cropping correct
+◻︎ Location correct
 
 Hashtag search with network degradation 
