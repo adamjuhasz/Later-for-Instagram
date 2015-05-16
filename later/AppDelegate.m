@@ -14,6 +14,7 @@
 #import <ImageIO/ImageIO.h>
 #import "NotificationStrings.h"
 #import <Localytics/Localytics.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface AppDelegate ()
 
@@ -65,6 +66,11 @@
     if (accessToken) {
         [[InstagramEngine sharedEngine] setAccessToken:accessToken];
     }
+    [RACObserve([InstagramEngine sharedEngine], accessToken) subscribeNext:^(NSString *accessToken) {
+        if (accessToken == nil) {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"instagramAccessToken"];
+        }
+    }];
 
     [self setBadge];
     return YES;

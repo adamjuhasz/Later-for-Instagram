@@ -73,7 +73,7 @@
     
     initialinsets = UIEdgeInsetsMake(20, 0, 70, 0);
     self.scheduledScroller.contentInset = initialinsets;
-    self.scheduledScroller.scrollIndicatorInsets = self.scheduledScroller.contentInset;
+    self.scheduledScroller.scrollIndicatorInsets = UIEdgeInsetsMake(20, 0, 0, 0);;
     self.scheduledScroller.clipsToBounds = YES;
     scrollViewUp = YES;
     
@@ -238,7 +238,7 @@
     [super viewDidAppear:animated];
     
     topLayoutConstantMin = -20;
-    topLayoutConstantMax = self.view.bounds.size.height - (64);
+    topLayoutConstantMax = CGRectGetMidY(self.addButton.frame) - 20;
     
     CGRect minimizedFrame = minimizedSchedulePostPanView.frame;
     minimizedFrame.origin.y = topLayoutConstantMax;

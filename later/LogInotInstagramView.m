@@ -10,11 +10,19 @@
 #import <InstagramKit/InstagramKit.h>
 #import "NotificationStrings.h"
 #import <Localytics/Localytics.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation LogInotInstagramView
 
 - (void)commonInit
 {
+    [RACObserve([InstagramEngine sharedEngine], accessToken) subscribeNext:^(NSString *accessToken) {
+        if (accessToken == nil) {
+            self.hidden = NO;
+        } else {
+            NSLog(@"token is now alive");
+        }
+    }];
     if ([[InstagramEngine sharedEngine] accessToken]) {
         self.hidden = YES;
     }
