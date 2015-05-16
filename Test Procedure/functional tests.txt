@@ -1,20 +1,76 @@
 Notification tests
-- Click on notiifcation (should open app and show post with 4 buttons)
--- Run test while app is in backgoround
--- Run test while app is terminated
-- Snooze from notification (should NOT open app but snooze post, check by opening app)
--- Run test while app is in backgoround
--- Run test while app is terminated
-- Send from notification
--- Run test while app is in backgoround
--- Run test while app is terminated
+◻︎ Click on notification (should open app and show post with 4 buttons)
+◻︎ -Run test while app is in background
+◻︎ -Run test while app is terminated
+◻︎ Snooze from notification (should NOT open app but snooze post, check by opening app)
+◻︎ -Run test while app is in background
+◻︎ -Run test while app is terminated
+◻︎ Send from notification
+◻︎ -Run test while app is in background
+◻︎ -Run test while app is terminated
 
 Scheduled Posts
-- Click + button (post screen should slide down)
-- Click x button (post should slide up)
-- While posts are minimized click on minimized frame (post should slide up)
-- Pull down on posts but end with swipe up (posts should slide back up)
-- Swipe down quickly on posts (post should slide down)
-- Click on post (shold show post with 4 buttons starting from preview frame, while also hiding preview)
-- Click on shroud (should close post to preview frame)
--
+(button behavior)
+◻︎ Click + button (post screen should slide down)
+◻︎ Click x button (post should slide up)
+(swipe down behavior)
+◻︎ Pull down on posts but end with swipe up (posts should slide back up)
+◻︎ Pull down on posts quickly (posts should slide down)
+◻︎ Pull down on posts to bottom but let go with zero velocity(posts should slide down)
+◻︎ Swipe down quickly on posts (post should slide down)
+(return behavior)
+◻︎ While posts are minimized click on minimized frame (post should slide up)
+◻︎ Swipe up from minimized posts all the way(post should follow finger then slide up)
+◻︎ Swipe up from minimized posts but then flick down (posts should minimize)
+◻︎ Scroll photo library down, swipe up and flick down posts (photo library should not scroll)
+(button/swipe integration)
+◻︎ Swipe down on posts, click x to close (posts should go up)
+◻︎ Click +, swipe up on posts (posts should go up)
+◻︎ Click +, click on posts (posts should go up)
+(post display behavior)
+◻︎ Click on post (should show post with 4 buttons starting from preview frame, while also hiding preview)
+◻︎ Click on shroud (should close post to preview frame)
+◻︎ Long hold on a post, the sent to Instagram sheet should slide up
+
+Photo Library
+◻︎ Long tap on a thumbnail (preview should zoom out)
+◻︎ Long tap on a thumbnail, pan to another thumbnail (preview should change)
+◻︎ Long tap on a thumbnail, pan to another thumbnail and release (preview should go to image’s thumbnail)
+◻︎ Tap a thumbnail (should open caption editor)
+◻︎ Select a thumbnail, return to photo library and select a new thumbnail (caption editor should have new image)
+
+Caption Editor
+(swipe behavior)
+◻︎ Swipe from left edge of screen 1/3 of screen, release (should drop back toward left side)
+◻︎ Swipe from left edge of screen all the way, flick back to left side (should drop back toward left side with same velocity)
+◻︎ Swipe from right edge of screen 1/3 of screen, release (should drop back toward right side)
+◻︎ Swipe from right edge of screen all the way, flick back to right side (should drop back toward right side with same velocity)
+◻︎ Swipe from left edge of screen all the way (should show photo library)
+◻︎ Swipe from right edge of screen all the way (should save post)
+(Button behavior)
+◻︎ Click back button (should show photo library
+(page swipe behavior)
+◻︎ Swipe left to hashtag page (keyboard should appear)
+◻︎ Swipe from hashtag page to schedule page (keyboard should disappear)
+◻︎ Swipe to map page and click text (should move to table page and show keyboard)
+(hashtag page)
+◻︎ From schedule page start typing ‘#hasht’ (on t, page should move to hashtag page and search
+◻︎ Click a hashtag on the list (hashtag inserted with no extra or missing characters, space added after it, similar hashtags should appear)
+◻︎ Click a similar hashtag (hashtag inserted with no extra or missing characters, space added after it, similar hashtags should appear)
+(map page)
+◻︎ move map (locations should appear)
+◻︎ click a location (hashtags should appear)
+◻︎ click a hashtag (text should be added to the caption)
+
+Post save integrity
+◻︎ Edit text of a Post, save, re-open post (text should be the same)
+◻︎ Edit location of a Post, save, re-open post (location should be the same)
+
+Post Display View
+◻︎ Click post (post should pop up out of thumbnails frame, thumbnail should not be visible)
+◻︎ Click shroud (post should return to thumbnails frame)
+◻︎ Click snooze button (post should return to new location of frame)
+◻︎ Edit
+◻︎ Delete
+
+Hashtag search with network degradation 

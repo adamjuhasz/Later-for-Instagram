@@ -270,6 +270,7 @@
                                             <action selector="buttonPressed:" destination="Z6d-KB-Dgc" eventType="touchDown" id="nst-Q0-AEK"/>
                                             <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="Mwc-Qm-cPm"/>
                                             <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchUpOutside" id="cbO-4S-ZDr"/>
+                                            <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchCancel" id="vJN-ix-jU0"/>
                                             <action selector="doneButtonTapped:" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="L3k-bD-lhD"/>
                                         </connections>
                                     </button>
@@ -288,6 +289,7 @@
                                             <action selector="buttonPressed:" destination="Z6d-KB-Dgc" eventType="touchDown" id="pNX-CQ-f4e"/>
                                             <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="1Yn-jf-kcy"/>
                                             <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchUpOutside" id="EPB-YH-dSC"/>
+                                            <action selector="buttonReleased:" destination="Z6d-KB-Dgc" eventType="touchCancel" id="cDY-m8-4Dt"/>
                                             <action selector="goBack" destination="Z6d-KB-Dgc" eventType="touchUpInside" id="hRr-0o-eIj"/>
                                         </connections>
                                     </button>

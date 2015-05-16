@@ -433,10 +433,25 @@
 
 - (IBAction)snoozeSelectedPost
 {
-    [self hideSelectedPost];
-    [self reloadScrollView];
+    selectedPost = [[PostDBSingleton singleton] snoozePost:selectedPost];
     
-    [[PostDBSingleton singleton] snoozePost:selectedPost];
+    CGFloat border = 4;
+    CGFloat columns = 2;
+    CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
+    CGRect mainRect = CGRectMake(0, border, width, width);
+    CGRect currrentFrame = CGRectZero;
+    NSArray *allPosts = [[PostDBSingleton singleton] allposts];
+    NSInteger index = [allPosts indexOfObject:selectedPost];
+    if (index != NSNotFound) {
+        int column = index % 2;
+        int row = floor(index / 2.0);
+        currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
+        returnImageRect = [self.view convertRect:currrentFrame fromView:self.scheduledScroller];
+        viewSelected = [self.scheduledScroller viewWithTag:index];
+        viewSelected.hidden  = YES;
+    }
+    [self hideSelectedPost];
+
     [Localytics tagEvent:@"SnoozeSelectedPost"];
 }
 
@@ -1040,7 +1055,7 @@
     pushedControllerShroud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
     pushedControllerShroud.alpha = 0.0;
 
-    [self.view insertSubview:pushedControllerShroud belowSubview:controller.view];
+    [self.view insertSubview:pushedControllerShroud belowSubview:self.menuBar];
     
     [RACObserve(captionController, view.frame) subscribeNext:^(NSValue *frame) {
         CGRect viewsFrame = [frame CGRectValue];
@@ -1064,13 +1079,13 @@
     
     leftEdgeGesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(edgeSwipe:)];
     leftEdgeGesture.edges = UIRectEdgeLeft;
-    leftEdgeGesture.delaysTouchesBegan = YES;
+    leftEdgeGesture.delaysTouchesBegan = NO;
     leftEdgeGesture.delegate = self;
     [self.view addGestureRecognizer:leftEdgeGesture];
     
     rightEdgeGesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(edgeSwipe:)];
     rightEdgeGesture.edges = UIRectEdgeRight;
-    rightEdgeGesture.delaysTouchesBegan = YES;
+    rightEdgeGesture.delaysTouchesBegan = NO;
     rightEdgeGesture.delegate = self;
     [self.view addGestureRecognizer:rightEdgeGesture];
     

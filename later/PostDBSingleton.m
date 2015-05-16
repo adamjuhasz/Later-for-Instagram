@@ -9,7 +9,7 @@
 #import "PostDBSingleton.h"
 #import <UIKit/UIKit.h>
 
-#define SaveTimerTime 5.0
+#define SaveTimerTime 2.0
 
 @interface UIImage (deepCopy)
 - (UIImage*)deepCopy;
@@ -210,7 +210,7 @@
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
 }
 
-- (void)snoozePost:(scheduledPostModel*)post
+- (scheduledPostModel*)snoozePost:(scheduledPostModel*)post
 {
     NSTimeInterval snoozeTime = 60*(60)+20;  //1 hour and 1 min
     
@@ -226,6 +226,7 @@
     
     [self removePost:post withDelete:NO];
     [self addPost:newPost];
+    return newPost;
 }
 
 - (scheduledPostModel*)postForKey:(NSString *)key
