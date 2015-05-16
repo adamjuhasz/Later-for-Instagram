@@ -81,6 +81,59 @@
     NSLog(@"save done");
 }
 
+- (void)setNotificationForPost:(scheduledPostModel*)object
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
+        [self registerToSupplyNotifications];
+        
+        UILocalNotification *theNotification = [[UILocalNotification alloc] init];
+        theNotification.fireDate = object.postTime;
+        theNotification.timeZone = [NSTimeZone localTimeZone];
+        if (object.postCaption.length > 0) {
+            theNotification.alertBody = [NSString stringWithFormat:@"It's time to send \"%@\"", object.postCaption];
+        } else {
+            theNotification.alertBody = [NSString stringWithFormat:@"It's time to send a post"];
+        }
+        theNotification.alertAction = @"Send";
+        if ([theNotification respondsToSelector:@selector(setAlertTitle:)]) {
+            //only ios 8.2
+            theNotification.alertTitle = @"Post scheduled";
+        }
+        theNotification.applicationIconBadgeNumber = [arrayOfPosts indexOfObject:object]+1;
+        theNotification.userInfo = [NSDictionary dictionaryWithObject:object.key forKey:@"key"];
+        if ([theNotification respondsToSelector:@selector(setCategory:)]) {
+            //only ios 8.2
+            theNotification.category = @"standard";
+        }
+        theNotification.soundName = @"TrainStation.wav";
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] scheduleLocalNotification:theNotification];
+        });
+    });
+}
+
+- (void)removeNotificationForPost:(scheduledPostModel*)post
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
+        NSArray *notifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+        for (UILocalNotification *aNotification in notifications) {
+            NSString *key = [aNotification.userInfo objectForKey:@"key"];
+            if ([key isEqualToString:post.key]) {
+                [[UIApplication sharedApplication] cancelLocalNotification:aNotification];
+            }
+        }
+    });
+}
+
+-(void)resetNotifications
+{
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    for (scheduledPostModel *post in arrayOfPosts) {
+        [self setNotificationForPost:post];
+    }
+}
+
 - (void)addPost:(scheduledPostModel*)object
 {
     BOOL inserted = NO;
@@ -92,46 +145,18 @@
             break;
         }
     }
-    if (!inserted)
+    if (!inserted) {
         [arrayOfPosts addObject:object];
+    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kPostDBUpatedNotification object:self userInfo:[NSDictionary dictionaryWithObject:object forKey:kPostThatWasAddedToSingleton]];
     
     if (saveTimer) {
         [saveTimer invalidate];
     }
+    saveTimer = [NSTimer scheduledTimerWithTimeInterval:SaveTimerTime target:self selector:@selector(save) userInfo:nil repeats:NO];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
-        [self registerToSupplyNotifications];
-        
-        UILocalNotification *theNotification = [[UILocalNotification alloc] init];
-        theNotification.fireDate = object.postTime;
-        theNotification.timeZone = [NSTimeZone localTimeZone];
-        theNotification.alertBody = [NSString stringWithFormat:@"It's time to send \"%@\"", object.postCaption];
-        theNotification.alertAction = @"Send";
-        if ([theNotification respondsToSelector:@selector(setAlertTitle:)]) {
-            //only ios 8.2
-            theNotification.alertTitle = @"Post scheduled";
-        }
-        theNotification.applicationIconBadgeNumber = 1;
-        theNotification.userInfo = [NSDictionary dictionaryWithObject:object.key forKey:@"key"];
-        if ([theNotification respondsToSelector:@selector(setCategory:)]) {
-            //only ios 8.2
-            theNotification.category = @"standard";
-        }
-        theNotification.soundName = @"TrainStation.wav";
-        
-        object.postLocalNotification = theNotification;
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-
-            saveTimer = [NSTimer scheduledTimerWithTimeInterval:SaveTimerTime target:self selector:@selector(save) userInfo:nil repeats:NO];
-            [[UIApplication sharedApplication] scheduleLocalNotification:theNotification];
-        });
-    });
-    
-    
-    
+    [self resetNotifications];
 }
 
 - (void)removePost:(scheduledPostModel *)post withDelete:(BOOL)deleteAlso
@@ -143,21 +168,14 @@
         [[NSFileManager defaultManager] removeItemAtPath:post.postImageLocation error:&error];
     }
     
-    UILocalNotification *notification = post.postLocalNotification;
-    NSArray *notifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
-    for (UILocalNotification *aNotification in notifications) {
-        NSString *key = [notification.userInfo objectForKey:@"key"];
-        if ([key isEqualToString:post.key]) {
-            [[UIApplication sharedApplication] cancelLocalNotification:aNotification];
-        }
-    }
-    
     if (saveTimer) {
         [saveTimer invalidate];
     }
     saveTimer = [NSTimer scheduledTimerWithTimeInterval:SaveTimerTime target:self selector:@selector(save) userInfo:nil repeats:NO];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kPostDBUpatedNotification object:self userInfo:nil];
+    
+    [self resetNotifications];
 }
 
 - (NSArray*)allposts

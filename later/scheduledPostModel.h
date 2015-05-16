@@ -17,7 +17,6 @@
 @property NSString *postCaption;
 @property (readonly) NSString *postImageLocation;
 @property UIImage *postImage;
-@property UILocalNotification *postLocalNotification;
 @property CLLocation *postLocation;
 @property CLLocation *postEditedLocation;
 
