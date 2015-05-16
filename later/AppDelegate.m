@@ -24,6 +24,11 @@
 
 - (void)setBadge
 {
+    UIUserNotificationSettings *currentNotificationSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    if ((currentNotificationSettings.types & UIUserNotificationTypeBadge) != UIUserNotificationTypeBadge) {
+        return;
+    }
+    
     NSArray *posts = [[PostDBSingleton singleton] allposts];
     NSInteger pastDuePosts = 0;
     for (scheduledPostModel *post in posts) {
@@ -72,6 +77,8 @@
         }
     }];
 
+    NSLog(@"%@", [[UIApplication sharedApplication] scheduledLocalNotifications]);
+    
     [self setBadge];
     return YES;
 }
@@ -112,7 +119,8 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    [[PostDBSingleton singleton] save];
+    [self setBadge];
+    
     [Localytics closeSession];
     [Localytics upload];
 }
@@ -120,6 +128,8 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     [self setBadge];
+    NSLog(@"%@", [[UIApplication sharedApplication] scheduledLocalNotifications]);
+    
     [Localytics openSession];
     [Localytics upload];
 }
