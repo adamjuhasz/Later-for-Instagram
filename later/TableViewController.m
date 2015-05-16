@@ -53,7 +53,7 @@
     NSInteger count = [[tag objectForKey:@"count"] integerValue];
     if (count > 0) {
         NSString *tagCount;
-        if (count > 10000000) {
+        if (count > 1000000000) {
             tagCount = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:[NSNumber numberWithInteger:count]]];
         } else {
             tagCount = [NSString stringWithFormat:@"%@ posts", [formatter stringFromNumber:[NSNumber numberWithInteger:count]]];

@@ -296,6 +296,16 @@
 
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath
 {
+    NSArray *hashtags = [self hashtagsInString:self.comments.text];
+    for (NSString *hashtag in hashtags) {
+        if ([hashtag isEqualToString:selectedTag]) {
+            if ([self.comments.text characterAtIndex:(self.comments.text.length-1)] != ' ') {
+                NSString *newComment = [NSString stringWithFormat:@"%@ ", self.comments.text];
+                self.comments.text = newComment;
+            }
+            return;
+        }
+    }
     NSString *writtenTag = [self grabLastHashtagFrom:self.comments.text];
     NSString *appendText;
     if (writtenTag != nil) {
