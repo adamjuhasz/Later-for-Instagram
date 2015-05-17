@@ -51,12 +51,35 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [RACObserve(self.hashtagCount, text) subscribeNext:^(NSString *text) {
+        POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        animation.toValue = [NSValue valueWithCGPoint:CGPointMake(2.0, 2.0)];
+        animation.duration = 0.1;
+        animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            POPBasicAnimation *animate = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+            animate.fromValue = [NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)];
+            animate.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
+            [self.hashtagCount pop_addAnimation:animate forKey:@"scale"];
+        };
+        
+        POPBasicAnimation *animationAlpha = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        animationAlpha.toValue = @(0.0);
+        animationAlpha.duration = animation.duration;
+        animationAlpha.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            self.hashtagCount.alpha = 1.0;
+        };
+        
+        [self.hashtagCount pop_addAnimation:animationAlpha forKey:@"alpha"];
+        [self.hashtagCount pop_addAnimation:animation forKey:@"scale"];
+    }];
 }
 
 - (void)resetView
 {
     //reset caption
     self.comments.text = @"";
+    self.hashtagCount.text = @"";
     
     self.photoExample.image = nil;
     [self.locationPickerViewController setLocation:nil];
@@ -73,6 +96,7 @@
     
     if (self.post) {
         self.comments.text = self.post.postCaption;
+        self.hashtagCount.text = [NSString stringWithFormat:@"%ld", (long)[self hashtagsInString:self.comments.text].count];
         [self setThumbnail:self.post.postImage];
         [self setPhoto:self.post.postImage];
         self.location = self.post.postEditedLocation;
@@ -92,6 +116,12 @@
     
     //set location    
     [self.locationPickerViewController setLocation:self.location];
+    
+    if ([self.comments.text isEqualToString:@""]) {
+        self.comments.text = @" #laterapp";
+        NSRange selectionRange = {0,0};
+        [self.comments setSelectedRange:selectionRange];
+    }
     
     self.pageControl.currentPage = MIN((self.pageControl.numberOfPages-1), 1);
     
@@ -268,18 +298,64 @@
     [self.doneButton animateToType:buttonDownloadType];
 }
 
+- (NSString*)stringFrom:(NSString*)string withRange:(NSRange)range
+{
+    NSMutableString *beforeText = [NSMutableString string];
+    for (NSInteger i=range.location-1; i>=0; i--) {
+        if ([string characterAtIndex:i] == ' ') {
+            break;
+        } else {
+            [beforeText insertString:[NSString stringWithFormat:@"%c", [string characterAtIndex:i]] atIndex:0];
+        }
+    }
+    for (NSInteger i=range.location; i<string.length; i++) {
+        if ([string characterAtIndex:i] == ' ') {
+            break;
+        } else {
+            [beforeText insertString:[NSString stringWithFormat:@"%c", [string characterAtIndex:i]] atIndex:beforeText.length];
+        }
+    }
+    return beforeText;
+}
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     [self.doneButton animateToType:buttonOkType];
-    
+   
     NSString *comment = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    NSString *hashtag = [self grabLastHashtagFrom:comment];
-    NSString *lastWord = [self grabLastWordFrom:comment];
+    NSMutableString *beforeText = [NSMutableString string];
+    if (range.length > 0) {
+        range.location = range.location - range.length + text.length + 1;
+    }
+    for (NSInteger i=range.location-1; i>=0; i--) {
+        if ([comment characterAtIndex:i] == ' ') {
+            break;
+        } else {
+            [beforeText insertString:[NSString stringWithFormat:@"%c", [comment characterAtIndex:i]] atIndex:0];
+        }
+    }
+    if (range.length > 0) {
+        range.location = range.location ;
+    }
+    for (NSInteger i=range.location; i<comment.length; i++) {
+        if ([comment characterAtIndex:i] == ' ') {
+            break;
+        } else {
+            [beforeText insertString:[NSString stringWithFormat:@"%c", [comment characterAtIndex:i]] atIndex:beforeText.length];
+        }
+    }
+    
+    NSString *hashtag = [self grabLastHashtagFrom:beforeText];
+    NSString *lastWord = [self grabLastWordFrom:beforeText];
     if (hashtag.length > 4 && [lastWord isEqualToString:[NSString stringWithFormat:@"#%@", hashtag]]) {
         [self.tableViewController searchForTag:hashtag];
         [self.inputPageController swithToPage:0];
     } else if (hashtag == nil && range.length == 0) {
         [self.tableViewController clearTable];
+    }
+    
+    if ([self.hashtagCount.text isEqualToString:[NSString stringWithFormat:@"%ld", (long)[self hashtagsInString:comment].count]] == NO) {
+        self.hashtagCount.text = [NSString stringWithFormat:@"%ld", (long)[self hashtagsInString:comment].count];
     }
     
     return YES;
@@ -292,17 +368,28 @@
 
 - (void)didSelectHashtag:(NSString *)selectedTag atIndexPath:(NSIndexPath*)indexPath
 {
+    NSRange selectedRange = [self.comments selectedRange];
+    NSString *selectedHash = [self stringFrom:self.comments.text withRange:self.comments.selectedRange];
+    
     NSArray *hashtags = [self hashtagsInString:self.comments.text];
     for (NSString *hashtag in hashtags) {
         if ([hashtag isEqualToString:selectedTag]) {
-            if ([self.comments.text characterAtIndex:(self.comments.text.length-1)] != ' ') {
-                NSString *newComment = [NSString stringWithFormat:@"%@ ", self.comments.text];
-                self.comments.text = newComment;
+            if (selectedRange.location >= self.comments.text.length) {
+                selectedRange.location--;
+                selectedRange.length = 1;
+            }
+            if ([self.comments.text characterAtIndex:selectedRange.location] != ' ') {
+                NSMutableString *newMutableString = [self.comments.text mutableCopy];
+                [newMutableString insertString:@" " atIndex:self.comments.selectedRange.location];
+                self.comments.text = newMutableString;
+                selectedRange.location = selectedRange.location + 1 + selectedRange.length;
+                [self.comments setSelectedRange:selectedRange];
             }
             return;
         }
     }
-    NSString *writtenTag = [self grabLastHashtagFrom:self.comments.text];
+    
+    NSString *writtenTag = [self grabLastHashtagFrom:selectedHash];
     NSString *appendText;
     if (writtenTag != nil) {
         NSRange subRange = [selectedTag rangeOfString:writtenTag];
@@ -324,8 +411,18 @@
     } else {
         appendText = [NSString stringWithFormat:@"#%@", selectedTag];
     }
-    NSString *newComment = [NSString stringWithFormat:@"%@%@ ", self.comments.text, appendText];
-    self.comments.text = newComment;
+    NSMutableString *newMutableString = [self.comments.text mutableCopy];
+    if ((self.comments.selectedRange.location > self.comments.text.length && [self.comments.text characterAtIndex:self.comments.selectedRange.location+1] != ' ') || self.comments.selectedRange.location == self.comments.text.length ) {
+        appendText = [NSString stringWithFormat:@"%@ ", appendText];
+    }
+    [newMutableString insertString:appendText atIndex:self.comments.selectedRange.location];
+    self.comments.text = newMutableString;
+    NSRange selectionRange = NSMakeRange(selectedRange.location + appendText.length, 0);
+    [self.comments setSelectedRange:selectionRange];
+    
+    if ([self.hashtagCount.text isEqualToString:[NSString stringWithFormat:@"%ld", (long)[self hashtagsInString:self.comments.text].count]] == NO) {
+        self.hashtagCount.text = [NSString stringWithFormat:@"%ld", (long)[self hashtagsInString:self.comments.text].count];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

@@ -344,6 +344,16 @@
                                 <color key="pageIndicatorTintColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.38823530080000002" green="0.6784313917" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mJv-7l-MoB">
+                                <rect key="frame" x="293" y="67" width="17" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="19" id="Ro5-ac-nl4"/>
+                                    <constraint firstAttribute="width" constant="17" id="hPq-7B-vu9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.45713458994709" green="0.45713458994709" blue="0.45713458994709" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -355,12 +365,14 @@
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="bottom" secondItem="xUp-2a-DXo" secondAttribute="bottom" id="Tjr-1W-mTJ"/>
                             <constraint firstAttribute="width" secondItem="A7w-XY-nWZ" secondAttribute="width" id="W0T-JX-BVC"/>
                             <constraint firstAttribute="centerX" secondItem="A7w-XY-nWZ" secondAttribute="centerX" id="YNI-oc-hso"/>
+                            <constraint firstItem="EoK-cM-iMa" firstAttribute="trailing" secondItem="mJv-7l-MoB" secondAttribute="trailing" id="Yt7-Jk-0tn"/>
                             <constraint firstItem="Nmz-A5-ogK" firstAttribute="top" secondItem="yut-RI-ONy" secondAttribute="bottom" constant="-13" id="c1x-lU-zQ4"/>
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="top" secondItem="xUp-2a-DXo" secondAttribute="top" constant="-7" id="dX5-wo-KgE"/>
                             <constraint firstItem="Nmz-A5-ogK" firstAttribute="top" secondItem="EoK-cM-iMa" secondAttribute="bottom" constant="10" id="exa-H5-vwt"/>
                             <constraint firstItem="xUp-2a-DXo" firstAttribute="top" secondItem="A7w-XY-nWZ" secondAttribute="bottom" constant="10" id="kkW-un-Czx"/>
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="leading" secondItem="xUp-2a-DXo" secondAttribute="trailing" constant="5" id="kpF-Lx-vH9"/>
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="trailing" secondItem="A7w-XY-nWZ" secondAttribute="trailing" constant="-10" id="mYR-RG-5DZ"/>
+                            <constraint firstItem="EoK-cM-iMa" firstAttribute="top" secondItem="mJv-7l-MoB" secondAttribute="top" id="ueF-DK-Ez7"/>
                             <constraint firstItem="A7w-XY-nWZ" firstAttribute="top" secondItem="Bz4-yN-smH" secondAttribute="bottom" constant="-20" id="w8A-Ag-6LZ"/>
                             <constraint firstItem="A7w-XY-nWZ" firstAttribute="leading" secondItem="xUp-2a-DXo" secondAttribute="leading" constant="-10" id="yke-ZL-a43"/>
                             <constraint firstItem="EoK-cM-iMa" firstAttribute="centerY" secondItem="xUp-2a-DXo" secondAttribute="centerY" id="ywY-iZ-4nV"/>
@@ -383,6 +395,7 @@
                         <outlet property="comments" destination="EoK-cM-iMa" id="T5c-T1-BMr"/>
                         <outlet property="containerHeightConstraint" destination="foo-8c-hfF" id="MyO-2V-2Zh"/>
                         <outlet property="doneButton" destination="SKd-hx-BQe" id="wMF-TH-JJa"/>
+                        <outlet property="hashtagCount" destination="mJv-7l-MoB" id="w9o-ag-xbd"/>
                         <outlet property="pageControl" destination="yut-RI-ONy" id="rS2-5I-zEp"/>
                         <outlet property="photoExample" destination="xUp-2a-DXo" id="koR-Nd-1EZ"/>
                     </connections>

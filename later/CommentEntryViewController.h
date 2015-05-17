@@ -37,6 +37,8 @@
 @property CLLocation *location;
 @property CLLocation *initialLocation;
 
+@property IBOutlet UILabel *hashtagCount;
+
 @property SchedulesPostsViewController *delegate;
 
 - (IBAction)goBack;
