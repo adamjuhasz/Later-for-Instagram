@@ -413,7 +413,6 @@
     scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
         postDetailView.hidden = YES;
         viewSelected.hidden = NO;
-        
     };
     
     POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
@@ -447,8 +446,6 @@
         int row = floor(index / 2.0);
         currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
         returnImageRect = [self.view convertRect:currrentFrame fromView:self.scheduledScroller];
-        viewSelected = [self.scheduledScroller viewWithTag:index+100];
-        viewSelected.hidden  = YES;
     }
     [self hideSelectedPost];
 

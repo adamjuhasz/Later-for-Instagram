@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "453666390.49837"
+            timestampString = "453673944.09393"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "651"
-            endingLineNumber = "651"
+            startingLineNumber = "649"
+            endingLineNumber = "649"
             landmarkName = "-reloadScrollView"
             landmarkType = "5">
          </BreakpointContent>
@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "453667130.303717"
+            timestampString = "453673944.09393"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "612"
-            endingLineNumber = "612"
+            startingLineNumber = "610"
+            endingLineNumber = "610"
             landmarkName = "-reloadScrollView"
             landmarkType = "5">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "later/SchedulesPostsViewController.m"
-            timestampString = "453667180.853415"
+            timestampString = "453673944.09393"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
+            startingLineNumber = "643"
+            endingLineNumber = "643"
             landmarkName = "-reloadScrollView"
             landmarkType = "5">
          </BreakpointContent>
@@ -94,6 +94,22 @@
             startingLineNumber = "224"
             endingLineNumber = "224"
             landmarkName = "-snoozePost:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "later/SchedulesPostsViewController.m"
+            timestampString = "453673492.512429"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
+            landmarkName = "-hideSelectedPost"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
