@@ -41,6 +41,10 @@
 
 - (void)setWithDate:(NSDate*)dateToBe
 {
+    //reset
+    self.unitTimeLeft.hidden = NO;
+    self.bottomConstraint.constant = 30;
+    
     // Get the system calendar
     NSCalendar *sysCalendar = [NSCalendar currentCalendar];
     
