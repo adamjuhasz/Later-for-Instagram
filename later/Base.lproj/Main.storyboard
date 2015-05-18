@@ -945,23 +945,6 @@
             </objects>
             <point key="canvasLocation" x="2172" y="80"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="bCY-aQ-YwG">
-            <objects>
-                <viewController id="t3y-Qe-rO6" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="aXz-eD-fKz"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ge6-EG-UVq"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="spe-IF-Jim">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uip-oX-dtQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
     <resources>
         <image name="Pin" width="35" height="52"/>

@@ -124,4 +124,9 @@
     [aCoder encodeObject:_postEditedLocation forKey:@"postEditedLocation"];
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@; caption: %@; Date: %@", [super description], self.postCaption, self.postTime];
+}
+
 @end

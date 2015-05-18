@@ -62,7 +62,7 @@
     [super viewDidLoad];
     
     viewsInScrollView = [NSMutableArray array];
-    scheduledPosts = [[PostDBSingleton singleton] allposts];
+    scheduledPosts = [NSArray array];
     firstScheduledPostLoad = YES;
     
     if (scheduledPosts.count > 0) {
@@ -487,7 +487,7 @@
         [selectedPostShroud removeFromSuperview];
     };
 
-    [self reloadScrollView];
+    //[self reloadScrollView];
     
     [Localytics tagEvent:@"DeleteSelectedPost"];
 }
@@ -565,8 +565,24 @@
     [self.collectionView reloadData];
 }
 
+- (CGRect)frameForScheduledPostAt:(NSInteger)index
+{
+    CGFloat border = 4;
+    CGFloat columns = 2;
+    CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
+    CGRect mainRect = CGRectMake(0, border, width, width);
+    CGRect currrentFrame = CGRectZero;
+
+    int column = index % 2;
+    int row = floor(index / 2.0);
+    
+    currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
+    return currrentFrame;
+}
+
 - (void)reloadScrollView
 {
+    NSArray *oldPosts = [scheduledPosts copy];
     scheduledPosts = [[PostDBSingleton singleton] allposts];
     
     for (UIView *view in self.gestureInstructions) {
@@ -577,34 +593,66 @@
         }
     }
     
-    for (UIView *subview in viewsInScrollView) {
-        if ([subview pop_animationForKey:@"popin"]) {
-            return;
-        }
-        [subview removeFromSuperview];
-    }
-    [viewsInScrollView removeAllObjects];
+    NSSet *oldPostSet = [NSSet setWithArray:oldPosts];
+    NSSet *newPostSet = [NSSet setWithArray:scheduledPosts];
     
-    CGFloat border = 4;
-    CGFloat columns = 2;
-    CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
-    CGRect mainRect = CGRectMake(0, border, width, width);
-    CGRect currrentFrame = CGRectZero;
-    for (int i=0; i<scheduledPosts.count; i++) {
-        int column = i % 2;
-        int row = floor(i / 2.0);
+    NSMutableSet *remainingPosts = [NSMutableSet setWithSet:newPostSet];
+    [remainingPosts intersectSet:oldPostSet];
+    
+    NSMutableSet *newPosts = [NSMutableSet setWithSet:newPostSet];
+    [newPosts minusSet:oldPostSet];
+    
+    NSMutableSet *deletedPosts = [NSMutableSet setWithSet:oldPostSet];
+    [deletedPosts minusSet:newPostSet];
+    
+    NSLog(@"new: %@", newPosts);
+    NSLog(@"deleted: %@", deletedPosts);
+    
+    
+    for (scheduledPostModel *post in [deletedPosts allObjects]) {
+        NSInteger oldIndex = [oldPosts indexOfObject:post];
+        UIView *subview = [self.scheduledScroller viewWithTag:oldIndex];
+        POPSpringAnimation *popoutAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        popoutAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
+        popoutAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
+        popoutAnimation.beginTime = CACurrentMediaTime();
+        popoutAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            [subview removeFromSuperview];
+            [viewsInScrollView removeObject:subview];
+        };
+        [subview pop_addAnimation:popoutAnimation forKey:@"scale"];
+    }
+    
+    for (scheduledPostModel *post in [remainingPosts allObjects]) {
+        NSInteger oldIndex = [oldPosts indexOfObject:post];
+        NSInteger newIndex = [scheduledPosts indexOfObject:post];
+        ScheduledPostImageView *postsView = (ScheduledPostImageView*)[self.scheduledScroller viewWithTag:oldIndex];
         
-        scheduledPostModel *post = scheduledPosts[i];
+        if (oldIndex != newIndex) {
+            //CGRect oldFrame = [self frameForScheduledPostAt:oldIndex];
+            CGRect newFrame = [self frameForScheduledPostAt:newIndex];
+            POPBasicAnimation *translationAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+            translationAnimation.toValue = [NSValue valueWithCGRect:newFrame];
+            translationAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+                postsView.tag = newIndex;
+            };
+            [postsView pop_addAnimation:translationAnimation forKey:@"frame"];
+        }
         
-        currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
+        [postsView setWithDate:post.postTime];
+    }
+    
+    for(scheduledPostModel *post in [newPosts allObjects]) {
+        NSInteger index = [scheduledPosts indexOfObject:post];
         UINib *nibFile = [UINib nibWithNibName:@"ScheduledPostImageView" bundle:nil];
         NSArray *contentsOfNib = [nibFile instantiateWithOwner:nil options:nil];
         ScheduledPostImageView *view = contentsOfNib[0];
-        view.frame = currrentFrame;
+        view.frame = [self frameForScheduledPostAt:index];
         view.imageView.image = post.postImage;
         [view setWithDate:post.postTime];
-        view.tag = i;
-        
+        view.tag = index;
+        //view.hidden = YES;
+        [view setNeedsLayout];
         [self.scheduledScroller insertSubview:view aboveSubview:shroud];
         [viewsInScrollView addObject:view];
         
@@ -613,22 +661,29 @@
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postWasTapped:)];
         [view addGestureRecognizer:tap];
-        
-        /*
+
+        POPSpringAnimation *popinAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        popinAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
+        popinAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
+        popinAnimation.beginTime = CACurrentMediaTime();
         if (firstScheduledPostLoad) {
-            POPSpringAnimation *popinAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-            popinAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
-            popinAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
-            popinAnimation.beginTime = CACurrentMediaTime()+  i*0.1;
-            //[newImage pop_addAnimation:popinAnimation forKey:@"popin"];
+            popinAnimation.beginTime += index * 0.2;
         }
-        */
+        popinAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            [view setNeedsLayout];
+        };
+        popinAnimation.animationDidStartBlock = ^(POPAnimation *animation) {
+            view.hidden = NO;
+        };
+        //[view pop_addAnimation:popinAnimation forKey:@"scale"];
     }
     
+    CGRect frameOfLastScheduledPost = [self frameForScheduledPostAt:scheduledPosts.count-1];
     self.scheduledScroller.contentSize = CGSizeMake(self.scheduledScroller.bounds.size.width,
-                                                    MAX(currrentFrame.origin.y + currrentFrame.size.height,
+                                                    MAX(frameOfLastScheduledPost.origin.y + frameOfLastScheduledPost.size.height,
                                                         0));
     shroud.frame = CGRectMake(0, 0, self.scheduledScroller.contentSize.width, self.scheduledScroller.contentSize.height + self.scheduledScroller.bounds.size.height);
+    
     firstScheduledPostLoad = NO;
 }
 

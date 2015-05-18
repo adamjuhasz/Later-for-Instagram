@@ -77,7 +77,6 @@
 
 - (void)save
 {
-    NSLog(@"posts: %@", arrayOfPosts);
     [self resetNotifications];
     [NSKeyedArchiver archiveRootObject:arrayOfPosts toFile:[self filepath]];
     NSLog(@"save done");
@@ -128,7 +127,7 @@
     for (scheduledPostModel *post in arrayOfPosts) {
         [self setNotificationForPost:post];
     }
-    NSLog(@"%@", [[UIApplication sharedApplication] scheduledLocalNotifications]);
+    //NSLog(@"%@", [[UIApplication sharedApplication] scheduledLocalNotifications]);
 }
 
 - (void)addPost:(scheduledPostModel*)object
