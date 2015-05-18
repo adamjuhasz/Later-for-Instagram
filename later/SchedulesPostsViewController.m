@@ -434,18 +434,10 @@
 {
     selectedPost = [[PostDBSingleton singleton] snoozePost:selectedPost];
     
-    CGFloat border = 4;
-    CGFloat columns = 2;
-    CGFloat width = (self.scheduledScroller.bounds.size.width - border)/columns;
-    CGRect mainRect = CGRectMake(0, border, width, width);
-    CGRect currrentFrame = CGRectZero;
     NSArray *allPosts = [[PostDBSingleton singleton] allposts];
     NSInteger index = [allPosts indexOfObject:selectedPost];
     if (index != NSNotFound) {
-        int column = index % 2;
-        int row = floor(index / 2.0);
-        currrentFrame = CGRectOffset(mainRect, column*(mainRect.size.width+border), row*(mainRect.size.height+border));
-        returnImageRect = [self.view convertRect:currrentFrame fromView:self.scheduledScroller];
+        returnImageRect = [self.view convertRect:[self frameForScheduledPostAt:index] fromView:self.scheduledScroller];
     }
     [self hideSelectedPost];
 
