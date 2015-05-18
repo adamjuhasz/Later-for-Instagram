@@ -18,6 +18,8 @@
 
 - (void)addPost:(scheduledPostModel*)post;
 - (void)removePost:(scheduledPostModel*)post withDelete:(BOOL)deleteAlso;
+- (void)modifyPost:(scheduledPostModel*)post;
+
 - (NSArray*)allposts;
 - (void)save;
 - (scheduledPostModel*)snoozePost:(scheduledPostModel*)post;

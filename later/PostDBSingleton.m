@@ -172,6 +172,12 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kPostDBUpatedNotification object:self userInfo:nil];
 }
 
+- (void)modifyPost:(scheduledPostModel*)post
+{
+    [arrayOfPosts removeObject:post];
+    [self addPost:post];
+}
+
 - (NSArray*)allposts
 {
     return [arrayOfPosts copy];
@@ -217,19 +223,15 @@
 {
     NSTimeInterval snoozeTime = 60*(60)+20;  //1 hour and 1 min
     
-    scheduledPostModel *newPost = [[scheduledPostModel alloc] init];
-    newPost.postCaption = post.postCaption;
-    newPost.postImage = post.postImage;     //newPost.postImage = [post.postImage deepCopy];
     if ([post.postTime compare:[NSDate date]] == NSOrderedAscending) {
         //if time is in the past snooze to an hour from now
-        newPost.postTime = [NSDate dateWithTimeIntervalSinceNow:snoozeTime];
+        post.postTime = [NSDate dateWithTimeIntervalSinceNow:snoozeTime];
     } else {
-        newPost.postTime = [post.postTime dateByAddingTimeInterval:snoozeTime];
+        post.postTime = [post.postTime dateByAddingTimeInterval:snoozeTime];
     }
     
-    [self removePost:post withDelete:NO];
-    [self addPost:newPost];
-    return newPost;
+    [self modifyPost:post];
+    return post;
 }
 
 - (scheduledPostModel*)postForKey:(NSString *)key

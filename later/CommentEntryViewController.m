@@ -273,8 +273,7 @@
         [Localytics tagEvent:@"schedulePost" attributes:userInfo];
     } else {
         //remove and then re-add so if date change we are in the right place in the array
-        [[PostDBSingleton singleton] removePost:self.post withDelete:NO];
-        [[PostDBSingleton singleton] addPost:self.post];
+        [[PostDBSingleton singleton] modifyPost:self.post];
         [Localytics tagEvent:@"editPost" attributes:userInfo];
     }
     
