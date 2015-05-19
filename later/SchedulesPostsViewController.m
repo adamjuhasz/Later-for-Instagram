@@ -342,16 +342,15 @@
 {
     returnImageRect = rect;
     
-    if (selectedPostShroud != nil) {
-        [selectedPostShroud removeFromSuperview];
+    if (selectedPostShroud == nil) {
+        selectedPostShroud = [[UIView alloc] initWithFrame:self.view.bounds];
+        selectedPostShroud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
+        selectedPostShroud.alpha = 0.0;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideSelectedPost)];
+        [selectedPostShroud addGestureRecognizer:tap];
+        [self.view insertSubview:selectedPostShroud belowSubview:postDetailView];
     }
-    selectedPostShroud = [[UIView alloc] initWithFrame:self.view.bounds];
-    selectedPostShroud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
-    selectedPostShroud.alpha = 0.0;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideSelectedPost)];
-    [selectedPostShroud addGestureRecognizer:tap];
-    [self.view insertSubview:selectedPostShroud belowSubview:postDetailView];
     
     postDetailView.image.image = image;
     postDetailView.alpha = 1.0;
@@ -361,26 +360,41 @@
         alphaAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
         [selectedPostShroud pop_addAnimation:alphaAnimation forKey:@"alpha"];
     }
+    else {
+        if (alphaAnimation.completionBlock) {
+            alphaAnimation.completionBlock(alphaAnimation, NO);
+            alphaAnimation.completionBlock = nil;
+        }
+    }
     alphaAnimation.toValue = [NSNumber numberWithFloat:1.0];
     
-    POPSpringAnimation *frameAnimation = [postDetailView pop_animationForKey:@"frame"];
+    POPSpringAnimation *frameAnimation = [postDetailView pop_animationForKey:@"center"];
     if (frameAnimation == nil) {
         frameAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
         frameAnimation.springBounciness = 10.0;
-        [postDetailView pop_addAnimation:frameAnimation forKey:@"frame"];
+        [postDetailView pop_addAnimation:frameAnimation forKey:@"center"];
+    }
+    else {
+        if (frameAnimation.completionBlock) {
+            frameAnimation.completionBlock(frameAnimation, NO);
+            frameAnimation.completionBlock = nil;
+        }
     }
     frameAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(returnImageRect), CGRectGetMidY(returnImageRect))];
     frameAnimation.toValue = [NSValue valueWithCGPoint:self.view.center];
-
     
     POPSpringAnimation *scaleAnimation = [postDetailView pop_animationForKey:@"scale"];
     if (scaleAnimation == nil) {
         scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
         [postDetailView pop_addAnimation:scaleAnimation forKey:@"scale"];
+    } else {
+        if (scaleAnimation.completionBlock) {
+            scaleAnimation.completionBlock(scaleAnimation, NO);
+            scaleAnimation.completionBlock = nil;
+        }
     }
     scaleAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(returnImageRect.size.width / self.view.frame.size.width ,  returnImageRect.size.width / self.view.frame.size.width)];
     scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0, 1.0)];
-    
     
     dispatch_async(dispatch_get_main_queue(), ^{
         //do this on next frame so animations can prep the scaling and centering (there is no pop)
@@ -394,10 +408,12 @@
 
 - (void)hideSelectedPost
 {
-    POPSpringAnimation *frameAnimation = [postDetailView pop_animationForKey:@"frame"];
+    UIView *cachedViewSelected = viewSelected;
+    
+    POPSpringAnimation *frameAnimation = [postDetailView pop_animationForKey:@"center"];
     if (frameAnimation == nil) {
         frameAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
-        [postDetailView pop_addAnimation:frameAnimation forKey:@"frame"];
+        [postDetailView pop_addAnimation:frameAnimation forKey:@"center"];
     }
     frameAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(returnImageRect), CGRectGetMidY(returnImageRect))];
     frameAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
@@ -411,8 +427,10 @@
     }
     scaleAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(returnImageRect.size.width / self.view.frame.size.width ,  returnImageRect.size.width / self.view.frame.size.width)];
     scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-        postDetailView.hidden = YES;
-        viewSelected.hidden = NO;
+        if (finished) {
+            postDetailView.hidden = YES;
+        }
+        cachedViewSelected.hidden = NO;
     };
     
     POPBasicAnimation *alphaAnimation = [selectedPostShroud pop_animationForKey:@"alpha"];
@@ -422,8 +440,10 @@
      }
      alphaAnimation.toValue = [NSNumber numberWithFloat:0.0];
      alphaAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-         [selectedPostShroud removeFromSuperview];
-         selectedPostShroud = nil;
+         if (finished) {
+             [selectedPostShroud removeFromSuperview];
+             selectedPostShroud = nil;
+         }
     };
     
     [postDetailView startShrinking];
