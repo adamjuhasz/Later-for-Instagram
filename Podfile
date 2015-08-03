@@ -15,6 +15,7 @@ target 'later' do
   #pod 'POP+MCAnimate', '~> 2.0'
   pod 'Localytics'
   pod 'VBFPopFlatButton'
+  pod 'Appirater'
 end
 
 target 'laterTests' do

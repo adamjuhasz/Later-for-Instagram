@@ -23,6 +23,8 @@
 #import <CoreText/CoreText.h>
 #import "NSTimer+Blocks.h"
 #import "ScheduledPostImageView.h"
+#import <Crashlytics/Answers.h>
+#import <Appirater/Appirater.h>
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -545,7 +547,13 @@
             postThatIsBeingPosted = selectedPost;
         }
         
+        NSUInteger unitFlags = NSCalendarUnitHour;
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents *components = [calendar components:unitFlags fromDate:selectedPost.postTime toDate:[NSDate date] options:0];
         [Localytics tagEvent:@"ChooseToSendPostToAnotherApp"];
+        [Answers logCustomEventWithName:@"Will Send Document To Another App"
+                       customAttributes:@{
+                                          @"Time From Notice" : @(components.hour+1)}];
     }
 }
 
@@ -567,6 +575,10 @@
         [dict setObject:application forKey:@"application"];
     }
     [Localytics tagEvent:@"SentPostToAnotherApp" attributes:dict];
+    [Answers logCustomEventWithName:@"Sent Document To Another App"
+                   customAttributes:@{
+                                      @"App": application}];
+    [Appirater userDidSignificantEvent:YES];
 }
 
 - (void)photosUpdated

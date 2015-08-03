@@ -15,6 +15,7 @@
 #import "NotificationStrings.h"
 #import <Localytics/Localytics.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <Appirater/Appirater.h>
 
 @interface AppDelegate ()
 
@@ -44,6 +45,8 @@
     NSBundle* bundle = [NSBundle mainBundle];
     NSString* plistPath = [bundle pathForResource:@"localytics" ofType:@"plist"];
     NSDictionary *localyticsDictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    
+    [Appirater setAppId:@"985784469"];
     
     #ifdef DEBUG
         [Localytics integrate:[localyticsDictionary objectForKey:@"Debug-Key"]];
@@ -78,6 +81,13 @@
     }];
     
     [self setBadge];
+    [Appirater appLaunched:YES];
+    
+    [Appirater setDaysUntilPrompt:1];
+    [Appirater setUsesUntilPrompt:5];
+    [Appirater setSignificantEventsUntilPrompt:3];
+    [Appirater setTimeBeforeReminding:7];
+    
     return YES;
 }
 
@@ -129,6 +139,8 @@
     
     [Localytics openSession];
     [Localytics upload];
+    
+    [Appirater appEnteredForeground:YES];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

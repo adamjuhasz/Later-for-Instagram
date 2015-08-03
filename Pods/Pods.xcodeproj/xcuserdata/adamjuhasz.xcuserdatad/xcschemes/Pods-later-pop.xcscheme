@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0640"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4526F3E24160E392D5EAA160"
+               BlueprintIdentifier = "60BD18B6DA1CC2C029725F68"
                BuildableName = "libPods-later-pop.a"
                BlueprintName = "Pods-later-pop"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.5.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - Appirater (2.0.5)
   - DACircularProgress (2.3.1)
   - FXBlurView (1.6.3)
   - InstagramKit (3.5.0):
@@ -41,6 +42,7 @@ PODS:
     - pop
 
 DEPENDENCIES:
+  - Appirater
   - DACircularProgress
   - FXBlurView
   - InstagramKit (from `../InstagramKit`)
@@ -67,6 +69,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
+  Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
   InstagramKit: 2599ad9b569e989e05eb9c5b5addeae1c0fd886a
@@ -78,4 +81,4 @@ SPEC CHECKSUMS:
   SimpleExif: 61ba6dce666641dc4b925d9d26a2694e68ebbf4b
   VBFPopFlatButton: 782344da63f104c279a857d806e065117a7e1196
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.2

@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-later-Appirater-Appirater.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-later-Appirater.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-later-DACircularProgress.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -20,11 +30,6 @@
 			<false/>
 		</dict>
 		<key>Pods-later-InstagramKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-later-Localytics.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -72,67 +77,72 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>00058674EA325C65B2045922</key>
+		<key>2F67719E5FE251A1A1CD8848</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2A73B6137B30B0698A2EDD6C</key>
+		<key>4842CAAEEC01DF58C9F7457C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>428455149D6025F064F2A7D6</key>
+		<key>4F04EF53E41A6810AF66C8AE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4526F3E24160E392D5EAA160</key>
+		<key>554237895D64B809C84A3CA0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>60CA2B2350D0863AB2C8AD11</key>
+		<key>60BD18B6DA1CC2C029725F68</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>66539F2DB1858809135F064C</key>
+		<key>7FFEF45172919DF57C599F4B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>749FECA3ECA9AF67B1147F0C</key>
+		<key>92D6C66693C0330AE3133B1C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9D0E386EFCFBEF9280FD03AB</key>
+		<key>95826E30A9D55E469BD82EF4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9F3AE726E6D28F14EBA12E06</key>
+		<key>A9E99D734421AEA6F6313E38</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B67B917D43A7431CC0567D54</key>
+		<key>AB37EC6AE466BA5353BB986F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C07B0E90F6F8398136A40572</key>
+		<key>C411C6129FB142C5C9D68F32</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DA63815873311E3DDD0BF2A8</key>
+		<key>D3B49C64F1F7C55965F8E879</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E808A9E722279C1BFE15BD73</key>
+		<key>DE910E80F3169937DE22E4C1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E8907159F5C405DB45A91780</key>
 		<dict>
 			<key>primary</key>
 			<true/>
